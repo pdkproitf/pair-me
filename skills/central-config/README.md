@@ -96,14 +96,13 @@ The installer will ask for your tool and whether to install globally or for a sp
 
 | Tool | Global | Project |
 |------|--------|---------|
-| Claude Code | `~/.claude/commands/central-config.md` | `.claude/skills/central-config.md` |
+| Claude Code | `~/.claude/skills/central-config.md` | `.claude/skills/central-config.md` |
 | Cursor | `~/.cursor/rules/central-config.mdc` | `.cursor/rules/central-config.mdc` |
 | GitHub Copilot | — (project only) | `.github/skills/central-config.md` |
 | Windsurf | `~/.windsurf/rules/central-config.md` | `.windsurf/rules/central-config.md` |
 | Cline | — (project only) | `.cline/skills/central-config.md` |
 | OpenAI Codex | — (project only) | `.codex/skills/central-config.md` |
 
-> **Claude Code note:** global install goes to `commands/` so `/central-config` works as a slash command across all projects. Project-level install goes to `skills/` — invoke by asking your AI to run the central-config skill.
 
 ---
 

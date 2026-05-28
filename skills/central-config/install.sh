@@ -39,7 +39,7 @@ esac
 
 # ── Step 2: Global or project-level ──────────────────────────────────────────
 
-echo ""
+echo " Global or project-level installation? "
 echo "Install globally (all projects) or for a specific project?"
 echo "  1) Global"
 echo "  2) Project"
@@ -69,9 +69,9 @@ fi
 case "$tool" in
   "Claude Code")
     if [[ "$scope" == "global" ]]; then
-      dest_dir="$HOME/.claude/commands"
+      dest_dir="$HOME/.claude/skills"
       dest="$dest_dir/central-config.md"
-      install_note="Run /central-config inside any Claude Code project session."
+      install_note="Ask your AI: 'run the central-config skill' to bootstrap any project's config."
     else
       dest_dir="$project_path/.claude/skills"
       dest="$dest_dir/central-config.md"
@@ -135,7 +135,7 @@ esac
 
 # ── Step 4: Confirm before writing ───────────────────────────────────────────
 
-echo ""
+echo "Confirm before writing file with the following details:"
 echo "  Tool:        $tool"
 echo "  Scope:       $scope"
 echo "  Install to:  $dest"
