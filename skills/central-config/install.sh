@@ -3,8 +3,12 @@ set -euo pipefail
 
 REPO_RAW="https://raw.githubusercontent.com/pdkproitf/skills/main/skills/central-config"
 SKILL_FILE="central-config.md"
-# BASH_SOURCE is unset when piped via curl | bash — fall back to empty
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-}")" && pwd 2>/dev/null || echo "")"
+# $0 is "bash" when piped via curl | bash; use that to detect local vs remote run
+if [[ "$0" != "bash" && -f "$(dirname "$0")/$SKILL_FILE" ]]; then
+  SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+else
+  SCRIPT_DIR=""
+fi
 
 echo ""
 echo "central-config installer"
