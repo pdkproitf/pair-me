@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_RAW="https://raw.githubusercontent.com/{owner}/skills/main"
-SKILL_FILE="init-config.md"
+REPO_RAW="https://raw.githubusercontent.com/pdkproitf/skills/main/skills/central-config"
+SKILL_FILE="central-config.md"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo ""
-echo "init-config installer"
+echo "central-config installer"
 echo "─────────────────────"
 echo ""
 
@@ -63,26 +64,26 @@ fi
 case "$tool" in
   "Claude Code")
     if [[ "$scope" == "global" ]]; then
-      # Global install goes to commands/ so /init-config works as a slash command in all projects
+      # Global install goes to commands/ so /central-config works as a slash command in all projects
       dest_dir="$HOME/.claude/commands"
-      dest="$dest_dir/init-config.md"
-      install_note="Run /init-config inside any Claude Code project session."
+      dest="$dest_dir/central-config.md"
+      install_note="Run /central-config inside any Claude Code project session."
     else
-      # Project-level install goes to skills/ — invoke by asking your AI to run the init-config skill
+      # Project-level install goes to skills/ — invoke by asking your AI to run the central-config skill
       dest_dir="$project_path/.claude/skills"
-      dest="$dest_dir/init-config.md"
-      install_note="Ask your AI: 'run the init-config skill' to bootstrap this project's config."
+      dest="$dest_dir/central-config.md"
+      install_note="Ask your AI: 'run the central-config skill' to bootstrap this project's config."
     fi
     ;;
   "Cursor")
     if [[ "$scope" == "global" ]]; then
       dest_dir="$HOME/.cursor/rules"
-      dest="$dest_dir/init-config.mdc"
+      dest="$dest_dir/central-config.mdc"
     else
       dest_dir="$project_path/.cursor/rules"
-      dest="$dest_dir/init-config.mdc"
+      dest="$dest_dir/central-config.mdc"
     fi
-    install_note="Invoke by referencing @init-config in your Cursor chat."
+    install_note="Invoke by referencing @central-config in your Cursor chat."
     ;;
   "GitHub Copilot")
     if [[ "$scope" == "global" ]]; then
@@ -92,18 +93,18 @@ case "$tool" in
       project_path="${project_path/#\~/$HOME}"
     fi
     dest_dir="$project_path/.github/skills"
-    dest="$dest_dir/init-config.md"
+    dest="$dest_dir/central-config.md"
     install_note="Reference this file from .github/copilot-instructions.md when you want to run it."
     ;;
   "Windsurf")
     if [[ "$scope" == "global" ]]; then
       dest_dir="$HOME/.windsurf/rules"
-      dest="$dest_dir/init-config.md"
+      dest="$dest_dir/central-config.md"
     else
       dest_dir="$project_path/.windsurf/rules"
-      dest="$dest_dir/init-config.md"
+      dest="$dest_dir/central-config.md"
     fi
-    install_note="Invoke by referencing @init-config in your Windsurf chat."
+    install_note="Invoke by referencing @central-config in your Windsurf chat."
     ;;
   "Cline")
     if [[ "$scope" == "global" ]]; then
@@ -113,7 +114,7 @@ case "$tool" in
       project_path="${project_path/#\~/$HOME}"
     fi
     dest_dir="$project_path/.cline/skills"
-    dest="$dest_dir/init-config.md"
+    dest="$dest_dir/central-config.md"
     install_note="Reference this file from .clinerules when you want to run it."
     ;;
   "OpenAI Codex")
@@ -124,14 +125,14 @@ case "$tool" in
       project_path="${project_path/#\~/$HOME}"
     fi
     dest_dir="$project_path/.codex/skills"
-    dest="$dest_dir/init-config.md"
+    dest="$dest_dir/central-config.md"
     install_note="Reference this file from AGENTS.md when you want to run it."
     ;;
 esac
 
 # ── Step 4: Confirm before writing ───────────────────────────────────────────
 
-echo ""
+echo "-------- Install skill to $tool --------"
 echo "  Tool:        $tool"
 echo "  Scope:       $scope"
 echo "  Install to:  $dest"
@@ -143,7 +144,11 @@ read -rp "Proceed? [y/n]: " confirm
 
 mkdir -p "$dest_dir"
 
-if command -v curl &>/dev/null; then
+local_source="$SCRIPT_DIR/$SKILL_FILE"
+
+if [[ -f "$local_source" ]]; then
+  cp "$local_source" "$dest"
+elif command -v curl &>/dev/null; then
   curl -fsSL "$REPO_RAW/$SKILL_FILE" -o "$dest"
 elif command -v wget &>/dev/null; then
   wget -qO "$dest" "$REPO_RAW/$SKILL_FILE"

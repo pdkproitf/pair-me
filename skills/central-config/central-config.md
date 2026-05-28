@@ -1,12 +1,12 @@
 ---
-skill: init-config
+skill: central-config
 description: Bootstrap or upgrade any project's AI tooling — detect the current tool, extract hardcoded paths from existing skill/command/agent files, propose a config.md, then update all files to use config keys
 input: no arguments — invoke as-is
-output: {tool-config-path} written, all skill/command/agent files updated to reference config keys, auto-load file wired
+output: "{tool-config-path} written, all skill/command/agent files updated to reference config keys, auto-load file wired"
 phase: orient
 ---
 
-# init-config
+# central-config
 
 ---
 
@@ -139,7 +139,7 @@ Process files in batches of 5. After each batch, report which files were updated
 
 - **Claude Code (`CLAUDE.md`)**: prepend `@{tool-config-path}` if not already present
 - **All other tools (Cursor, Copilot, Windsurf, Cline, Codex)**: prepend the full content of `{tool-config-path}` into the auto-load file, with the header comment:
-  `<!-- init-config: keep in sync with {tool-config-path} — re-run /init-config to update -->`
+  `<!-- central-config: keep in sync with {tool-config-path} — re-run /central-config to update -->`
 
 Idempotency: before modifying any auto-load file, check if the config block is already present. If yes, skip and note "already present."
 
@@ -148,7 +148,7 @@ Idempotency: before modifying any auto-load file, check if the config block is a
 ## Step 7 — Report
 
 ```
-init-config complete.
+central-config complete.
 
 Tool:                {detected tool}
 
@@ -166,7 +166,7 @@ Next steps:
   1. Review {tool-config-path} — fill in any {placeholder} values
   2. Commit the auto-load file to version control
      ({tool-dir}/ is typically gitignored — config.md stays local)
-  3. Other developers: clone → run /init-config in their tool → done
+  3. Other developers: clone → run /central-config in their tool → done
 ```
 
 ---
