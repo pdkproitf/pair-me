@@ -3,7 +3,8 @@ set -euo pipefail
 
 REPO_RAW="https://raw.githubusercontent.com/pdkproitf/skills/main/skills/central-config"
 SKILL_FILE="central-config.md"
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# BASH_SOURCE is unset when piped via curl | bash — fall back to empty
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-}")" && pwd 2>/dev/null || echo "")"
 
 echo ""
 echo "central-config installer"
@@ -20,7 +21,7 @@ echo "  4) Windsurf"
 echo "  5) Cline"
 echo "  6) OpenAI Codex"
 echo ""
-read -rp "Enter number [1-6]: " tool_choice
+read -rp "Enter number [1-6]: " tool_choice </dev/tty
 
 case "$tool_choice" in
   1) tool="Claude Code"     ;;
@@ -39,7 +40,7 @@ echo "Install globally (all projects) or for a specific project?"
 echo "  1) Global"
 echo "  2) Project"
 echo ""
-read -rp "Enter number [1-2]: " scope_choice
+read -rp "Enter number [1-2]: " scope_choice </dev/tty
 
 case "$scope_choice" in
   1) scope="global"  ;;
@@ -51,7 +52,7 @@ esac
 
 if [[ "$scope" == "project" ]]; then
   echo ""
-  read -rp "Project path [$(pwd)]: " project_path
+  read -rp "Project path [$(pwd)]: " project_path </dev/tty
   project_path="${project_path:-$(pwd)}"
   project_path="${project_path/#\~/$HOME}"
 
@@ -64,12 +65,10 @@ fi
 case "$tool" in
   "Claude Code")
     if [[ "$scope" == "global" ]]; then
-      # Global install goes to commands/ so /central-config works as a slash command in all projects
       dest_dir="$HOME/.claude/commands"
       dest="$dest_dir/central-config.md"
       install_note="Run /central-config inside any Claude Code project session."
     else
-      # Project-level install goes to skills/ — invoke by asking your AI to run the central-config skill
       dest_dir="$project_path/.claude/skills"
       dest="$dest_dir/central-config.md"
       install_note="Ask your AI: 'run the central-config skill' to bootstrap this project's config."
@@ -88,7 +87,7 @@ case "$tool" in
   "GitHub Copilot")
     if [[ "$scope" == "global" ]]; then
       echo "GitHub Copilot does not support a global skills directory. Installing project-level."
-      read -rp "Project path [$(pwd)]: " project_path
+      read -rp "Project path [$(pwd)]: " project_path </dev/tty
       project_path="${project_path:-$(pwd)}"
       project_path="${project_path/#\~/$HOME}"
     fi
@@ -109,7 +108,7 @@ case "$tool" in
   "Cline")
     if [[ "$scope" == "global" ]]; then
       echo "Cline does not support a global skills directory. Installing project-level."
-      read -rp "Project path [$(pwd)]: " project_path
+      read -rp "Project path [$(pwd)]: " project_path </dev/tty
       project_path="${project_path:-$(pwd)}"
       project_path="${project_path/#\~/$HOME}"
     fi
@@ -120,7 +119,7 @@ case "$tool" in
   "OpenAI Codex")
     if [[ "$scope" == "global" ]]; then
       echo "OpenAI Codex does not support a global skills directory. Installing project-level."
-      read -rp "Project path [$(pwd)]: " project_path
+      read -rp "Project path [$(pwd)]: " project_path </dev/tty
       project_path="${project_path:-$(pwd)}"
       project_path="${project_path/#\~/$HOME}"
     fi
@@ -132,12 +131,12 @@ esac
 
 # ── Step 4: Confirm before writing ───────────────────────────────────────────
 
-echo "-------- Install skill to $tool --------"
+echo ""
 echo "  Tool:        $tool"
 echo "  Scope:       $scope"
 echo "  Install to:  $dest"
 echo ""
-read -rp "Proceed? [y/n]: " confirm
+read -rp "Proceed? [y/n]: " confirm </dev/tty
 [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Cancelled."; exit 0; }
 
 # ── Step 5: Download and install ─────────────────────────────────────────────
@@ -146,7 +145,7 @@ mkdir -p "$dest_dir"
 
 local_source="$SCRIPT_DIR/$SKILL_FILE"
 
-if [[ -f "$local_source" ]]; then
+if [[ -n "$SCRIPT_DIR" && -f "$local_source" ]]; then
   cp "$local_source" "$dest"
 elif command -v curl &>/dev/null; then
   curl -fsSL "$REPO_RAW/$SKILL_FILE" -o "$dest"
