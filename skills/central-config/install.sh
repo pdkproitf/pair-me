@@ -69,9 +69,10 @@ fi
 case "$tool" in
   "Claude Code")
     if [[ "$scope" == "global" ]]; then
-      dest_dir="$HOME/.claude/skills"
+      # Claude Code loads ~/.claude/commands/ globally — required for skill discovery
+      dest_dir="$HOME/.claude/commands"
       dest="$dest_dir/central-config.md"
-      install_note="Ask your AI: 'run the central-config skill' to bootstrap any project's config."
+      install_note="Skill loaded globally. Run /central-config in any Claude Code session."
     else
       dest_dir="$project_path/.claude/skills"
       dest="$dest_dir/central-config.md"
