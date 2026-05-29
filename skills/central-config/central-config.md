@@ -42,10 +42,13 @@ Also check whether a config file already exists at `{tool-config-path}` — if i
 
 Read every file discovered in Step 2. For each file, scan for path-like strings **in prose/instruction text only** (not inside bash code blocks — those need literal paths and should not be changed).
 
+**Skip these directories entirely** — do not scan or extract paths from:
+`lib/`, `test/`, `tests/`, `app/`, `assets/`, `node_modules/`, `.git/`
+
 Patterns to look for:
-- Backtick-wrapped paths: `` `docs/specs/` ``, `` `docs/CONTEXT.md` ``
-- Quoted paths: `"docs/specs/"`, `'app/'`
-- Plain-text path references: "save to docs/specs/", "read docs/CONTEXT.md"
+- Backtick-wrapped paths: `` `.docs/specs/` ``, `` `.docs/CONTEXT.md` ``
+- Quoted paths: `".docs/specs/"`, `'.docs/'`
+- Plain-text path references: "save to .docs/specs/", "read .docs/CONTEXT.md"
 
 For each path found, record:
 - The path string
@@ -57,10 +60,9 @@ Build a deduplicated table:
 ```
 Hardcoded path       Found in         Occurrences   Proposed key
 ─────────────────────────────────────────────────────────────────
-docs/specs/          8 files          23x           specs_dir
-docs/CONTEXT.md      6 files          14x           docs_context
-spec/                5 files          9x            test_dir
-app/                 4 files          7x            app_dir
+.docs/specs/         8 files          23x           specs_dir
+.docs/CONTEXT.md     6 files          14x           docs_context
+.docs/TODO.md        3 files          5x            todo_file
 ...
 ```
 
@@ -190,18 +192,16 @@ Use this to infer config key names from detected paths:
 
 | Path pattern | Config key | Description |
 |---|---|---|
-| `docs/CONTEXT.md`, `docs/README.md`, `README.md` | `docs_context` | Primary project reference |
-| `docs/specs/`, `specs/` | `specs_dir` | Plan/spec files |
-| `docs/sessions/` | `sessions_dir` | Session summaries |
-| `docs/research/` | `research_dir` | Research notes |
-| `docs/core/` | `core_docs_dir` | Architecture docs |
-| `docs/TODO.md`, `TODO.md` | `todo_file` | Task tracker |
-| `app/` | `app_dir` | Application source |
-| `src/` | `app_dir` | Application source |
-| `spec/`, `test/`, `tests/` | `test_dir` | Test suite |
-| `lib/` | `lib_dir` | Utility libraries |
-| `config/` | `config_dir` | Framework config |
+| `.docs/`, `docs/` | `doc_dir` | Root documentation directory |
+| `.docs/CONTEXT.md`, `.docs/README.md`, `README.md` | `docs_context` | Primary project reference |
+| `.docs/specs/`, `docs/specs/`, `specs/` | `specs_dir` | Plan/spec files (default: `{doc_dir}/specs`) |
+| `.docs/sessions/`, `docs/sessions/` | `sessions_dir` | Session summaries |
+| `.docs/research/`, `docs/research/` | `research_dir` | Research notes |
+| `.docs/core/`, `docs/core/` | `core_docs_dir` | Architecture docs |
+| `.docs/TODO.md`, `docs/TODO.md`, `TODO.md` | `todo_file` | Task tracker (default: `{doc_dir}/TODO.md`) |
 | `.rubocop.yml`, `pyproject.toml`, `eslint.config.*` | `lint_config` | Linting rules |
+
+**Ignored directories** — never extracted as config keys: `lib/`, `test/`, `tests/`, `app/`, `assets/`, `src/`, `config/`
 
 Paths not in this table → prompt the user to name the key during Step 4.
 
@@ -220,16 +220,16 @@ Loaded at session start via the auto-load file of each tool. All skills and comm
 
 ## Paths
 
-| Key              | Path           | Description                              |
-|------------------|----------------|------------------------------------------|
-| `docs_context`   | {value}        | Canonical project reference — start here |
-| `specs_dir`      | {value}        | Feature/chore/story plan files           |
-| `sessions_dir`   | {value}        | Work session progress summaries          |
-| `research_dir`   | {value}        | Research notes                           |
-| `core_docs_dir`  | {value}        | Architecture docs                        |
-| `todo_file`      | {value}        | Top-level task tracker                   |
-| `app_dir`        | {value}        | Application source root                  |
-| `test_dir`       | {value}        | Test suite root                          |
+| Key              | Path              | Description                              |
+|------------------|-------------------|------------------------------------------|
+| `doc_dir`        | `.docs`           | Root documentation directory             |
+| `docs_context`   | `.docs/CONTEXT.md` | Canonical project reference — start here |
+| `specs_dir`      | `.docs/specs`     | Feature/chore/story plan files           |
+| `sessions_dir`   | `.docs/sessions`  | Work session progress summaries          |
+| `research_dir`   | `.docs/research`  | Research notes                           |
+| `core_docs_dir`  | `.docs/core`      | Architecture docs                        |
+| `todo_file`      | `.docs/TODO.md`   | Top-level task tracker                   |
+| `lint_config`    | {value}           | Linting rules file                       |
 
 ---
 

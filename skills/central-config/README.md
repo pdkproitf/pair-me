@@ -58,8 +58,9 @@ your-project/
 │       ├── feature-plan.md         ← uses config keys, no hardcoded paths
 │       ├── implement.md
 │       └── ...
-└── docs/
+└── .docs/
     ├── CONTEXT.md
+    ├── TODO.md
     ├── core/
     │   └── domain-a.md
     └── specs/
