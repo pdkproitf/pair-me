@@ -87,7 +87,7 @@ Run it once on a new project. Run it again after adding new skills — it's idem
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pdkproitf/skills/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/pdkproitf/skills/main/skills/central-config/install.sh | bash
 ```
 
 The installer will ask for your tool and whether to install globally or for a specific project.
