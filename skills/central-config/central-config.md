@@ -12,12 +12,7 @@ phase: orient
 
 ## Step 1 — Identify Current Tool
 
-Read the system prompt to name the current tool. Confirm with:
-
-```bash
-env | grep -iE "CLAUDE|CURSOR|COPILOT|WINDSURF|CLINE|ANTHROPIC" 2>/dev/null \
-  | grep -v "API_KEY\|TOKEN\|SECRET"
-```
+Read the system prompt — every tool injects its own identity (e.g. "You are Claude Code", "You are Cursor"). Name the tool from this alone.
 
 Look up the tool in the reference table to get its file locations, `{tool-config-path}`, and auto-load file. Carry `{tool-config-path}` through all steps.
 
