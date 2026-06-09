@@ -46,10 +46,10 @@ If nothing found → note "no paths extracted — will use defaults" and continu
 ## Step 4 — Propose config.md
 
 Compose the full `{tool-config-path}` content:
-- **Paths**: from extracted table, or schema template defaults if nothing was found
+- **Paths**: Start with all keys from the schema template (defaults). Override with any extracted paths from Step 3.
 - **All other sections**: standard defaults from the schema template
 
-Show the extraction summary and the full proposed file. If no paths were found, note: "All path values are placeholders — fill them in after setup."
+Show the extraction summary and the full proposed file.
 
 If `{tool-config-path}` already exists, show only the diff (new/changed keys). Do not overwrite keys already correctly defined.
 
@@ -125,7 +125,7 @@ Next steps:
 
 | Path pattern | Config key |
 |---|---|
-| `.docs/`, `docs/` | `doc_dir` |
+| `.docs/`, `docs/` | `docs_dir` |
 | `.docs/context_dictionary.md`, `docs/context_dictionary.md` | `docs_dictionary_dir` |
 | `.docs/CONTEXT.md`, `README.md` | `docs_context` |
 | `.docs/specs/`, `docs/specs/`, `specs/` | `specs_dir` |
@@ -154,7 +154,7 @@ Loaded at session start via the auto-load file. All skills reference keys define
 
 | Key                 | Path                       | Description                        |
 |---------------------|----------------------------|------------------------------------|
-| `doc_dir`           | `.docs`                    | Root documentation directory       |
+| `docs_dir`           | `.docs`                    | Root documentation directory       |
 | `docs_context`      | `.docs/CONTEXT.md`         | Primary project reference          |
 | `docs_dictionary_dir` | `.docs/context_dictionary` | Context dictionary                 |
 | `specs_dir`         | `.docs/specs`              | Plan/spec files                    |

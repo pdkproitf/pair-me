@@ -1,4 +1,4 @@
-# skills
+# Pair Me
 
 > Portable AI skills for any tool. Drop one in. Your AI levels up.
 
