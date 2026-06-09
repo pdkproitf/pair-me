@@ -126,6 +126,7 @@ Next steps:
 | Path pattern | Config key |
 |---|---|
 | `.docs/`, `docs/` | `doc_dir` |
+| `.docs/context_dictionary.md`, `docs/context_dictionary.md` | `docs_dictionary_dir` |
 | `.docs/CONTEXT.md`, `README.md` | `docs_context` |
 | `.docs/specs/`, `docs/specs/`, `specs/` | `specs_dir` |
 | `.docs/sessions/`, `docs/sessions/` | `sessions_dir` |
@@ -151,16 +152,17 @@ Loaded at session start via the auto-load file. All skills reference keys define
 
 ## Paths
 
-| Key            | Path               | Description                        |
-|----------------|--------------------|------------------------------------|
-| `doc_dir`      | `.docs`            | Root documentation directory       |
-| `docs_context` | `.docs/CONTEXT.md` | Primary project reference          |
-| `specs_dir`    | `.docs/specs`      | Plan/spec files                    |
-| `sessions_dir` | `.docs/sessions`   | Work session summaries             |
-| `research_dir` | `.docs/research`   | Research notes                     |
-| `core_docs_dir`| `.docs/core`       | Architecture docs                  |
-| `todo_file`    | `.docs/TODO.md`    | Task tracker                       |
-| `lint_config`  | {value}            | Linting rules file                 |
+| Key                 | Path                       | Description                        |
+|---------------------|----------------------------|------------------------------------|
+| `doc_dir`           | `.docs`                    | Root documentation directory       |
+| `docs_context`      | `.docs/CONTEXT.md`         | Primary project reference          |
+| `docs_dictionary_dir` | `.docs/context_dictionary` | Context dictionary                 |
+| `specs_dir`         | `.docs/specs`              | Plan/spec files                    |
+| `sessions_dir`      | `.docs/sessions`           | Work session summaries             |
+| `research_dir`      | `.docs/research`           | Research notes                     |
+| `core_docs_dir`     | `.docs/core`               | Architecture docs                  |
+| `todo_file`         | `.docs/TODO.md`            | Task tracker                       |
+| `lint_config`       | {value}                    | Linting rules file                 |
 
 ---
 
