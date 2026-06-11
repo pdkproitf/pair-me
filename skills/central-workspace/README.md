@@ -1,8 +1,8 @@
-# central-config
+# central-workspace
 
-> One config file. Every AI tool. Any project.
+> One workspace file. Every AI tool. Any project.
 
-> Time to manage your prompts
+> Unified configuration for AI rules and paths
 
 ---
 
@@ -38,9 +38,9 @@ Every skill, command, and agent reads from this one file. Change it once — eve
 
 ## How it helps
 
-- New developer clones → runs `/central-config` → AI behaves exactly the same
+- New developer clones → runs `/central-workspace` → AI behaves exactly the same
 - Someone ships a new prompt set → your rules stay intact, nothing gets overwritten
-- Switching AI tools → run `install.sh` → same config, different tool
+- Switching AI tools → run `npx skills install central-workspace` → same workspace, different tool
 - Adding a new skill → write it with config keys, the rules follow automatically
 
 ---
@@ -73,13 +73,14 @@ Every session. Every tool. Every developer. Same rules, same behavior.
 
 ## What it does
 
-`central-config` is a single-file skill that:
+`central-workspace` is a single-file skill that:
 
 1. Detects which AI tool you're using from the current session
 2. Scans your existing skills, commands, and agent files for hardcoded paths
-3. Proposes a `config.md` with all paths extracted into named keys
-4. After confirmation, writes `config.md` and updates all files to reference keys instead of hardcoded paths
-5. Wires up the auto-load file for your tool (`CLAUDE.md`, `.cursorrules`, etc.) so config is available in every session
+3. Proposes a `workspace.md` with all paths extracted into named keys
+4. After confirmation, writes `workspace.md` and updates all files to reference keys instead of hardcoded paths
+5. Wires up the auto-load file for your tool (`CLAUDE.md`, `.cursorrules`, etc.) so workspace is available in every session
+6. Injects a governance directive ensuring all tasks and skills operate under workspace authority
 
 Run it once on a new project. Run it again after adding new skills — it's idempotent.
 
@@ -88,36 +89,36 @@ Run it once on a new project. Run it again after adding new skills — it's idem
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pdkproitf/skills/main/skills/central-config/install.sh | bash
+npx skills install central-workspace
 ```
 
-The installer will ask for your tool and whether to install globally or for a specific project.
+This automatically detects your AI tool (Claude Code, Cursor, Windsurf, etc.) and installs to the correct location.
 
-### Install locations
+**Global installation:**
+```bash
+npx skills install central-workspace --global
+```
 
-| Tool | Global | Project |
-|------|--------|---------|
-| Claude Code | `~/.claude/skills/central-config/SKILL.md` | `.claude/skills/central-config/SKILL.md` |
-| Cursor | `~/.cursor/rules/central-config.mdc` | `.cursor/rules/central-config.mdc` |
-| GitHub Copilot | — (project only) | `.github/skills/central-config.md` |
-| Windsurf | `~/.windsurf/rules/central-config.md` | `.windsurf/rules/central-config.md` |
-| Cline | — (project only) | `.cline/skills/central-config.md` |
-| OpenAI Codex | — (project only) | `.codex/skills/central-config.md` |
-
+See [migration guide](../../MIGRATION.md) if upgrading from the old `install.sh` method.
 
 ---
 
 ## Usage
 
-**Claude Code (global install):**
+After installation, invoke the skill:
+
+**Claude Code:**
 ```
-/central-config
+/central-workspace
 ```
 
-**Claude Code (project install) / all other tools:**
+**Other tools:**
+Reference the skill through your tool's chat interface:
 ```
-Run the central-config skill to bootstrap this project's config.
+@central-workspace
 ```
+
+The skill will guide you through bootstrapping your project's workspace configuration.
 
 ---
 

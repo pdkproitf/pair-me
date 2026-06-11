@@ -19,30 +19,39 @@ Every skill follows the same format:
 
 ## Skills
 
-### [central-config](skills/central-config/)
+### [central-workspace](skills/central-workspace/)
 
-> One config file. Every AI tool. Any project.
+> One workspace file. Every AI tool. Any project.
 
-Stop hardcoding paths and copy-pasting rules across every skill file. `central-config` scans your existing prompts, extracts every hardcoded value, and wires them into a single `config.md` that every tool loads automatically.
+Stop hardcoding paths and copy-pasting rules across every skill file. `central-workspace` scans your existing prompts, extracts every hardcoded value, and wires them into a single `workspace.md` that every tool loads automatically.
 
 **Solves:** scattered paths · duplicated security rules · new prompt sets overwriting your defaults · starting over every time you switch tools
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/pdkproitf/skills/main/skills/central-config/install.sh | bash
+npx skills install central-workspace
 ```
 
 ---
 
 ## Install any skill
 
-Each skill ships with its own `install.sh`. Run it, pick your tool and scope, done.
+Skills are published to the `npx skills` registry. Install any skill with:
 
 ```bash
-# Install a specific skill
-curl -fsSL https://raw.githubusercontent.com/pdkproitf/skills/main/skills/{skill-name}/install.sh | bash
+npx skills install <skill-name>
 ```
 
-Or copy the skill file directly into your tool's skills directory and invoke it.
+For project-level installation:
+```bash
+npx skills install <skill-name> --project
+```
+
+For global installation (all projects):
+```bash
+npx skills install <skill-name> --global
+```
+
+> **Deprecated:** The old `install.sh` scripts are no longer maintained. See [MIGRATION.md](MIGRATION.md) for upgrading.
 
 ---
 
@@ -77,4 +86,4 @@ Skills should be:
 - **Focused** — one clear job, one clear output
 - **Idempotent** — safe to run more than once
 
-Open a PR with your skill in `skills/{your-skill-name}/` alongside a `README.md` and `install.sh`.
+Open a PR with your skill in `skills/{your-skill-name}/` alongside a `README.md`. The skill file (`.md`) and metadata are all that's needed — npx skills handles installation for all tools.
