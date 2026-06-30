@@ -30,7 +30,7 @@ If the spec has checkmarks from a prior session, it picks up from the first unch
 ## Install
 
 ```bash
-npx skills install 3_implement
+npx skills add pdkproitf/skills@3_implement
 ```
 
 ---

@@ -31,7 +31,7 @@ Results are grouped by purpose so you know not just where something is, but what
 ## Install
 
 ```bash
-npx skills install 1_locate-code
+npx skills add pdkproitf/skills@1_locate-code
 ```
 
 ---

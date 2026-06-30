@@ -30,7 +30,7 @@ The output covers:
 ## Install
 
 ```bash
-npx skills install 1_find-patterns
+npx skills add pdkproitf/skills@1_find-patterns
 ```
 
 ---

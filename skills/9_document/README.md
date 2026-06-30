@@ -31,7 +31,7 @@ The generated doc covers:
 ## Install
 
 ```bash
-npx skills install 9_document
+npx skills add pdkproitf/skills@9_document
 ```
 
 ---

@@ -30,7 +30,7 @@ The analysis covers:
 ## Install
 
 ```bash
-npx skills install 1_analyze-code
+npx skills add pdkproitf/skills@1_analyze-code
 ```
 
 ---

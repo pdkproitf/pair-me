@@ -40,7 +40,7 @@ Every skill, command, and agent reads from this one file. Change it once — eve
 
 - New developer clones → runs `/central-workspace` → AI behaves exactly the same
 - Someone ships a new prompt set → your rules stay intact, nothing gets overwritten
-- Switching AI tools → run `npx skills install central-workspace` → same workspace, different tool
+- Switching AI tools → run `npx skills add pdkproitf/skills@central-workspace` → same workspace, different tool
 - Adding a new skill → write it with config keys, the rules follow automatically
 
 ---
@@ -89,14 +89,14 @@ Run it once on a new project. Run it again after adding new skills — it's idem
 ## Install
 
 ```bash
-npx skills install central-workspace
+npx skills add pdkproitf/skills@central-workspace
 ```
 
 This automatically detects your AI tool (Claude Code, Cursor, Windsurf, etc.) and installs to the correct location.
 
 **Global installation:**
 ```bash
-npx skills install central-workspace --global
+npx skills add pdkproitf/skills@central-workspace --global
 ```
 
 See [migration guide](../../MIGRATION.md) if upgrading from the old `install.sh` method.
@@ -135,4 +135,4 @@ Existing skill and command files are updated in-place: hardcoded paths in prose 
 
 ## Updating
 
-Re-run `install.sh` to pull the latest version. Re-run `central-config` in your project after adding new skills to keep config keys in sync.
+Re-run `npx skills add pdkproitf/skills@central-workspace` to pull the latest version. Re-run `central-config` in your project after adding new skills to keep config keys in sync.

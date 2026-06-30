@@ -32,7 +32,7 @@ After reading, it reports a summary covering domain models, key workflows, and a
 ## Install
 
 ```bash
-npx skills install 0_prime
+npx skills add pdkproitf/skills@0_prime
 ```
 
 ---

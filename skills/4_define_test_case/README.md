@@ -42,7 +42,7 @@ Coverage includes:
 ## Install
 
 ```bash
-npx skills install 4_define_test_case
+npx skills add pdkproitf/skills@4_define_test_case
 ```
 
 ---

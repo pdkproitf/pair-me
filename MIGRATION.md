@@ -8,12 +8,12 @@ As of v2.0.0, the PDK skills repository has migrated from individual `install.sh
 
 | Aspect | Before | After |
 |--------|--------|-------|
-| **Installation** | `curl ... \| bash` with interactive prompts | `npx skills install <skill>` — automatic |
+| **Installation** | `curl ... \| bash` with interactive prompts | `npx skills add pdkproitf/skills` — automatic |
 | **Tool selection** | Manual (choose 1-6) | Automatic detection |
 | **Scope choice** | Manual (global or project) | Flag-based: `--global` or `--project` |
 | **Versioning** | None | Full semantic versioning |
-| **Discovery** | Manual repository browsing | Centralized registry: `npx skills search` |
-| **Updates** | Manual reinstall | One command: `npx skills upgrade` |
+| **Discovery** | Manual repository browsing | Centralized registry: `npx skills find` |
+| **Updates** | Manual reinstall | One command: `npx skills update` |
 
 ---
 
@@ -42,16 +42,21 @@ rm ~/.cursor/rules/central-config.mdc
 
 ### 2. Install via npx skills
 
-**Project installation (default):**
+**Install all skills (recommended):**
 ```bash
-npx skills install central-workspace
+npx skills add pdkproitf/skills
+```
+
+**Install a specific skill:**
+```bash
+npx skills add pdkproitf/skills@central-workspace
 ```
 
 This automatically detects your AI tool and installs to the correct location.
 
 **Global installation (available for all projects):**
 ```bash
-npx skills install central-workspace --global
+npx skills add pdkproitf/skills --global
 ```
 
 ### 3. Verify Installation
@@ -91,13 +96,12 @@ The skill behavior is identical to v1.x. When you run it:
 - No interactive prompts or manual selection needed
 
 ### Version Management
-- Install specific versions: `npx skills install central-workspace@1.5.0`
-- Update easily: `npx skills upgrade central-workspace`
+- Update easily: `npx skills update`
+- Pin to a specific ref: `npx skills add pdkproitf/skills#v1.2.0@central-workspace`
 
 ### Centralized Discovery
-- Search for skills: `npx skills search workspace`
-- Browse registry: `npx skills list`
-- View details: `npx skills info central-workspace`
+- Search for skills: `npx skills find`
+- List installed: `npx skills list`
 
 ### Future-Proof
 - As more skills are added, npx skills provides a single ecosystem
@@ -118,7 +122,7 @@ npm --version
 
 If not, install from https://nodejs.org/. Then retry:
 ```bash
-npx skills install central-workspace
+npx skills add pdkproitf/skills
 ```
 
 ### Skill installed to wrong location
@@ -127,23 +131,22 @@ Run the skill in the context where you want it (project directory for project in
 
 ```bash
 # Project install (run in your project directory)
-npx skills install central-workspace
+npx skills add pdkproitf/skills
 
 # Global install
-npx skills install central-workspace --global
+npx skills add pdkproitf/skills --global
 ```
 
 ### Old install.sh location conflicts
 
 If you have both old and new installations, they won't conflict — but you may want to remove the old one to avoid confusion. See "Uninstall Old Version" above.
 
-### Reverting to v1.x
+### Reverting to an older version
 
-If you need the old `install.sh` version:
+To pin to a specific commit or tag:
 
 ```bash
-# Install specific v1.x version
-npx skills install central-workspace@1.2.0
+npx skills add pdkproitf/skills#v1.2.0@central-workspace
 ```
 
 Or check GitHub releases: https://github.com/pdkproitf/skills/releases
@@ -163,4 +166,3 @@ Or check GitHub releases: https://github.com/pdkproitf/skills/releases
 - **v2.0.0** (current): npx skills as primary installation method; `install.sh` deprecated
 - **v2.1.0**: `install.sh` scripts removed
 - **v2.x+**: Continued npx skills ecosystem development
-

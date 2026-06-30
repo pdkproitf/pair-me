@@ -28,7 +28,7 @@ It runs four steps:
 ## Install
 
 ```bash
-npx skills install 5_save_progress
+npx skills add pdkproitf/skills@5_save_progress
 ```
 
 ---

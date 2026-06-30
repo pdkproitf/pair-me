@@ -10,7 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Breaking Changes
 
-- **Removed:** `install.sh` scripts — use `npx skills install <skill>` instead
+- **Removed:** `install.sh` scripts — use `npx skills add pdkproitf/skills` instead
 - **Renamed:** Skill `central-config` → `central-workspace` for clarity
 - **Changed:** Config file name from `config.md` → `workspace.md` to reflect governance model
 - **Changed:** Auto-load file now includes governance directive ensuring workspace authority
@@ -18,9 +18,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### New Features
 
 - **npx skills integration:** Skills now published to the `npx skills` ecosystem for unified discovery and installation
-- **Automatic tool detection:** `npx skills install` automatically detects Claude Code, Cursor, Windsurf, Cline, GitHub Copilot, OpenAI Codex
-- **Version management:** Install specific versions: `npx skills install central-workspace@2.0.0`
-- **Upgrade support:** One-command updates: `npx skills upgrade central-workspace`
+- **Automatic tool detection:** `npx skills add` automatically detects Claude Code, Cursor, Windsurf, Cline, GitHub Copilot, OpenAI Codex
+- **Version management:** Pin to specific refs: `npx skills add pdkproitf/skills#v2.0.0@central-workspace`
+- **Upgrade support:** One-command updates: `npx skills update`
 - **Workspace governance:** New governance directive in auto-load files makes workspace authority explicit to all skills
 - **Enhanced metadata:** Skill frontmatter now compatible with npx skills registry for better discovery
 
@@ -37,7 +37,7 @@ See [MIGRATION.md](MIGRATION.md) for detailed upgrade instructions from v1.x.
 
 **Quick start for existing users:**
 ```bash
-npx skills install central-workspace
+npx skills add pdkproitf/skills
 ```
 
 ---

@@ -31,7 +31,7 @@ Commit messages follow these rules:
 ## Install
 
 ```bash
-npx skills install 9_commit
+npx skills add pdkproitf/skills@9_commit
 ```
 
 ---

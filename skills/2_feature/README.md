@@ -29,7 +29,7 @@ The plan covers:
 ## Install
 
 ```bash
-npx skills install 2_feature
+npx skills add pdkproitf/skills@2_feature
 ```
 
 ---

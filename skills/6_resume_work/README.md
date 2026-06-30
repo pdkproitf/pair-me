@@ -29,7 +29,7 @@ It runs five steps:
 ## Install
 
 ```bash
-npx skills install 6_resume_work
+npx skills add pdkproitf/skills@6_resume_work
 ```
 
 ---

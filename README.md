@@ -26,7 +26,7 @@ Every skill follows the same format:
 Reads docs, domain models, and active TODOs to build a complete mental model of the codebase. Other skills invoke it automatically as a dependency.
 
 ```bash
-npx skills install 0_prime
+npx skills add pdkproitf/skills@0_prime
 ```
 
 ---
@@ -38,7 +38,7 @@ npx skills install 0_prime
 Deep-reads a target file, class, or feature and produces a structured analysis: entry points, core logic flow, key methods, data flow, dependencies, and error handling.
 
 ```bash
-npx skills install 1_analyze-code
+npx skills add pdkproitf/skills@1_analyze-code
 ```
 
 ---
@@ -50,7 +50,7 @@ npx skills install 1_analyze-code
 Searches for existing implementations, extracts complete working snippets, and documents naming conventions, file organization, and testing patterns in use.
 
 ```bash
-npx skills install 1_find-patterns
+npx skills add pdkproitf/skills@1_find-patterns
 ```
 
 ---
@@ -62,7 +62,7 @@ npx skills install 1_find-patterns
 Returns file paths grouped by layer (implementation, tests, config, entry points) so you can orient quickly before diving deeper.
 
 ```bash
-npx skills install 1_locate-code
+npx skills add pdkproitf/skills@1_locate-code
 ```
 
 ---
@@ -74,7 +74,7 @@ npx skills install 1_locate-code
 Produces a complete spec file in `docs/specs/` covering design options, phased tasks, testing strategy (via `4_define_test_case`), and acceptance criteria.
 
 ```bash
-npx skills install 2_feature
+npx skills add pdkproitf/skills@2_feature
 ```
 
 ---
@@ -86,7 +86,7 @@ npx skills install 2_feature
 Reads a spec from `2_feature`, implements it step by step, updates checkboxes, runs validation commands, and commits each completed phase via `9_commit`.
 
 ```bash
-npx skills install 3_implement
+npx skills add pdkproitf/skills@3_implement
 ```
 
 ---
@@ -98,7 +98,7 @@ npx skills install 3_implement
 Generates structured test case definitions using your project's existing DSL conventions, before any implementation begins.
 
 ```bash
-npx skills install 4_define_test_case
+npx skills add pdkproitf/skills@4_define_test_case
 ```
 
 ---
@@ -110,7 +110,7 @@ npx skills install 4_define_test_case
 Creates a complete handoff artifact: a WIP commit, an updated spec with progress notes, and a numbered session file in `docs/sessions/`.
 
 ```bash
-npx skills install 5_save_progress
+npx skills add pdkproitf/skills@5_save_progress
 ```
 
 ---
@@ -122,7 +122,7 @@ npx skills install 5_save_progress
 Re-reads the session file, plan, research doc, and recent git history to rebuild full context, then picks up from the first unchecked step.
 
 ```bash
-npx skills install 6_resume_work
+npx skills add pdkproitf/skills@6_resume_work
 ```
 
 ---
@@ -134,7 +134,7 @@ npx skills install 6_resume_work
 Analyzes git diff, groups changes by logical concern, and produces correctly formatted commit messages. Executes commits after confirmation if asked.
 
 ```bash
-npx skills install 9_commit
+npx skills add pdkproitf/skills@9_commit
 ```
 
 ---
@@ -146,7 +146,7 @@ npx skills install 9_commit
 Analyzes `git diff origin/main`, writes structured docs to `docs/core/`, and updates `context_dictionary.md` so docs surface automatically when relevant.
 
 ```bash
-npx skills install 9_document
+npx skills add pdkproitf/skills@9_document
 ```
 
 ---
@@ -160,27 +160,27 @@ Stop hardcoding paths and copy-pasting rules across every skill file. `central-w
 **Solves:** scattered paths · duplicated security rules · new prompt sets overwriting your defaults · starting over every time you switch tools
 
 ```bash
-npx skills install central-workspace
+npx skills add pdkproitf/skills@central-workspace
 ```
 
 ---
 
-## Install any skill
+## Install skills
 
-Skills are published to the `npx skills` registry. Install any skill with:
+Install all skills at once:
 
 ```bash
-npx skills install <skill-name>
+npx skills add pdkproitf/skills
 ```
 
-For project-level installation:
+Install a specific skill:
 ```bash
-npx skills install <skill-name> --project
+npx skills add pdkproitf/skills@<skill-name>
 ```
 
 For global installation (all projects):
 ```bash
-npx skills install <skill-name> --global
+npx skills add pdkproitf/skills --global
 ```
 
 > **Deprecated:** The old `install.sh` scripts are no longer maintained. See [MIGRATION.md](MIGRATION.md) for upgrading.
