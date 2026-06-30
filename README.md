@@ -19,6 +19,138 @@ Every skill follows the same format:
 
 ## Skills
 
+### [0_prime](skills/0_prime/)
+
+> Load project context before starting any task.
+
+Reads docs, domain models, and active TODOs to build a complete mental model of the codebase. Other skills invoke it automatically as a dependency.
+
+```bash
+npx skills install 0_prime
+```
+
+---
+
+### [1_analyze-code](skills/1_analyze-code/)
+
+> Trace how a feature or component actually works — data flow, logic, and dependencies with file paths and line numbers.
+
+Deep-reads a target file, class, or feature and produces a structured analysis: entry points, core logic flow, key methods, data flow, dependencies, and error handling.
+
+```bash
+npx skills install 1_analyze-code
+```
+
+---
+
+### [1_find-patterns](skills/1_find-patterns/)
+
+> Find copy-ready examples and conventions in the codebase before building something new.
+
+Searches for existing implementations, extracts complete working snippets, and documents naming conventions, file organization, and testing patterns in use.
+
+```bash
+npx skills install 1_find-patterns
+```
+
+---
+
+### [1_locate-code](skills/1_locate-code/)
+
+> Find WHERE code lives for a feature or topic — fast, without reading file contents.
+
+Returns file paths grouped by layer (implementation, tests, config, entry points) so you can orient quickly before diving deeper.
+
+```bash
+npx skills install 1_locate-code
+```
+
+---
+
+### [2_feature](skills/2_feature/)
+
+> Research the codebase, design options, and write a structured implementation plan ready to execute.
+
+Produces a complete spec file in `docs/specs/` covering design options, phased tasks, testing strategy (via `4_define_test_case`), and acceptance criteria.
+
+```bash
+npx skills install 2_feature
+```
+
+---
+
+### [3_implement](skills/3_implement/)
+
+> Execute an approved spec — phase by phase, with verification and commits after each phase.
+
+Reads a spec from `2_feature`, implements it step by step, updates checkboxes, runs validation commands, and commits each completed phase via `9_commit`.
+
+```bash
+npx skills install 3_implement
+```
+
+---
+
+### [4_define_test_case](skills/4_define_test_case/)
+
+> Define acceptance test cases in DSL format — comment-first, covering happy paths, edge cases, errors, and authorization.
+
+Generates structured test case definitions using your project's existing DSL conventions, before any implementation begins.
+
+```bash
+npx skills install 4_define_test_case
+```
+
+---
+
+### [5_save_progress](skills/5_save_progress/)
+
+> Checkpoint your work — commit WIP, update the plan, and write a session summary you can resume from later.
+
+Creates a complete handoff artifact: a WIP commit, an updated spec with progress notes, and a numbered session file in `docs/sessions/`.
+
+```bash
+npx skills install 5_save_progress
+```
+
+---
+
+### [6_resume_work](skills/6_resume_work/)
+
+> Restore a saved session and continue implementation from the last checkpoint.
+
+Re-reads the session file, plan, research doc, and recent git history to rebuild full context, then picks up from the first unchecked step.
+
+```bash
+npx skills install 6_resume_work
+```
+
+---
+
+### [9_commit](skills/9_commit/)
+
+> Group changed files by logical concern and generate a Conventional Commits message for each group.
+
+Analyzes git diff, groups changes by logical concern, and produces correctly formatted commit messages. Executes commits after confirmation if asked.
+
+```bash
+npx skills install 9_commit
+```
+
+---
+
+### [9_document](skills/9_document/)
+
+> Generate feature documentation from code changes and specs — creates a markdown doc and registers it in the conditional context index.
+
+Analyzes `git diff origin/main`, writes structured docs to `docs/core/`, and updates `context_dictionary.md` so docs surface automatically when relevant.
+
+```bash
+npx skills install 9_document
+```
+
+---
+
 ### [central-workspace](skills/central-workspace/)
 
 > One workspace file. Every AI tool. Any project.
