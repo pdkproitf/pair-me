@@ -1,5 +1,5 @@
 ---
-skill: 2_feature
+name: 2_feature
 description: Feature planning — research codebase, design options, write a structured spec/implementation plan to the project specs directory
 input: "[adw_id] <prompt> — adw_id is optional; prompt is a plain-language description of the feature"
 output: path to the written spec file in specs_dir

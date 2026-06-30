@@ -1,5 +1,5 @@
 ---
-skill: 0_prime
+name: 0_prime
 description: Prime — load project context by reading docs, CONTEXT.md, core docs, and TODO before starting any task
 input: no arguments — invoke as-is
 output: summary of the codebase covering domain models, key workflows, and active work areas

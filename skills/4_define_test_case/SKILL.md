@@ -1,5 +1,5 @@
 ---
-skill: 4_define_test_case
+name: 4_define_test_case
 description: Define acceptance test cases in DSL format — happy paths, edge cases, error scenarios, and authorization
 input: feature name or description to generate test cases for
 output: structured DSL test cases in comment format covering all scenario types

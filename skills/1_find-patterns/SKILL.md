@@ -1,5 +1,5 @@
 ---
-skill: 1_find-patterns
+name: 1_find-patterns
 description: Find existing code patterns, conventions, and copy-ready examples in the codebase for a given feature or concept
 input: feature, pattern, or concept to find examples of
 output: code snippets, naming conventions, file organization patterns, and recommended approach based on what exists

@@ -1,5 +1,5 @@
 ---
-skill: 5_save_progress
+name: 5_save_progress
 description: Save progress checkpoint — commits work in progress, updates the active plan's checkboxes, and writes a numbered session summary to sessions_dir
 input: no arguments — reads session context, git state, and active plan automatically
 output: WIP commit, updated plan file, session summary saved to sessions_dir as NNN_feature.md

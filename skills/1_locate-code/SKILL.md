@@ -1,5 +1,5 @@
 ---
-skill: 1_locate-code
+name: 1_locate-code
 description: Locate where code lives for a feature or topic — returns grouped file paths only, no content analysis
 input: feature name, topic, or concept to locate
 output: file paths grouped by layer (implementation, tests, config, entry points)

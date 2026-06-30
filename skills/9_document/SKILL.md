@@ -1,5 +1,5 @@
 ---
-skill: 9_document
+name: 9_document
 description: Generate feature documentation by analyzing code changes and specifications — creates markdown docs in docs/core/ with conditional context
 input: "[adw_id] [spec_path] [screenshots_dir] — all optional; generates docs based on git diff analysis"
 output: path to created documentation file; updates context_dictionary.md registry

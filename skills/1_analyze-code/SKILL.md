@@ -1,5 +1,5 @@
 ---
-skill: 1_analyze-code
+name: 1_analyze-code
 description: Analyze and explain how a specific file, class, or feature works — trace data flow, logic, and dependencies with file paths and line numbers
 input: file path, class name, or feature name
 output: structured analysis covering entry points, core logic flow, key methods, data flow, dependencies, and error handling

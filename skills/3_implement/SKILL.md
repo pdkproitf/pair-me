@@ -1,5 +1,5 @@
 ---
-skill: 3_implement
+name: 3_implement
 description: Implement an approved spec — reads plan from specs_dir, executes phase by phase, updates checkboxes, verifies after each phase, and commits completed work
 input: path to the spec file (e.g. docs/specs/1234567-feature-name.md)
 output: implemented feature with updated spec checkboxes, verification results, and committed phases

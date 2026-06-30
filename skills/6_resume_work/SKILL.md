@@ -1,5 +1,5 @@
 ---
-skill: 6_resume_work
+name: 6_resume_work
 description: Resume previously saved work — restores session context from sessions_dir, rebuilds mental model, and continues from the first unchecked plan step
 input: optional path to a session summary file; if omitted, lists recent sessions to choose from
 output: restored context summary and continuation of implementation from last checkpoint

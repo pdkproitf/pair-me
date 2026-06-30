@@ -1,5 +1,5 @@
 ---
-skill: central-workspace
+name: central-workspace
 description: Bootstrap any project's AI workspace — detect the current tool, extract hardcoded paths from skill/command/agent files, write a central workspace.md, update all files to use config keys
 input: optional — skill/file name (e.g. "find-skills", "verify.md") to check only that file; omit to check all files
 output: "{tool-config-path} (workspace.md) written, skill/command/agent files updated to config key references, auto-load file wired with governance directive"
