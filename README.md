@@ -19,6 +19,32 @@ Every skill follows the same format:
 
 ## Skills
 
+### [token-wake](skills/token-wake/)
+
+> Stop losing Claude Pro tokens while you sleep.
+
+Claude Pro's 5-hour window only starts when you send your first message after a reset. `token-wake` sends that message automatically — 1 minute after each reset — so your window starts the moment it's available, whether you're at your desk or not.
+
+```bash
+npx skills add pdkproitf/skills@token-wake --global
+```
+
+---
+
+### [central-workspace](skills/central-workspace/)
+
+> One workspace file. Every AI tool. Any project.
+
+Stop hardcoding paths and copy-pasting rules across every skill file. `central-workspace` scans your existing prompts, extracts every hardcoded value, and wires them into a single `workspace.md` that every tool loads automatically.
+
+**Solves:** scattered paths · duplicated security rules · new prompt sets overwriting your defaults · starting over every time you switch tools
+
+```bash
+npx skills add pdkproitf/skills@central-workspace
+```
+
+---
+
 ### [0_prime](skills/0_prime/)
 
 > Load project context before starting any task.
@@ -147,32 +173,6 @@ Analyzes `git diff origin/main`, writes structured docs to `docs/core/`, and upd
 
 ```bash
 npx skills add pdkproitf/skills@9_document
-```
-
----
-
-### [token-wake](skills/token-wake/)
-
-> Stop losing Claude Pro tokens while you sleep.
-
-Claude Pro's 5-hour window only starts when you send your first message after a reset. `token-wake` sends that message automatically — 1 minute after each reset — so your window starts the moment it's available, whether you're at your desk or not.
-
-```bash
-npx skills add pdkproitf/skills@token-wake --global
-```
-
----
-
-### [central-workspace](skills/central-workspace/)
-
-> One workspace file. Every AI tool. Any project.
-
-Stop hardcoding paths and copy-pasting rules across every skill file. `central-workspace` scans your existing prompts, extracts every hardcoded value, and wires them into a single `workspace.md` that every tool loads automatically.
-
-**Solves:** scattered paths · duplicated security rules · new prompt sets overwriting your defaults · starting over every time you switch tools
-
-```bash
-npx skills add pdkproitf/skills@central-workspace
 ```
 
 ---
