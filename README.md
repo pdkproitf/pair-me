@@ -151,6 +151,18 @@ npx skills add pdkproitf/skills@9_document
 
 ---
 
+### [token-wake](skills/token-wake/)
+
+> Stop losing Claude Pro tokens while you sleep.
+
+Claude Pro's 5-hour window only starts when you send your first message after a reset. `token-wake` sends that message automatically — 1 minute after each reset — so your window starts the moment it's available, whether you're at your desk or not.
+
+```bash
+npx skills add pdkproitf/skills@token-wake --global
+```
+
+---
+
 ### [central-workspace](skills/central-workspace/)
 
 > One workspace file. Every AI tool. Any project.
