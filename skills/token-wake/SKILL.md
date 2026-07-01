@@ -1,6 +1,6 @@
 ---
-name: token-loop
-description: Trigger Claude Pro token window start automatically — fires a bootstrap at reset+1min which creates a permanent 5h cron routine
+name: token-wake
+description: Wake the Claude Pro token window automatically — fires a bootstrap at reset+1min which creates a permanent 5h cron routine
 input: none — fully automated
 phase: setup
 ---
@@ -109,7 +109,7 @@ Done  https://claude.ai/code/routines/<trigger_id>
 
 ## Notes
 
-- Install: `npx skills add pdkproitf/skills@token-loop --global`
+- Install: `npx skills add pdkproitf/skills@token-wake --global`
 - The bootstrap fires **once** at reset+1min, starts the window, then creates the cron
 - The cron (`0 */5 * * *` = SGT 8/13/18/23/4h) runs indefinitely with no dependencies
 - Re-run `/token-loop` each reset cycle to re-align the bootstrap

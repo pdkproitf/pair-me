@@ -1,4 +1,4 @@
-# token-loop
+# token-wake
 
 ## Problem
 
@@ -8,7 +8,7 @@ If you forget to open Claude right after a reset, you lose that head start. By t
 
 ## Solution
 
-`token-loop` automatically sends the first message 1 minute after each reset, starting the window without you having to think about it.
+`token-wake` automatically sends the first message 1 minute after each reset, starting the window without you having to think about it.
 
 It works in two stages:
 
@@ -28,7 +28,7 @@ Claude Pro token window started
 ## Install
 
 ```bash
-npx skills add pdkproitf/skills@token-loop --global
+npx skills add pdkproitf/skills@token-wake --global
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ npx skills add pdkproitf/skills@token-loop --global
 Run once per window cycle to align the bootstrap to your actual reset time:
 
 ```
-/token-loop
+/token-wake
 ```
 
 The skill reads your reset time from `claude /usage`, schedules the bootstrap at reset+1min, and the bootstrap handles everything after that.
@@ -44,7 +44,7 @@ The skill reads your reset time from `claude /usage`, schedules the bootstrap at
 ## How it works
 
 ```
-/token-loop
+/token-wake
     └── reads reset time from claude /usage
     └── creates bootstrap routine  →  fires at reset+1min
                                           └── prints SGT + UTC time
