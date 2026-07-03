@@ -55,7 +55,6 @@ Follow these steps **in order**. Do not skip ahead.
 3. Run sub-tasks in parallel where possible.
 4. Wait for **all** sub-tasks to finish before writing anything.
 5. Present findings with 2–3 design options, each with clear pros and cons. Note if a matched dictionary entry overlaps with this feature. Get confirmation on the chosen approach before moving to Step 3.
-6. Follow the code quality rules from `# WORKSPACE` to generate implementation details.
 
 ### Step 3: Write the Plan
 
@@ -190,7 +189,7 @@ docs/specs/1711234567-feature-adw-42-add-retry-logic.md
 ## Constraints
 
 1. **Resolve everything before writing** — No open questions in the final plan.
-2. **Match existing conventions** — Mirror the naming, structure, and style found in the codebase.
+2. **Match existing conventions** — Mirror the naming, file organization, and API patterns found in the codebase. Do not prescribe function-level structure (method length, class boundaries, helper extraction) — that's decided at implementation time, not planning time.
 3. **Incremental and testable** — Each phase should be shippable and verifiable on its own.
 4. **Be specific** — Avoid vague tasks like "update the config". Write exactly what changes and where.
 5. **Fail loudly** — If a required tool is missing or an argument is invalid, stop and say so clearly.

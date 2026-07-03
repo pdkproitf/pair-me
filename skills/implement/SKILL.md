@@ -73,7 +73,7 @@ Proposed: <how you suggest proceeding>
 
 ### Code quality rules
 
-Key code quality rules (override with `# WORKSPACE` Quality section):
+Key code quality rules (combine with `# WORKSPACE` Conventions section):
 
 - **Keep functions small** — aim for 10–30 lines per method; if a method grows beyond that, it is doing too much
 - **Single responsibility** — each class and method should have one clear concern; name it to reflect exactly what it does
