@@ -16,6 +16,7 @@ topic: $ARGUMENTS — feature, pattern, or concept to find examples of
 ## Steps
 
 ### Step 1: Pattern Recognition
+- Check `docs_dictionary_dir` (default: `docs/context_dictionary.md`) for entries whose `Keywords` match `topic`; read any matching `core_docs_dir` files — they may already document the convention you're looking for
 - Search for similar feature names and keywords
 - Look for components that solve analogous problems
 - Find files with comparable structure

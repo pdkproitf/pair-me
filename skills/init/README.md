@@ -11,13 +11,13 @@ Prime your AI with the full picture of the codebase — docs, domain models, act
 `init` reads the project's documentation layer in a fixed order:
 
 1. `README.md` — what the app is and who uses it
-2. `docs/CONTEXT.md` — runtime context and domain overview
-3. `docs/core/*.md` — core domain documentation
-4. `docs/TODO.md` — active work areas
+2. `docs/CONTEXT.md` — the single agent-context artifact: domain models, key workflows, layers, patterns, and external dependencies, maintained by `architecture` and `document`
+3. `docs/core/*.md` — only the entries whose keywords match the current task, via `context_dictionary.md`
+4. `docs/TODO.md` — active work areas; created empty if missing (a trivial write, done unconditionally)
 
-If the documentation layer is missing, it falls back to code exploration: it runs `locate-code` to map where key concepts live, then `analyze-code` to understand how they fit together.
+If there's no documentation at all yet, it falls back to code exploration: `locate-code` to map where key concepts live, `analyze-code` to understand how they fit together, and `architecture` to write `docs/CONTEXT.md` so future sessions don't redo this research. If only `CONTEXT.md` specifically is missing (other docs exist), it doesn't auto-generate it — that's a full codebase scan and too heavy to run on every session start. It just flags the gap and suggests running `architecture` directly.
 
-After reading, it reports a summary covering domain models, key workflows, and active work areas.
+After reading, it reports a compact orientation summary — not a restatement of every doc's contents — covering domain models, system structure, key workflows, and active work areas.
 
 ---
 
@@ -57,6 +57,7 @@ No arguments needed. The skill reads project context and reports automatically.
 
 A structured summary covering:
 - What the app does and who uses it
+- System structure — key layers and modules
 - Key domain models and their relationships
 - Main workflows (e.g. how a feature flows end-to-end)
 - Active work areas from `docs/TODO.md`

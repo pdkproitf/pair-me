@@ -57,6 +57,18 @@ npx skills add pdkproitf/skills@init
 
 ---
 
+### [architecture](skills/architecture/)
+
+> Map the overall system architecture from a full codebase scan.
+
+Scans the codebase as a whole (not a diff) and writes into `docs/CONTEXT.md` — domain models, key workflows, layers, patterns, external dependencies. Re-running it reconciles rather than rewrites, so it stays accurate as the system evolves.
+
+```bash
+npx skills add pdkproitf/skills@architecture
+```
+
+---
+
 ### [analyze-code](skills/analyze-code/)
 
 > Trace how a feature or component actually works — data flow, logic, and dependencies with file paths and line numbers.
@@ -194,8 +206,6 @@ For global installation (all projects):
 ```bash
 npx skills add pdkproitf/skills --global
 ```
-
-> **Deprecated:** The old `install.sh` scripts are no longer maintained. See [MIGRATION.md](MIGRATION.md) for upgrading.
 
 ---
 

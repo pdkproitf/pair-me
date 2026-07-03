@@ -4,7 +4,7 @@ description: Implement an approved spec — reads plan from specs_dir, executes 
 input: path to the spec file (e.g. docs/specs/1234567-feature-name.md)
 output: implemented feature with updated spec checkboxes, verification results, and committed phases
 phase: implement
-dependencies: [.claude/workspace.md] # this is just a note but it doesn't actually load or search for this file
+dependencies: [init]
 ---
 
 # Implement Plan
@@ -17,10 +17,19 @@ spec_file: $ARGUMENTS — path to the spec (e.g. `docs/specs/feature-to-bootstra
 
 ---
 
-## Step 1 — Read and Orient
+## Step 1 — Load Project Context
+
+1. If this is a new session and project context is not yet loaded, invoke the `init` skill before continuing
+   - init loads project context — including `docs/CONTEXT.md` and any matching `docs/core/*.md` — and `# WORKSPACE` rules automatically
+2. Use context loaded by init for the steps below
+
+---
+
+## Step 2 — Read and Orient
 
 1. Read the spec file completely
 2. Read all files listed under **Relevant Files** to understand the existing codebase before touching anything
+3. Check `docs_dictionary_dir` (default: `docs/context_dictionary.md`) for entries whose `Files` or `Keywords` overlap with the spec's **Relevant Files** or feature description; read any matching `core_docs_dir` files — they may document conventions this implementation should follow
 4. Identify:
    - Which phases exist and which steps are already checked off (`- [x]`)
    - The first unchecked step — that is your starting point
@@ -30,7 +39,7 @@ If no spec path is provided, ask for one before proceeding.
 
 ---
 
-## Step 2 — Branch Setup
+## Step 3 — Branch Setup
 
 Use the `branch` convention from `# WORKSPACE` (default: `feat-{short-description}` or `feat-{adw_id}-{short-description}`).
 
@@ -40,7 +49,7 @@ If not already on a feature branch, create one. Skip if the branch already exist
 
 ---
 
-## Step 3 — Implement Phase by Phase
+## Step 4 — Implement Phase by Phase
 
 For each phase in the spec's **Step by Step Tasks** section:
 
@@ -77,7 +86,7 @@ Key code quality rules (override with `# WORKSPACE` Quality section):
 
 ---
 
-## Step 4 — Resuming Interrupted Work
+## Step 5 — Resuming Interrupted Work
 
 If the spec already has checkmarks when you start:
 - Trust that checked items are done — do not re-implement them
@@ -86,11 +95,14 @@ If the spec already has checkmarks when you start:
 
 ---
 
-## Step 5 — Final Verification
+## Step 6 — Final Verification
 
 After all phases are complete, run the full **Validation Commands** block from the spec. Every command must pass before reporting done. Fix any failures first.
 
-Ask whether the user wants to run the full test suite. If yes, invoke the `8_test` skill to confirm the suite is healthy — not just the spec's targeted commands. Fix any regressions before reporting done.
+Ask whether the user wants to run the project's full test suite (not just the spec's targeted commands). If yes, run it directly and fix any regressions before reporting done.
+
+<!-- TODO: no dedicated test-runner skill exists yet — replace the manual run above with an invocation once one is built -->
+<!-- TODO: no dedicated review skill exists yet — consider invoking one here, after verification and before reporting done, once one is built -->
 
 ---
 

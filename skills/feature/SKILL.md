@@ -50,11 +50,12 @@ Follow these steps **in order**. Do not skip ahead.
 
 ### Step 2: Research & Design
 
-1. Create a checklist of everything that needs to be explored.
-2. Run sub-tasks in parallel where possible.
-3. Wait for **all** sub-tasks to finish before writing anything.
-4. Present findings with 2–3 design options, each with clear pros and cons. Get confirmation on the chosen approach before moving to Step 3.
-5. Follow the code quality rules from `# WORKSPACE` to generate implementation details.
+1. Check `docs_dictionary_dir` (default: `docs/context_dictionary.md`) for entries whose `Keywords` match this feature request; read any matching `core_docs_dir` files first — they may already document a related or overlapping feature.
+2. Create a checklist of everything that needs to be explored.
+3. Run sub-tasks in parallel where possible.
+4. Wait for **all** sub-tasks to finish before writing anything.
+5. Present findings with 2–3 design options, each with clear pros and cons. Note if a matched dictionary entry overlaps with this feature. Get confirmation on the chosen approach before moving to Step 3.
+6. Follow the code quality rules from `# WORKSPACE` to generate implementation details.
 
 ### Step 3: Write the Plan
 

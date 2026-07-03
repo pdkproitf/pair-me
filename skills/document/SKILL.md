@@ -101,7 +101,10 @@ feature-{adw_id}-{descriptive-name}.md  (if adw_id provided)
 - <Component/feature 2>
 
 ## Technical Implementation
-
+- <Brief description of how the feature was implemented, key classes, methods, and workflows>
+- <Any important design decisions or trade-offs>
+- <Any relevant diagrams in Mermaid format if applicable>
+- <Any relevant code patterns, algorithms, or data structures used>
 ### Files Modified
 
 - `<file_path>`: <what was changed/added>
@@ -130,7 +133,18 @@ feature-{adw_id}-{descriptive-name}.md  (if adw_id provided)
 
 ---
 
-## Step 6 — Update Conditional Documentation Registry
+## Step 6 — Patch Context Doc (if relevant)
+
+Check `docs_context` (default: `docs/CONTEXT.md`).
+
+- If it doesn't exist, skip this step. Creating it from a single feature's diff would give a biased, incomplete picture — that's what the `architecture` skill's full codebase scan is for.
+- If it exists, check whether this feature changed something structural: a new layer, module, or service boundary; a new domain model; a changed workflow between existing components; a new external dependency or integration point; a new code convention. Most features don't — they add to an existing layer, not restructure it. If none of these apply, skip this step.
+- If something structural did change, patch only the matching section (**Layers**, **Domain Models**, **Key Workflows**, **External Dependencies**, or **Code Patterns & Conventions**) — do not regenerate the file or touch unrelated sections. Update the "Last updated" date.
+- **Never touch the Overview section.** It's a holistic summary of the whole system — a single feature's diff isn't enough context to update it accurately. Leave it for `architecture`'s full-scan runs, or a human edit.
+
+---
+
+## Step 7 — Update Conditional Documentation Registry
 
 1. Read `docs_dictionary_dir`
 2. Add an entry for the new documentation file with appropriate conditions
@@ -142,14 +156,16 @@ feature-{adw_id}-{descriptive-name}.md  (if adw_id provided)
 **File:** `docs/core/feature-{name}.md`
 **When to load:** <condition description>
 **Keywords:** <comma-separated keywords for matching>
+**Files:** <comma-separated paths or globs this feature touches, from Step 2's changed-file list>
 ```
+
+`Files` lets file-path-driven skills (e.g. analyzing a specific file) match this entry without needing keyword overlap.
 
 ---
 
-## Step 7 — Update Core References
+## Step 8 — Update Core References
 
-1. If `docs/ARCHITECTURE.md` exists, add a reference to the new documentation
-2. If `docs/TODO.md` exists, check if any tasks reference this feature and mark them complete
+1. If `docs/TODO.md` exists, check if any tasks reference this feature and mark them complete
 
 ---
 

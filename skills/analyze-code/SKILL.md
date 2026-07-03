@@ -15,6 +15,9 @@ target: $ARGUMENTS — file path, class name, or feature name
 
 ## Steps
 
+### Step 0: Check Existing Documentation
+Check `docs_dictionary_dir` (default: `docs/context_dictionary.md`) for entries whose `Files` overlap with `target` (or whose `Keywords` match it, if `target` is a class/feature name). Read any matching `core_docs_dir` files first — they may already answer part of the analysis and save re-deriving it from scratch.
+
 ### Step 1: Entry Point Analysis
 - Find main entry points (routes, jobs, initializers)
 - Trace initialization sequence

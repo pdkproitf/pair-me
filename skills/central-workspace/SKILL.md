@@ -157,7 +157,7 @@ Next steps:
 |---|---|
 | `.docs/`, `docs/` | `docs_dir` |
 | `.docs/context_dictionary.md`, `docs/context_dictionary.md` | `docs_dictionary_dir` |
-| `.docs/CONTEXT.md`, `README.md` | `docs_context` |
+| `.docs/CONTEXT.md`, `README.md`, `.docs/ARCHITECTURE.md`, `ARCHITECTURE.md` | `docs_context` |
 | `.docs/specs/`, `docs/specs/`, `specs/` | `specs_dir` |
 | `.docs/sessions/`, `docs/sessions/` | `sessions_dir` |
 | `.docs/research/`, `docs/research/` | `research_dir` |
@@ -185,12 +185,12 @@ Loaded at session start via the auto-load file. All tasks and skills operate und
 | Key                 | Path                       | Description                        |
 |---------------------|----------------------------|------------------------------------|
 | `docs_dir`           | `.docs`                    | Root documentation directory       |
-| `docs_context`      | `.docs/CONTEXT.md`         | Primary project reference          |
+| `docs_context`      | `.docs/CONTEXT.md`         | Agent context — domain, structure, patterns |
 | `docs_dictionary_dir` | `.docs/context_dictionary` | Context dictionary                 |
 | `specs_dir`         | `.docs/specs`              | Plan/spec files                    |
 | `sessions_dir`      | `.docs/sessions`           | Work session summaries             |
 | `research_dir`      | `.docs/research`           | Research notes                     |
-| `core_docs_dir`     | `.docs/core`               | Architecture docs                  |
+| `core_docs_dir`     | `.docs/core`               | Feature docs (conditional load)    |
 | `todo_file`         | `.docs/TODO.md`            | Task tracker                       |
 | `lint_config`       | {value}                    | Linting rules file                 |
 
