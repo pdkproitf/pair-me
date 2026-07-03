@@ -10,6 +10,8 @@
 
 If the feature changed something structural (a new layer, domain model, workflow, external dependency, or code convention) and `docs/CONTEXT.md` already exists, it also patches just the matching section of that file — never the Overview section, which needs a full-system view to update accurately. It doesn't create `CONTEXT.md` from scratch — a single feature's diff is too narrow a view for that; use the `architecture` skill for a full codebase scan instead.
 
+If the feature is significant enough that a human-facing `README.md` should mention it, the skill flags a suggested one-line addition in its output — it never edits `README.md` directly, since that file's wording and voice are a human's call.
+
 The generated doc covers:
 - Overview of what was built and why
 - Screenshots (if provided, copied to `docs/assets/`)
@@ -65,5 +67,7 @@ Returns the path to the created documentation file:
 docs/core/feature-add-retry-logic.md
 docs/core/feature-adw-42-add-retry-logic.md
 ```
+
+If the feature is README-worthy, a suggested one-line addition follows the path — for a human to apply, not the skill.
 
 Also updates `context_dictionary.md` with an entry for the new doc, enabling automatic context loading in future sessions.

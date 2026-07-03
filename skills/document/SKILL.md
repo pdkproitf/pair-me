@@ -166,6 +166,7 @@ Check `docs_context` (default: `docs/CONTEXT.md`).
 ## Step 8 — Update Core References
 
 1. If `docs/TODO.md` exists, check if any tasks reference this feature and mark them complete
+2. Check whether this feature is significant enough that a human-facing `README.md` should mention it — a new top-level capability or user-visible behavior, not an internal refactor or implementation detail. If so, note a suggested one-line addition in the Output below. **Never edit `README.md` directly** — it's human-voiced prose; only `README.md`'s author should decide wording, ordering, and whether it's worth mentioning at all.
 
 ---
 
@@ -174,6 +175,11 @@ Check `docs_context` (default: `docs/CONTEXT.md`).
 Return exclusively the path to the documentation file created.
 
 If documentation includes diagrams, represent them in Mermaid format.
+
+If Step 8.2 found something README-worthy, append it after the path:
+```
+Suggested README.md addition: <one-line summary of the new capability>
+```
 
 Example output:
 ```

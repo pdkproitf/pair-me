@@ -10,6 +10,8 @@
 
 Re-running it is a reconciliation, not a rewrite: it reads the existing doc first, keeps what still matches reality, updates what's drifted, and adds what's new — including preserving any hand-written content that doesn't fit the template.
 
+It also compares its findings against `README.md` and flags mismatches (stale claims, undocumented capabilities) in its report — but never edits `README.md` directly. That file is human-voiced prose; only its author decides wording and what's worth mentioning.
+
 ---
 
 ## When to use
@@ -50,7 +52,7 @@ No arguments needed. The skill scans the current codebase and reports automatica
 docs/CONTEXT.md
 ```
 
-Reports whether the file was freshly created or reconciled, and what changed.
+Reports whether the file was freshly created or reconciled, and what changed. If `README.md` looks stale compared to the scan, lists those mismatches too — as suggestions, not changes already made.
 
 ---
 

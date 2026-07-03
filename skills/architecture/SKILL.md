@@ -72,6 +72,18 @@ Use the `locate-code` and `analyze-code` skills for this rather than grepping ad
 
 ---
 
+## Step 4 — Check README Accuracy (flag only)
+
+Compare `README.md`'s claims against what this scan actually found:
+- Does README mention capabilities, integrations, or behavior that no longer exist in the codebase?
+- Did the scan turn up significant, user-visible capabilities that README doesn't mention?
+
+List any mismatches. **Never edit `README.md`.** It's human-voiced prose — wording, ordering, and what's worth mentioning are editorial calls for its author, not this skill.
+
+---
+
 ## Report
 
 Return the path to `docs_context`. State whether this was a fresh creation or a reconciliation, and if reconciling, summarize what changed (sections added, updated, or removed as stale).
+
+If Step 4 found mismatches, list them under a `README.md may be stale:` heading — as suggestions for a human to act on, not changes already made.
