@@ -156,7 +156,7 @@ Or check GitHub releases: https://github.com/pdkproitf/skills/releases
 ## Getting Help
 
 - **npx skills docs:** `npx skills --help`
-- **Skill documentation:** See [skills/central-workspace/README.md](skills/central-workspace/README.md)
+- **Skill documentation:** See [skills/engineers/central-workspace/README.md](skills/engineers/central-workspace/README.md)
 - **Issues:** Report problems at https://github.com/pdkproitf/skills/issues
 
 ---

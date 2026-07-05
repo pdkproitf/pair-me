@@ -1,6 +1,6 @@
-# Pair Me
+# Engineering Skills
 
-> Portable AI skills for any tool. Drop one in. Your AI levels up.
+> Portable AI skills for software engineering workflows — planning, implementing, documenting, and committing code.
 
 A growing collection of plug-and-play skills for Claude Code, Cursor, GitHub Copilot, Windsurf, Cline, and OpenAI Codex. Each skill is a single markdown file — no dependencies, no frameworks, no lock-in. Just copy it in and go.
 
@@ -19,19 +19,7 @@ Every skill follows the same format:
 
 ## Skills
 
-### [token-wake](skills/token-wake/)
-
-> Stop losing Claude Pro tokens while you sleep.
-
-Claude Pro's 5-hour window only starts when you send your first message after a reset. `token-wake` sends that message automatically — 1 minute after each reset — so your window starts the moment it's available, whether you're at your desk or not.
-
-```bash
-npx skills add pdkproitf/skills@token-wake --global
-```
-
----
-
-### [central-workspace](skills/central-workspace/)
+### [central-workspace](central-workspace/)
 
 > One workspace file. Every AI tool. Any project.
 
@@ -45,7 +33,7 @@ npx skills add pdkproitf/skills@central-workspace
 
 ---
 
-### [init](skills/init/)
+### [init](init/)
 
 > Load project context before starting any task.
 
@@ -57,7 +45,7 @@ npx skills add pdkproitf/skills@init
 
 ---
 
-### [architecture](skills/architecture/)
+### [architecture](architecture/)
 
 > Map the overall system architecture from a full codebase scan.
 
@@ -69,7 +57,7 @@ npx skills add pdkproitf/skills@architecture
 
 ---
 
-### [analyze-code](skills/analyze-code/)
+### [analyze-code](analyze-code/)
 
 > Trace how a feature or component actually works — data flow, logic, and dependencies with file paths and line numbers.
 
@@ -81,7 +69,7 @@ npx skills add pdkproitf/skills@analyze-code
 
 ---
 
-### [find-patterns](skills/find-patterns/)
+### [find-patterns](find-patterns/)
 
 > Find copy-ready examples and conventions in the codebase before building something new.
 
@@ -93,7 +81,7 @@ npx skills add pdkproitf/skills@find-patterns
 
 ---
 
-### [locate-code](skills/locate-code/)
+### [locate-code](locate-code/)
 
 > Find WHERE code lives for a feature or topic — fast, without reading file contents.
 
@@ -105,7 +93,7 @@ npx skills add pdkproitf/skills@locate-code
 
 ---
 
-### [feature](skills/feature/)
+### [feature](feature/)
 
 > Research the codebase, design options, and write a structured implementation plan ready to execute.
 
@@ -117,7 +105,7 @@ npx skills add pdkproitf/skills@feature
 
 ---
 
-### [implement](skills/implement/)
+### [implement](implement/)
 
 > Execute an approved spec — phase by phase, with verification and commits after each phase.
 
@@ -129,7 +117,7 @@ npx skills add pdkproitf/skills@implement
 
 ---
 
-### [define_test_case](skills/define_test_case/)
+### [define_test_case](define_test_case/)
 
 > Define acceptance test cases in DSL format — comment-first, covering happy paths, edge cases, errors, and authorization.
 
@@ -141,7 +129,7 @@ npx skills add pdkproitf/skills@define_test_case
 
 ---
 
-### [save_progress](skills/save_progress/)
+### [save_progress](save_progress/)
 
 > Checkpoint your work — commit WIP, update the plan, and write a session summary you can resume from later.
 
@@ -153,7 +141,7 @@ npx skills add pdkproitf/skills@save_progress
 
 ---
 
-### [resume_work](skills/resume_work/)
+### [resume_work](resume_work/)
 
 > Restore a saved session and continue implementation from the last checkpoint.
 
@@ -165,7 +153,7 @@ npx skills add pdkproitf/skills@resume_work
 
 ---
 
-### [commit](skills/commit/)
+### [commit](commit/)
 
 > Group changed files by logical concern and generate a Conventional Commits message for each group.
 
@@ -177,7 +165,7 @@ npx skills add pdkproitf/skills@commit
 
 ---
 
-### [document](skills/document/)
+### [document](document/)
 
 > Generate feature documentation from code changes and specs — creates a markdown doc and registers it in the conditional context index.
 
@@ -240,4 +228,4 @@ Skills should be:
 - **Focused** — one clear job, one clear output
 - **Idempotent** — safe to run more than once
 
-Open a PR with your skill in `skills/{your-skill-name}/` alongside a `README.md`. The skill file (`.md`) and metadata are all that's needed — npx skills handles installation for all tools.
+Open a PR with your skill in `skills/engineers/{your-skill-name}/` alongside a `README.md`. The skill file (`.md`) and metadata are all that's needed — npx skills handles installation for all tools.
