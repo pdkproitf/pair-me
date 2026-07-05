@@ -8,6 +8,13 @@ phase: commit
 
 # Git Commit Message Guide
 
+## When to trigger
+
+Use this skill when the user:
+- asks to commit changes or generate a commit message
+- asks to group changes into logical, independently shippable commits
+- says "commit this" or asks for a commit message for a diff/description
+
 ## Prestep: Check Context
 
 Before running `git diff`:

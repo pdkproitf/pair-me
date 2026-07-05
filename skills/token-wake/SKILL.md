@@ -7,6 +7,12 @@ phase: setup
 
 # token-loop
 
+## When to trigger
+
+Use this skill when the user:
+- explicitly invokes `/token-wake` or asks to set up the token window wake routine
+- asks to re-align or restart the Claude Pro 5-hour token window automation
+
 Two routines are involved:
 - **Bootstrap** (one-shot): fires at reset+1min, starts the window, creates the cron
 - **Cron** (recurring): fires every 5h, just prints time — no self-scheduling needed

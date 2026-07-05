@@ -10,6 +10,13 @@ phase: orient
 
 Analyze HOW a component or feature works — trace data flow, explain logic, and map dependencies. Read code thoroughly before explaining.
 
+## When to trigger
+
+Use this skill when the user:
+- asks how a specific file, class, or feature works
+- asks to trace data flow, logic, or dependencies through existing code
+- asks to "explain this component" or "walk me through this implementation"
+
 ## Variables
 target: $ARGUMENTS — file path, class name, or feature name
 

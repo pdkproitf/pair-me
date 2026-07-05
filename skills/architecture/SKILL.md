@@ -12,6 +12,13 @@ Scan the codebase as a whole — not a git diff — to produce a structural over
 
 The output lives in `docs_context` (default: `docs/CONTEXT.md`) — the same file `init` reads every session — not a separate file, so there's one agent-context artifact per repo, not two that can drift apart.
 
+## When to trigger
+
+Use this skill when the user:
+- asks to map, document, or refresh the overall system architecture
+- wants `docs/CONTEXT.md` created or reconciled with the current codebase
+- asks for a broad structural overview spanning the whole codebase, not a single feature's diff
+
 ## Step 1 — Check for Existing Doc
 
 Check `docs_context` (default: `docs/CONTEXT.md`).

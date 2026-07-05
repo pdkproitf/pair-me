@@ -10,6 +10,13 @@ phase: orient
 
 Find existing implementations, conventions, and code examples to model after when building something new.
 
+## When to trigger
+
+Use this skill when the user:
+- asks "how do we usually do X" or "is there an existing pattern for Y"
+- wants copy-ready code examples and conventions before building something new
+- asks to find similar implementations already in the codebase
+
 ## Variables
 topic: $ARGUMENTS — feature, pattern, or concept to find examples of
 

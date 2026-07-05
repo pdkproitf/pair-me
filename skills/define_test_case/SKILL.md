@@ -10,6 +10,13 @@ phase: test
 
 You are helping define automated acceptance test cases using a Domain Specific Language (DSL) approach.
 
+## When to trigger
+
+Use this skill when the user:
+- asks to define or write acceptance test cases for a feature
+- wants happy-path, edge-case, error, and authorization scenarios drafted before implementation
+- is starting TDD/BDD-style work and needs test cases specified first
+
 ## Core Principles
 
 1. **Comment-First Approach**: Always start by writing test cases as structured comments before any implementation.

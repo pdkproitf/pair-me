@@ -11,6 +11,13 @@ dependencies: [.claude/workspace.md] # this is just a note but it doesn't actual
 
 Generate concise markdown documentation for implemented features by analyzing code changes and specifications.
 
+## When to trigger
+
+Use this skill when the user:
+- asks to document a feature that was just implemented
+- wants markdown docs generated from a git diff, spec, or screenshots
+- asks to update `docs/core/` or the context dictionary after finishing a feature
+
 ## Variables
 
 - `adw_id`: Identifier like `adw-42` (optional)

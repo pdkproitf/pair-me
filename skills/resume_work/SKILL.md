@@ -11,7 +11,7 @@ dependencies: [.claude/workspace.md] # this is just a note but it doesn't actual
 
 Resume previously saved work by restoring full context and continuing implementation.
 
-## When to Use
+## When to trigger
 
 - Returning to a previously paused feature
 - Starting a new session on existing work

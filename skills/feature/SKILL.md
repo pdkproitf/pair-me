@@ -8,11 +8,11 @@ dependencies: [init]
 ---
 
 
-## When to Use This Skill
+## When to trigger
 
 Use this skill when the user:
-- plan for X
-- suggest to implement this feature
+- asks to plan a feature or write an implementation spec
+- suggests implementing something and no spec exists yet
 
 # Feature Planning
 
@@ -54,7 +54,8 @@ Follow these steps **in order**. Do not skip ahead.
 2. Create a checklist of everything that needs to be explored.
 3. Run sub-tasks in parallel where possible.
 4. Wait for **all** sub-tasks to finish before writing anything.
-5. Present findings with 2–3 design options, each with clear pros and cons. Note if a matched dictionary entry overlaps with this feature. Get confirmation on the chosen approach before moving to Step 3.
+5. Collect the architectural conventions that bear on this feature — from `CLAUDE.md`, `docs_context`, matched `core_docs_dir` files, and feedback memory (e.g. thin-model, jobs-orchestrate-only). These populate the plan's **Conventions to Follow** section.
+6. Present findings with 2–3 design options, each with clear pros and cons. Note if a matched dictionary entry overlaps with this feature. Get confirmation on the chosen approach before moving to Step 3.
 
 ### Step 3: Write the Plan
 
@@ -116,6 +117,16 @@ So that <the benefit or outcome>.
 ### New Files to Create
 
 - `path/to/new_file` — <purpose>
+
+---
+
+## Conventions to Follow
+
+<Architectural rules this feature must respect, pulled from `CLAUDE.md`, `docs_context`, matched `core_docs_dir` files, and feedback memory. These are a checklist to validate the implementation against — NOT step prescriptions. Do not restate structure the codebase already enforces; list only rules that plausibly bear on this feature and could be gotten wrong.>
+<Pattern: `for new service, logic let think whether existing conventions apply or code that could solve the problem, and if so, try to follow them, use them. else think about new conventions and code patterns that could be useful for this feature, which are reusable, and if so, propose them to the team.`>`>
+- <e.g. Thin model — business logic (validation, cancellation, orchestration) belongs in a service, not a model method>
+- <e.g. Jobs orchestrate only — load, guard, call service, handle result; no business logic in the job>
+- <convention> — <where it applies in this feature>
 
 ---
 
@@ -191,5 +202,5 @@ docs/specs/1711234567-feature-adw-42-add-retry-logic.md
 1. **Resolve everything before writing** — No open questions in the final plan.
 2. **Match existing conventions** — Mirror the naming, file organization, and API patterns found in the codebase. Do not prescribe function-level structure (method length, class boundaries, helper extraction) — that's decided at implementation time, not planning time.
 3. **Incremental and testable** — Each phase should be shippable and verifiable on its own.
-4. **Be specific** — Avoid vague tasks like "update the config". Write exactly what changes and where.
+4. **Be specific — about *what* and *where*, not *how*** — Avoid vague tasks like "update the config". Name the file and the behavior that changes. But "where" means file + behavior, NOT layer placement: do not decide model-vs-service-vs-job or invent a specific class/method to add — that is a class-boundary decision (see constraint 2) and must follow the **Conventions to Follow** section, resolved at implementation time. Write "cancel sibling jobs when one fails" (behavior), not "add `PublishClipJob.cancel_siblings` class method" (structure).
 5. **Fail loudly** — If a required tool is missing or an argument is invalid, stop and say so clearly.

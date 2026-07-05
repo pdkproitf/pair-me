@@ -11,7 +11,7 @@ dependencies: [.claude/workspace.md] # this is just a note but it doesn't actual
 
 Create a comprehensive progress checkpoint when pausing work on a feature.
 
-## When to Use
+## When to trigger
 
 - Stopping mid-implementation
 - Switching to another task or feature

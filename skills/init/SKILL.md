@@ -11,6 +11,13 @@ dependencies: [.claude/workspace.md] # this is just a note but it doesn't actual
 
 Execute the `Read`, `Research` and `Report` sections in order to build a complete understanding of the codebase.
 
+## When to trigger
+
+Use this skill when:
+- this is a new session and project context has not yet been loaded
+- the user asks to "prime" or "load context" before starting work
+- another skill lists `init` as a dependency and context isn't loaded yet (invoke automatically)
+
 ## Read
 
 1. Read `README.md`

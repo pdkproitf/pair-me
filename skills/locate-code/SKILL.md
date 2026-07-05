@@ -10,6 +10,13 @@ phase: orient
 
 Find WHERE code lives in the codebase for a given feature or topic. Return file locations grouped by purpose — do NOT read or analyze file contents.
 
+## When to trigger
+
+Use this skill when the user:
+- asks "where does X live" or "where is Y implemented"
+- wants file paths grouped by layer without content analysis
+- needs a quick location lookup, not an explanation of how the code works
+
 ## Variables
 topic: $ARGUMENTS
 

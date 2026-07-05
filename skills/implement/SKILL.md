@@ -11,6 +11,14 @@ dependencies: [init]
 
 Implement an approved spec from `specs_dir`. Execute every step in order, verify after each phase, update checkboxes as you go, and commit completed work.
 
+## When to trigger
+
+Use this skill when the user:
+- asks to implement, build, or start coding an approved spec/plan
+- says to continue, resume, or pick back up an in-progress implementation
+- points to a spec file and asks what's next or to proceed with it
+- asks to implement a specific phase or step from a spec
+
 ## Variables
 
 spec_file: $ARGUMENTS — path to the spec (e.g. `docs/specs/feature-to-bootstrap-package.md`)
@@ -53,22 +61,28 @@ If not already on a feature branch, create one. Skip if the branch already exist
 
 For each phase in the spec's **Step by Step Tasks** section:
 
-1. **Implement all steps in the phase** — follow the spec exactly; adapt only when the codebase has evolved since the spec was written
+1. **Implement all steps in the phase** — follow the spec's *intent* (the behavior it describes). Follow it verbatim only when the step's structure is also consistent with the codebase and the conventions (see next). Adapt when the codebase has evolved since the spec was written, or when a step's prescribed structure conflicts with the **Conventions to Follow** section, the **Code quality rules** below, `# WORKSPACE` conventions, or feedback memory — surface the conflict first (see "When the plan doesn't match reality"). A spec that names a specific class/method placement is expressing intent, not a mandate to violate the thin-model / jobs-orchestrate rules.
+1.1 Before creating new files, check whether existing files could be reused or extended instead. If so, follow the existing conventions and code patterns. or think hard about whether it's worth proposing new conventions and code patterns that could be useful for this feature and reusable in the future. If so, propose them to the team.
 2. **Run verification** — execute the relevant commands from the spec's **Validation Commands** section; fix any failures before marking the phase complete
 3. **Update the spec** — check off completed items (`- [ ]` → `- [x]`) and mark the phase header `✅` when fully done
 4. **Pause and confirm** — report what was done and ask the user to confirm before moving to the next phase
 5. **Commit the phase** — invoke the `commit` skill to generate the commit message; ask for confirmation before committing
 
-### When the plan doesn't match reality
+### When the plan doesn't match reality — or its own conventions
 
-Surface mismatches immediately — never silently deviate:
+Surface mismatches immediately — never silently deviate, and never silently comply with a step that violates a convention. Two triggers:
+
+- **Reality drift** — the codebase has changed since the spec was written (files moved, APIs differ).
+- **Convention conflict** — a step prescribes structure (a class boundary, a method on a model, logic in a job) that contradicts the spec's **Conventions to Follow** section, the **Code quality rules** below, `# WORKSPACE`, or feedback memory. Example: spec says "add `cancel_siblings` class method on the model" but the thin-model rule says business logic belongs in a service.
+
+Report either as:
 
 ```
 Issue in Phase [N] — Step [X]:
 Expected: <what the spec says>
-Found:    <actual situation>
+Found:    <the reality drift, or the convention it conflicts with>
 Impact:   <why this matters>
-Proposed: <how you suggest proceeding>
+Proposed: <how you suggest proceeding — e.g. implement the behavior as a service instead>
 ```
 
 ### Code quality rules

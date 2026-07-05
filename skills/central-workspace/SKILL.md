@@ -8,6 +8,13 @@ phase: orient
 
 # central-workspace
 
+## When to trigger
+
+Use this skill when the user:
+- asks to bootstrap or set up the AI workspace/config for this project
+- wants hardcoded paths in skill/command/agent files replaced with config keys
+- asks to onboard a new tool (Cursor, Copilot, Windsurf, etc.) to an existing skill setup
+
 ---
 
 ## Step 1 — Identify Current Tool
