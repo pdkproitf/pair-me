@@ -182,7 +182,7 @@ npx skills add pdkproitf/skills@document
 Install all skills at once:
 
 ```bash
-npx skills add pdkproitf/skills
+npx skills add pdkproitf/skills --all
 ```
 
 Install a specific skill:

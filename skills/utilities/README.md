@@ -22,13 +22,12 @@ npx skills add pdkproitf/skills@token-wake --global
 
 ## Install skills
 
-Install everything in this category:
-
-```bash
-npx skills add pdkproitf/skills@utilities
-```
-
 Install a specific skill:
 ```bash
 npx skills add pdkproitf/skills@<skill-name>
+```
+
+Browse everything available in the repo:
+```bash
+npx skills add pdkproitf/skills --list
 ```

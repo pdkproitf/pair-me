@@ -39,15 +39,24 @@ More categories (design, product, ops) will land here as the collection grows.
 
 ## Install skills
 
-Install everything in a category:
-
+Browse everything available in this repo:
 ```bash
-npx skills add pdkproitf/skills@engineers
+npx skills add pdkproitf/skills --list
 ```
 
-Install a specific skill:
+Install a specific skill by name:
 ```bash
 npx skills add pdkproitf/skills@<skill-name>
+```
+
+Install several at once:
+```bash
+npx skills add pdkproitf/skills --skill <skill-name> --skill <skill-name>
+```
+
+Install every skill in the repo:
+```bash
+npx skills add pdkproitf/skills --all
 ```
 
 For global installation (all projects):

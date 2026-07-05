@@ -8,7 +8,7 @@ As of v2.0.0, the PDK skills repository has migrated from individual `install.sh
 
 | Aspect | Before | After |
 |--------|--------|-------|
-| **Installation** | `curl ... \| bash` with interactive prompts | `npx skills add pdkproitf/skills` — automatic |
+| **Installation** | `curl ... \| bash` with interactive prompts | `npx skills add pdkproitf/skills --all` — automatic |
 | **Tool selection** | Manual (choose 1-6) | Automatic detection |
 | **Scope choice** | Manual (global or project) | Flag-based: `--global` or `--project` |
 | **Versioning** | None | Full semantic versioning |
@@ -44,7 +44,7 @@ rm ~/.cursor/rules/central-config.mdc
 
 **Install all skills (recommended):**
 ```bash
-npx skills add pdkproitf/skills
+npx skills add pdkproitf/skills --all
 ```
 
 **Install a specific skill:**
