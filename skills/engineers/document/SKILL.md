@@ -2,7 +2,7 @@
 name: document
 description: Generate feature documentation by analyzing code changes and specifications — creates markdown docs in docs/core/ with conditional context
 input: "[adw_id] [spec_path] [screenshots_dir] — all optional; generates docs based on git diff analysis"
-output: path to created documentation file; updates context_dictionary.md registry
+output: path to created documentation file; updates doc_dictionary.md registry
 phase: document
 dependencies: [.claude/workspace.md] # this is just a note but it doesn't actually load or search for this file
 ---

@@ -12,7 +12,7 @@ Prime your AI with the full picture of the codebase — docs, domain models, act
 
 1. `README.md` — what the app is and who uses it
 2. `docs/CONTEXT.md` — the single agent-context artifact: domain models, key workflows, layers, patterns, and external dependencies, maintained by `architecture` and `document`
-3. `docs/core/*.md` — only the entries whose keywords match the current task, via `context_dictionary.md`
+3. `docs/core/*.md` — only the entries whose keywords match the current task, via `doc_dictionary.md`
 4. `docs/TODO.md` — active work areas; created empty if missing (a trivial write, done unconditionally)
 
 If there's no documentation at all yet, it falls back to code exploration: `locate-code` to map where key concepts live, `analyze-code` to understand how they fit together, and `architecture` to write `docs/CONTEXT.md` so future sessions don't redo this research. If only `CONTEXT.md` specifically is missing (other docs exist), it doesn't auto-generate it — that's a full codebase scan and too heavy to run on every session start. It just flags the gap and suggests running `architecture` directly.

@@ -37,7 +37,7 @@ spec_file: $ARGUMENTS — path to the spec (e.g. `docs/specs/feature-to-bootstra
 
 1. Read the spec file completely
 2. Read all files listed under **Relevant Files** to understand the existing codebase before touching anything
-3. Check `docs_dictionary_dir` (default: `docs/context_dictionary.md`) for entries whose `Files` or `Keywords` overlap with the spec's **Relevant Files** or feature description; read any matching `core_docs_dir` files — they may document conventions this implementation should follow
+3. Check `docs_dictionary_dir` (default: `docs/doc_dictionary.md`) for entries whose `Files` or `Keywords` overlap with the spec's **Relevant Files** or feature description; read any matching `core_docs_dir` files — they may document conventions this implementation should follow
 4. Identify:
    - Which phases exist and which steps are already checked off (`- [x]`)
    - The first unchecked step — that is your starting point

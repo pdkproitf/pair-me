@@ -47,9 +47,9 @@ npx skills add pdkproitf/skills@init
 
 ### [architecture](architecture/)
 
-> Map the overall system architecture from a full codebase scan.
+> Map the overall system architecture from a full codebase scan into a `docs_context` documentation layer.
 
-Scans the codebase as a whole (not a diff) and writes into `docs/CONTEXT.md` — domain models, key workflows, layers, patterns, external dependencies. Re-running it reconciles rather than rewrites, so it stays accurate as the system evolves.
+Scans the codebase as a whole (not a diff) and writes a purpose-split `docs_context` layer — business.md (journeys, concepts, owned capabilities), interface.md (API surface, outbound dependencies, event contracts), and implementation.md (layers, data flow, domain models, invariants, file index). Re-running it reconciles rather than rewrites, so it stays accurate as the system evolves.
 
 ```bash
 npx skills add pdkproitf/skills@architecture
@@ -169,7 +169,7 @@ npx skills add pdkproitf/skills@commit
 
 > Generate feature documentation from code changes and specs — creates a markdown doc and registers it in the conditional context index.
 
-Analyzes `git diff origin/main`, writes structured docs to `docs/core/`, and updates `context_dictionary.md` so docs surface automatically when relevant.
+Analyzes `git diff origin/main`, writes structured docs to `docs/core/`, and updates `doc_dictionary.md` so docs surface automatically when relevant.
 
 ```bash
 npx skills add pdkproitf/skills@document

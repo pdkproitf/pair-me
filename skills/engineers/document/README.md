@@ -6,7 +6,7 @@
 
 ## What it does
 
-`document` analyzes `git diff origin/main` to understand what was built, optionally reads the original spec for requirements context, and writes a structured markdown doc to `docs/core/`. It also updates `context_dictionary.md` — a registry that tells the AI when to load each doc based on keywords, so documentation surfaces automatically when relevant.
+`document` analyzes `git diff origin/main` to understand what was built, optionally reads the original spec for requirements context, and writes a structured markdown doc to `docs/core/`. It also updates `doc_dictionary.md` — a registry that tells the AI when to load each doc based on keywords, so documentation surfaces automatically when relevant.
 
 If the feature changed something structural (a new layer, domain model, workflow, external dependency, or code convention) and `docs/CONTEXT.md` already exists, it also patches just the matching section of that file — never the Overview section, which needs a full-system view to update accurately. It doesn't create `CONTEXT.md` from scratch — a single feature's diff is too narrow a view for that; use the `architecture` skill for a full codebase scan instead.
 
@@ -70,4 +70,4 @@ docs/core/feature-adw-42-add-retry-logic.md
 
 If the feature is README-worthy, a suggested one-line addition follows the path — for a human to apply, not the skill.
 
-Also updates `context_dictionary.md` with an entry for the new doc, enabling automatic context loading in future sessions.
+Also updates `doc_dictionary.md` with an entry for the new doc, enabling automatic context loading in future sessions.

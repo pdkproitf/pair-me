@@ -50,7 +50,7 @@ Follow these steps **in order**. Do not skip ahead.
 
 ### Step 2: Research & Design
 
-1. Check `docs_dictionary_dir` (default: `docs/context_dictionary.md`) for entries whose `Keywords` match this feature request; read any matching `core_docs_dir` files first — they may already document a related or overlapping feature.
+1. Check `docs_dictionary_dir` (default: `docs/doc_dictionary.md`) for entries whose `Keywords` match this feature request; read any matching `core_docs_dir` files first — they may already document a related or overlapping feature.
 2. Create a checklist of everything that needs to be explored.
 3. Run sub-tasks in parallel where possible.
 4. Wait for **all** sub-tasks to finish before writing anything.

@@ -163,8 +163,8 @@ Next steps:
 | Path pattern | Config key |
 |---|---|
 | `.docs/`, `docs/` | `docs_dir` |
-| `.docs/context_dictionary.md`, `docs/context_dictionary.md` | `docs_dictionary_dir` |
-| `.docs/CONTEXT.md`, `README.md`, `.docs/ARCHITECTURE.md`, `ARCHITECTURE.md` | `docs_context` |
+| `.docs/doc_dictionary.md`, `docs/doc_dictionary.md` | `docs_dictionary_dir` |
+| `.docs/CONTEXT.md`, `README.md`, `.docs/ARCHITECTURE.md`, `ARCHITECTURE.md`, `.context/`, `.docs/context/` | `docs_context` |
 | `.docs/specs/`, `docs/specs/`, `specs/` | `specs_dir` |
 | `.docs/sessions/`, `docs/sessions/` | `sessions_dir` |
 | `.docs/research/`, `docs/research/` | `research_dir` |
@@ -192,8 +192,8 @@ Loaded at session start via the auto-load file. All tasks and skills operate und
 | Key                 | Path                       | Description                        |
 |---------------------|----------------------------|------------------------------------|
 | `docs_dir`           | `.docs`                    | Root documentation directory       |
-| `docs_context`      | `.docs/CONTEXT.md`         | Agent context — domain, structure, patterns |
-| `docs_dictionary_dir` | `.docs/context_dictionary` | Context dictionary                 |
+| `docs_context`      | `.context`                 | Agent-context layer (business/interface/implementation) |
+| `docs_dictionary_dir` | `.docs/doc_dictionary` | Context dictionary                 |
 | `specs_dir`         | `.docs/specs`              | Plan/spec files                    |
 | `sessions_dir`      | `.docs/sessions`           | Work session summaries             |
 | `research_dir`      | `.docs/research`           | Research notes                     |
