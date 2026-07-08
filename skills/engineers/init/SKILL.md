@@ -21,10 +21,10 @@ Use this skill when:
 ## Read
 
 1. Read `README.md`
-2. Check for `docs_context` (default: `.docs/`) and read whichever of its files are present — this is the agent-context layer maintained by the `architecture` skill:
-   - `docs_context`/business.md — user journeys, domain concepts, owned capabilities
-   - `docs_context`/interface.md — API surface, outbound dependencies, event contracts (may not exist if the service has no interface surface)
-   - `docs_context`/implementation.md — layers, data flow, domain models, invariants, file index
+2. Check for `docs_context` (default: `.docs/CONTEXT.md`) and its sibling `system.md` in the same directory, and read whichever is present — this is the agent-context layer maintained by the `architecture` skill:
+   - `docs_context` — business flows, user journeys, domain concepts, owned capabilities
+   - `system.md` — layers, data flow, domain models, invariants, file index, plus API surface, outbound dependencies, and event contracts
+   - an older `.context/` directory layer, or a monolithic single file with no `system.md`, may still exist — read what's there if present and recommend re-running `architecture` to migrate
 
    If none exist but `README.md` or `docs_dictionary_dir` already do, don't generate them here — just note their absence in the Report and recommend running the `architecture` skill. Only missing docs across the board triggers Research below.
 3. Read `docs_dictionary_dir` (default: `docs/doc_dictionary.md`). For each entry, check its `Keywords` against the current task; read only the matching `core_docs_dir` files, not the whole directory
@@ -45,13 +45,13 @@ Use these tools in sequence to build a full picture before doing any work:
    - Output: big-picture understanding, data flow, component relationships
 
 3. **`architecture` skill** — map the system into `docs_context` so future sessions don't repeat this research from scratch
-   - Output: `docs_context`/business.md, `docs_context`/interface.md, `docs_context`/implementation.md created
+   - Output: `docs_context` (business content) and its sibling `system.md` created
 
 ## Report
 
 Keep this a compact orientation summary — reference what each doc said, don't restate it in full. Cover:
 - What the app does and who uses it
-- System structure — key layers and modules (from `docs_context`/implementation.md, if loaded)
+- System structure — key layers and modules (from `system.md`, if loaded)
 - Key domain models and their relationships
 - Main workflows (e.g. how a video gets published)
 - Active work areas (from `todo_file`)
