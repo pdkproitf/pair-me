@@ -7,14 +7,14 @@
 ## What it does
 
 `architecture` scans the codebase as a whole — not a diff — and writes a purpose-split
-documentation layer, split by who reads it rather than into one growing monolith:
-`docs_context`/business.md (journeys, concepts, owned capabilities — for anyone designing a
-feature), `docs_context`/interface.md (API surface, outbound dependencies, event contracts — for
-feature design and integration work), and `docs_context`/implementation.md (layers, data flow,
-domain models, invariants, file index — for anyone touching code). `docs_context` defaults to
-`.context/` — override it via `central-config`/`central-workspace` if you want it elsewhere.
-Unlike `document`, which documents a single implemented feature, this skill maps the system
-broadly.
+documentation layer, split by who reads it rather than into one growing monolith: `docs_context`
+itself (default `.docs/CONTEXT.md` — business flows, journeys, concepts, owned capabilities; for
+anyone designing a feature; PM-readable) and a `system.md` sibling file in the same directory
+(layers, data flow, domain models, invariants, file index, plus API surface, outbound
+dependencies, and event contracts — for developers, engineers, and AI agents). `docs_context`
+is a single file, not a directory — override its path via `central-config`/`central-workspace`
+if you want it elsewhere; `system.md` always follows it into the same directory. Unlike
+`document`, which documents a single implemented feature, this skill maps the system broadly.
 
 Re-running it is a reconciliation, not a rewrite: it reads each existing file first, keeps what
 still matches reality, updates what's drifted, and adds what's new — including preserving any
@@ -63,12 +63,14 @@ No arguments needed. The skill scans the current codebase and reports automatica
 ## Output
 
 ```
-{docs_context}/business.md
-{docs_context}/interface.md         (skipped if no API surface, outbound deps, or events at all)
-{docs_context}/implementation.md
+{docs_context}                      (default: .docs/CONTEXT.md — business content)
+{dirname(docs_context)}/system.md   (interface sections omitted if no API surface, outbound deps, or events)
 ```
 
-`{docs_context}` defaults to `.context/`.
+`{docs_context}` defaults to `.docs/CONTEXT.md` and is a single file, not a directory —
+`system.md` is always written alongside it. If an older layer exists (a `.context/` directory,
+or a monolithic single file with no `system.md`), re-running the skill migrates it into this
+two-file shape and removes the old structure.
 
 Reports whether this was a fresh generation or a reconciliation, and for each file: created,
 reconciled (with what changed), unchanged, or skipped (with why). If `README.md` looks stale
@@ -80,4 +82,4 @@ compared to the scan, lists those mismatches too — as suggestions, not changes
 
 - Uses `locate-code` and `analyze-code` internally to map structure
 - Each output file's exact markdown skeleton lives in this skill's `templates/` directory
-- Reads `docs_context` from the project's `config.md`/`workspace.md` if `central-config`/`central-workspace` has been run; otherwise defaults to `.context/`
+- Reads `docs_context` from the project's `config.md`/`workspace.md` if `central-config`/`central-workspace` has been run; otherwise defaults to `.docs/CONTEXT.md`

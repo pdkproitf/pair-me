@@ -1,26 +1,27 @@
 ---
 name: architecture
-description: Map the whole system into a `docs_context` documentation layer from a full codebase scan — creates or reconciles business / interface / implementation docs.
+description: Map the whole system into a `docs_context` documentation layer from a full codebase scan — creates or reconciles the business and system docs.
 input: no arguments — scans the current codebase
-output: the `docs_context` layer (business.md, interface.md, implementation.md), created or reconciled
+output: the `docs_context` file (business content, default `.docs/CONTEXT.md`) plus its companion `system.md` in the same directory, created or reconciled
 phase: orient
 ---
 
 # Map Architecture
 
-Scan the codebase as a whole — not a git diff — and produce a **multi-file `docs_context` layer**
-(default: `.docs/core`) that agents load selectively. Unlike `document`, which documents one
-feature from its diff, this skill maps the system broadly and is meant to be re-run periodically
-so the layer never drifts from reality.
+Scan the codebase as a whole — not a git diff — and produce a **two-file `docs_context` layer**
+that agents load at session init. Unlike `document`, which documents one feature from its diff,
+this skill maps the system broadly and is meant to be re-run periodically so the layer never
+drifts from reality.
 
-Output is split by consumer, not one monolith, so an agent designing a feature and an agent
-implementing one load only what they need:
+The layer is two plain files, not a subdirectory:
 
 | File | Answers | Read by |
 |---|---|---|
-| `docs_context`/business.md | What does it do? User journeys, domain concepts, owned capabilities. | anyone designing a feature or writing stories |
-| `docs_context`/interface.md | What does it expose, call, and consume/produce? API surface, outbound dependencies, event contracts. | feature design and integration work |
-| `docs_context`/implementation.md | How is it built? Layers, data flow, domain models, invariants, file index. | anyone touching code |
+| `docs_context` (default: `.docs/CONTEXT.md`) | What does it do? Business flows, user journeys, domain concepts, owned capabilities. | anyone designing a feature or writing stories — PM-readable |
+| `system.md` (same directory as `docs_context`, e.g. `.docs/system.md`) | How is it built and what does it expose? Layers, data flow, domain models, invariants, file index, plus API surface, outbound dependencies, and event contracts. | developers, engineers, and AI agents touching code or integrating with it |
+
+`docs_context` is the config key and its target file *is* the business file — a short link at
+the top of it points to `system.md`. There is no directory to create.
 
 The exact markdown for each of these lives in its own template file under [templates/](templates/)
 — see Step 3.
@@ -40,11 +41,13 @@ Use this skill when the user:
 - **Spring Boot** (Java): `pom.xml`/`build.gradle` contains `spring-boot-starter` → source root = deepest common package (e.g. `src/main/java/com/example/service/`)
 - **Rails** (Ruby): `Gemfile` contains `rails` → source root = `app/`
 - **Nuxt 3** (JS/TS): `nuxt.config.ts`/`.js` → source root = `server/` (BFF) or `pages/` (frontend)
-- **Unknown**: degrade gracefully — still produce `business.md` + `implementation.md`; skip `interface.md` if no HTTP/messaging/outbound surface is found.
+- **Unknown**: degrade gracefully — still produce both files; omit `system.md`'s interface sections (API Surface, External Dependencies, Events) if no HTTP/messaging/outbound surface is found.
 
-**Layer state** — check for `docs_context` (default: `.context/`):
-- **Absent → fresh generation.** Produce every file from the fact set (Step 2).
+**Layer state** — check for `docs_context` (default: `.docs/CONTEXT.md`) and its sibling `system.md`:
+- **Absent → fresh generation.** Produce both files from the fact set (Step 2).
 - **Present → reconcile.** Read each existing file fully. This is a reconcile, not a rewrite: keep sections that still match reality, update drifted ones, add sections for new structure, and **preserve hand-written prose** by folding it into the nearest matching section. Treat each template's line-cap and required sections as authoritative.
+- **Legacy directory layer** (`.context/business.md` + `.context/system.md`, or the older `.context/business.md` + `interface.md` + `implementation.md`): migrate — write the merged content to the current `docs_context` file and its sibling `system.md`, then delete the old `.context/` directory. Report the migration explicitly.
+- **Legacy monolithic file** (an existing `.docs/CONTEXT.md` or `.docs/ARCHITECTURE.md` with everything in one file, no companion `system.md`): migrate — split its content into the business sections (→ `docs_context`) and technical/interface sections (→ new `system.md`), per each template. Report the migration explicitly.
 
 Determine the `service` name (kebab-case) from the build file / directory name — used in every file's frontmatter.
 
@@ -80,17 +83,16 @@ resolve to the actual configured path when writing the file.
 
 | Output file | Template |
 |---|---|
-| `docs_context`/business.md | [templates/business.md](templates/business.md) |
-| `docs_context`/interface.md | [templates/interface.md](templates/interface.md) |
-| `docs_context`/implementation.md | [templates/implementation.md](templates/implementation.md) |
+| `docs_context` (CONTEXT.md) | [templates/context.md](templates/context.md) |
+| `system.md` (sibling of `docs_context`) | [templates/system.md](templates/system.md) |
 
-Rules that apply across all of them:
+Rules that apply across both:
 - Every file starts with frontmatter (line 1 = `---`) carrying
   `type / service / version / updated / tags`; set `updated:` to today. On reconcile, bump
   `updated:` only for files whose content actually changed.
-- `interface.md` has three independently-skippable sections (API Surface, Dependencies,
-  Events) — omit a section the service genuinely has none of, and skip the whole file only
-  if all three are empty. See the template's authoring notes for the per-section rules.
+- `system.md` has three independently-skippable interface sections (API Surface, External
+  Dependencies, Events) — omit a section the service genuinely has none of; the rest of the
+  file is always produced. See the template's authoring notes for the per-section rules.
 
 ---
 
@@ -98,10 +100,11 @@ Rules that apply across all of them:
 
 Inline checks — no external linter required:
 
-- **Line caps**: `wc -l` per file ≤ its template's limit (implementation ≤150, business ≤100, interface ≤200).
+- **Line caps**: `wc -l` per file ≤ its template's limit (`docs_context` ≤100, system ≤250).
 - **Required headings**: grep each `##`/`###` heading the corresponding template requires.
 - **Frontmatter**: line 1 is `---`; `type/service/version/updated/tags` all present; `updated` = today.
-- **File Index paths** (`implementation.md` only): every `src/...` glob resolves on disk (`ls`/glob).
+- **File Index paths** (`system.md` only): every `src/...` glob resolves on disk (`ls`/glob).
+- **No legacy leftovers**: no `.context/` directory remains; no monolithic file without a `system.md` sibling.
 - **No leftovers**: `grep -n 'TODO\|FIXME\|<!-- fill in'` returns nothing.
 
 Fix and re-check until all pass. Only then report done.
