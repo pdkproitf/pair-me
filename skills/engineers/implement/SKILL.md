@@ -88,7 +88,7 @@ Proposed: <how you suggest proceeding — e.g. implement the behavior as a servi
 
 ### Code quality rules
 
-Key code quality rules (combine with `# WORKSPACE` Conventions section):
+`# WORKSPACE` → **Code** governs whether code should exist and how much of it (YAGNI, reuse, no unrequested abstractions). The rules below govern how the code that must exist is shaped — apply both:
 
 - **Keep functions small** — aim for 10–30 lines per method; if a method grows beyond that, it is doing too much
 - **Single responsibility** — each class and method should have one clear concern; name it to reflect exactly what it does
@@ -96,7 +96,6 @@ Key code quality rules (combine with `# WORKSPACE` Conventions section):
 - **Thin model** — avoid adding business logic to models; create a service instead; research design patterns to apply to the logic
 - **Group related steps** — steps that are tightly coupled (e.g. building objects only to immediately pass them to the next call) should be grouped into a single method rather than exposed as individual steps in the orchestrator
 - **Clean orchestrators** — top-level service methods should read as a sequence of high-level calls; implementation details live in helpers, not in the orchestrator
-- **No over-engineering** — only extract a helper if the logic is reused or if keeping it inline would make the method exceed the size guideline; do not create helpers for one-liners
 - **Naming convention** — use clear action verbs: `validate*()`, `extract*()`, `build*()`, `verify*()`, `check*()`, `process*()`, `persist*()`
 
 ---
