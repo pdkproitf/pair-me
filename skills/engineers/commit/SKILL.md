@@ -35,7 +35,7 @@ If the prompt asks to commit, commit each group after user confirmation.
 
 Group file changes by logical concern, e.g.:
 
-- **By file/skill**: all changes to `init.md` in one group, `implement.md` in another
+- **By file/skill**: all changes to `onboard-project.md` in one group, `implement.md` in another
 - **By feature**: all changes for "add config dependency" together
 - **By type**: docs changes together, code changes together
 - **By layer**: app/config changes separate from lib/spec changes

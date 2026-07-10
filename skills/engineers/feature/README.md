@@ -66,4 +66,4 @@ The skill returns the full path to the created file.
 
 ## Dependencies
 
-Invokes `init` automatically if project context hasn't been loaded yet in the current session.
+Invokes `onboard-project` automatically if project context hasn't been loaded yet in the current session.

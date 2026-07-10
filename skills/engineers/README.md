@@ -21,9 +21,9 @@ Every skill follows the same format:
 
 The skills below aren't independent utilities — they form one pipeline. This is the order they run in during a typical feature, and what each step hands to the next.
 
-1. **Bootstrap once per project — or let `init` do it for you** — `central-workspace` scans existing prompts/paths and writes the single `workspace.md` every tool auto-loads. You can run it directly; you can also just start with `init` — it checks whether a workspace is already loaded and invokes `central-workspace` itself if not, before anything else happens. Re-run it manually when onboarding a new tool or after major path changes.
-2. **Orient at session start** — `init` (workspace bootstrapped per Step 1) loads `docs_context`/`system.md`/`TODO.md` and, via `codebase-indexing`, ensures the code graph indexes are fresh (near-instant if already warm). If no docs exist yet, `init` falls back to `locate-code` → `analyze-code` → `architecture` to build them from scratch.
-3. **Plan the feature** — `feature` researches the codebase (re-invoking `init` if context isn't loaded), designs options, and writes a spec — pulling in `define-test-case` to draft the spec's testing strategy as sequenced, seam-anchored test cases *before* any code exists.
+1. **Bootstrap once per project — or let `onboard-project` do it for you** — `central-workspace` scans existing prompts/paths and writes the single `workspace.md` every tool auto-loads. You can run it directly; you can also just start with `onboard-project` — it checks whether a workspace is already loaded and invokes `central-workspace` itself if not, before anything else happens. Re-run it manually when onboarding a new tool or after major path changes.
+2. **Orient at session start** — `onboard-project` (workspace bootstrapped per Step 1) loads `docs_context`/`system.md`/`TODO.md` and, via `codebase-indexing`, ensures the code graph indexes are fresh (near-instant if already warm). If no docs exist yet, `onboard-project` falls back to `locate-code` → `analyze-code` → `architecture` to build them from scratch.
+3. **Plan the feature** — `feature` researches the codebase (re-invoking `onboard-project` if context isn't loaded), designs options, and writes a spec — pulling in `define-test-case` to draft the spec's testing strategy as sequenced, seam-anchored test cases *before* any code exists.
 4. **Implement phase by phase** — `implement` executes the approved spec, verifying and invoking `commit` after each phase. If interrupted mid-phase, `save-progress` checkpoints: a WIP commit (via `commit`) plus a numbered session file.
 5. **Resume later** — `resume-work` rebuilds context from that session file and hands off to `implement` to continue from the first unchecked step.
 6. **Document what shipped** — `document` analyzes the diff and writes a scoped doc to `core_docs_dir`, registering it in `doc_dictionary.md` so it surfaces automatically next time it's relevant.
@@ -33,12 +33,12 @@ The skills below aren't independent utilities — they form one pipeline. This i
 
 ```mermaid
 flowchart TD
-    subgraph SETUP["Setup — once per project, auto-triggered by init if missing"]
+    subgraph SETUP["Setup — once per project, auto-triggered by onboard-project if missing"]
         CW[central-workspace]
     end
 
     subgraph ORIENT["Orient — session start"]
-        INIT[init]
+        INIT[onboard-project]
         CI[codebase-indexing]
     end
 
@@ -96,7 +96,7 @@ flowchart TD
     ARCH -. "reads/refreshes: if stale" .-> CI
 ```
 
-**Reading the diagram:** solid arrows are direct invocations (one skill hands off to another); dashed arrows are conditional or read-only relationships. `init` ↔ `central-workspace` is intentionally two-way — `init` conditionally invokes it to bootstrap the workspace, then reads back what it wrote — every other pair is one-directional. `codebase-indexing` is the only node with incoming "reads" edges from four different skills and no outgoing invocation of its own — it's a pure dependency, never a caller, by design (see its own README for the one-writer/many-readers rationale).
+**Reading the diagram:** solid arrows are direct invocations (one skill hands off to another); dashed arrows are conditional or read-only relationships. `onboard-project` ↔ `central-workspace` is intentionally two-way — `onboard-project` conditionally invokes it to bootstrap the workspace, then reads back what it wrote — every other pair is one-directional. `codebase-indexing` is the only node with incoming "reads" edges from four different skills and no outgoing invocation of its own — it's a pure dependency, never a caller, by design (see its own README for the one-writer/many-readers rationale).
 
 ---
 
@@ -106,7 +106,7 @@ flowchart TD
 
 > One workspace file. Every AI tool. Any project.
 
-Stop hardcoding paths and copy-pasting rules across every skill file. `central-workspace` scans your existing prompts, extracts every hardcoded value, and wires them into a single `workspace.md` that every tool loads automatically. Run it directly, or just start with `init` — it invokes this skill automatically the first time it finds no workspace loaded.
+Stop hardcoding paths and copy-pasting rules across every skill file. `central-workspace` scans your existing prompts, extracts every hardcoded value, and wires them into a single `workspace.md` that every tool loads automatically. Run it directly, or just start with `onboard-project` — it invokes this skill automatically the first time it finds no workspace loaded.
 
 **Solves:** scattered paths · duplicated security rules · new prompt sets overwriting your defaults · starting over every time you switch tools
 
@@ -116,14 +116,14 @@ npx skills add pdkproitf/skills@central-workspace
 
 ---
 
-### [init](init/)
+### [onboard-project](onboard-project/)
 
 > Load project context before starting any task.
 
 Reads docs, domain models, and active TODOs to build a complete mental model of the codebase. Bootstraps `central-workspace` automatically first if no workspace is loaded yet. Other skills invoke it automatically as a dependency.
 
 ```bash
-npx skills add pdkproitf/skills@init
+npx skills add pdkproitf/skills@onboard-project
 ```
 
 ---

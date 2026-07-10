@@ -23,7 +23,7 @@ Every other skill — `locate-code`, `find-patterns`, `analyze-code`, `architect
 
 Without a single writer, each analysis skill would check-and-build on its own. A trivial lookup could suddenly block for minutes on a cold `index_repository`, and multiple skills could race to build the same graph. This skill centralizes the build so:
 
-- Indexing happens **once**, at a predictable point (session start via `init`, or explicit request)
+- Indexing happens **once**, at a predictable point (session start via `onboard-project`, or explicit request)
 - Consumers stay fast and predictable
 - Refreshes are incremental, not full rebuilds
 
@@ -31,14 +31,14 @@ Without a single writer, each analysis skill would check-and-build on its own. A
 
 ## When to use
 
-- At session start (invoked automatically by `init`)
+- At session start (invoked automatically by `onboard-project`)
 - Explicitly: "index the codebase", "reindex", "refresh the code graph"
 - Before running `architecture` (it needs fresh indexes)
 - After a branch switch, big merge, or bulk refactor
 
 For very large repos, run it as a background agent so the build doesn't block the session. A
-ready-to-install agent definition ships alongside this skill as [`agent.md`](agent.md) — copy it
-to `.claude/agents/codebase-indexer.md`.
+ready-to-use agent definition lives at [`agents/codebase-indexer.md`](../../../agents/codebase-indexer.md)
+at the repo root — copy it to `.claude/agents/codebase-indexer.md` in a consuming project.
 
 ---
 
@@ -47,7 +47,7 @@ to `.claude/agents/codebase-indexer.md`.
 Skill frontmatter cannot grant tool permissions — the Claude Code runtime enforces them from
 `.claude/settings.json`. Two separate mechanisms are involved:
 
-- **Tool scope** — the agent's `tools:` list (in `agent.md`) restricts *which* tools it may call.
+- **Tool scope** — the agent's `tools:` list (in `agents/codebase-indexer.md`) restricts *which* tools it may call.
 - **No-prompt grant** — to let indexing run unattended (especially in the background) without
   permission prompts, allow the specific tools/commands in `.claude/settings.json`:
 

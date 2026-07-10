@@ -22,7 +22,7 @@ before any skill that benefits from the graph.
 
 ## When to trigger
 
-- At session start, invoked by `init` (the natural warm-up point)
+- At session start, invoked by `onboard-project` (the natural warm-up point)
 - The user explicitly asks to "index", "reindex", or "refresh the code graph"
 - Before `architecture` runs a full scan (it depends on fresh indexes)
 - After a large code change (branch switch, big merge, bulk refactor) when a stale index would mislead

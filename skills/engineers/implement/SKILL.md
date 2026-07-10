@@ -5,7 +5,7 @@ metadata:
   phase: "implement"
   input: "path to the spec file (e.g. docs/specs/1234567-feature-name.md)"
   output: "implemented feature with updated spec checkboxes, verification results, and committed phases"
-  dependencies: "init"
+  dependencies: "onboard-project"
 ---
 
 # Implement Plan
@@ -28,9 +28,9 @@ spec_file: $ARGUMENTS — path to the spec (e.g. `docs/specs/feature-to-bootstra
 
 ## Step 1 — Load Project Context
 
-1. If this is a new session and project context is not yet loaded, invoke the `init` skill before continuing
-   - init loads project context — including `docs/CONTEXT.md` and any matching `docs/core/*.md` — and `# WORKSPACE` rules automatically
-2. Use context loaded by init for the steps below
+1. If this is a new session and project context is not yet loaded, invoke the `onboard-project` skill before continuing
+   - onboard-project loads project context — including `docs/CONTEXT.md` and any matching `docs/core/*.md` — and `# WORKSPACE` rules automatically
+2. Use context loaded by onboard-project for the steps below
 
 ---
 

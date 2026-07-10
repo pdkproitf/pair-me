@@ -63,7 +63,7 @@ After all phases complete:
 
 ## Dependencies
 
-- Invokes `init` automatically if project context hasn't been loaded yet in the current session
+- Invokes `onboard-project` automatically if project context hasn't been loaded yet in the current session
 - Reads spec files written by `feature`
 - Invokes `commit` for each completed phase
 - Optionally runs the project's full test suite at the end (no dedicated test-runner or review skill exists yet — see TODOs in `SKILL.md`)

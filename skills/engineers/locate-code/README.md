@@ -25,7 +25,7 @@ Results are grouped by purpose so you know not just where something is, but what
 
 - Orienting in an unfamiliar codebase or feature area
 - As the first step before running `analyze-code`
-- When `init` invokes it during the Research phase
+- When `onboard-project` invokes it during the Research phase
 - Finding all files related to a concept before refactoring
 
 ---
