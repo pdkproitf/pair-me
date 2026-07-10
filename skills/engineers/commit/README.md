@@ -23,7 +23,7 @@ Commit messages follow these rules:
 
 - After completing a phase in `implement`
 - At the end of any coding session before pushing
-- When `save_progress` needs to commit WIP changes
+- When `save-progress` needs to commit WIP changes
 - Any time you want consistent, well-structured commit messages
 
 ---

@@ -8,6 +8,8 @@
 
 `analyze-code` performs a deep-read of a target file, class, or feature and produces a structured analysis. It doesn't stop at the surface — it follows the full call chain to map data transformations, business rules, side effects, and integration points.
 
+**When available**, it uses `codebase-memory-mcp` to trace call chains and data flow via the code graph, providing precise, accurate call-stack analysis. If MCP is unavailable, it falls back to manual file reading and grep-based searching.
+
 The analysis covers:
 - **Entry points** — routes, jobs, initializers, configuration loading
 - **Core logic flow** — step-by-step with file paths and line numbers

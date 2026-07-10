@@ -1,10 +1,11 @@
 ---
 name: implement
 description: Implement an approved spec — reads plan from specs_dir, executes phase by phase, updates checkboxes, verifies after each phase, and commits completed work
-input: path to the spec file (e.g. docs/specs/1234567-feature-name.md)
-output: implemented feature with updated spec checkboxes, verification results, and committed phases
-phase: implement
-dependencies: [init]
+metadata:
+  phase: "implement"
+  input: "path to the spec file (e.g. docs/specs/1234567-feature-name.md)"
+  output: "implemented feature with updated spec checkboxes, verification results, and committed phases"
+  dependencies: "init"
 ---
 
 # Implement Plan
@@ -37,7 +38,7 @@ spec_file: $ARGUMENTS — path to the spec (e.g. `docs/specs/feature-to-bootstra
 
 1. Read the spec file completely
 2. Read all files listed under **Relevant Files** to understand the existing codebase before touching anything
-3. Check `docs_dictionary_dir` (default: `docs/doc_dictionary.md`) for entries whose `Files` or `Keywords` overlap with the spec's **Relevant Files** or feature description; read any matching `core_docs_dir` files — they may document conventions this implementation should follow
+3. Load context per `# WORKSPACE` → **Context Loading**, matching Tier 1 on `Files` (the spec's **Relevant Files**) or `Keywords` (its feature description) — matched docs may carry conventions this implementation must follow
 4. Identify:
    - Which phases exist and which steps are already checked off (`- [x]`)
    - The first unchecked step — that is your starting point

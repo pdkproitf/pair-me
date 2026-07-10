@@ -23,7 +23,7 @@ If the spec has checkmarks from a prior session, it picks up from the first unch
 
 - Executing a plan created by `feature`
 - Resuming interrupted implementation (works from checkboxes)
-- When `resume_work` identifies the next unchecked spec step
+- When `resume-work` identifies the next unchecked spec step
 
 ---
 

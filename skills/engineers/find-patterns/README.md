@@ -8,6 +8,8 @@
 
 `find-patterns` searches the codebase for existing implementations that match a concept or feature, then extracts complete, working code snippets you can model after. It goes beyond file paths — it reads the code and shows you naming conventions, file organization patterns, and testing structures in use.
 
+**When available**, it uses `codebase-memory-mcp` to search for patterns via the code graph, finding structural matches faster and more accurately. If MCP is unavailable, it falls back to text-based grep and manual exploration.
+
 The output covers:
 - **Similar implementations** — real code snippets with location context
 - **Naming conventions** — how models, jobs, services, and specs are named

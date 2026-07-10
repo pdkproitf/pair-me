@@ -1,6 +1,6 @@
 # Template: `docs_context`/system.md
 
-≤250 lines · 8 required sections + 3 skippable interface sections · every File Index path
+≤300 lines · 8 required sections + 3 skippable interface sections · every File Index path
 must resolve on disk. This is the single technical file — how the service is built **and**
 what it exposes, calls, and consumes/produces.
 

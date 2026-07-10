@@ -1,10 +1,11 @@
 ---
 name: feature
 description: Feature planning — research codebase, design options, write a structured spec/implementation plan to the project specs directory
-input: "[adw_id] <prompt> — adw_id is optional; prompt is a plain-language description of the feature"
-output: path to the written spec file in specs_dir
-phase: plan
-dependencies: [init]
+metadata:
+  phase: "plan"
+  input: "[adw_id] <prompt> — adw_id is optional; prompt is a plain-language description of the feature"
+  output: "path to the written spec file in specs_dir"
+  dependencies: "init"
 ---
 
 
@@ -50,7 +51,7 @@ Follow these steps **in order**. Do not skip ahead.
 
 ### Step 2: Research & Design
 
-1. Check `docs_dictionary_dir` (default: `docs/doc_dictionary.md`) for entries whose `Keywords` match this feature request; read any matching `core_docs_dir` files first — they may already document a related or overlapping feature.
+1. Load context per `# WORKSPACE` → **Context Loading**, matching Tier 1 on `Keywords` against this feature request — an existing doc may already cover a related or overlapping feature.
 2. Create a checklist of everything that needs to be explored.
 3. Run sub-tasks in parallel where possible.
 4. Wait for **all** sub-tasks to finish before writing anything.
@@ -74,7 +75,7 @@ Replace `{descriptive-name}` with a short, hyphenated name derived from the feat
 
 ### Step 4: Define Test Cases
 
-Invoke the `define_test_case` skill with the feature name to draft acceptance test cases in DSL format covering happy paths, edge cases, error scenarios, and auth.
+Invoke the `define-test-case` skill with the feature name to draft acceptance test cases in DSL format covering happy paths, edge cases, error scenarios, and auth.
 
 Paste the output into the **Testing Strategy** section of the plan.
 

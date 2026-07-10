@@ -1,4 +1,4 @@
-# resume_work
+# resume-work
 
 > Restore a saved session and continue implementation from the last checkpoint.
 
@@ -6,7 +6,7 @@
 
 ## What it does
 
-`resume_work` reads a session summary created by `save_progress` and reconstructs full working context before continuing. It doesn't rely on memory from a prior conversation — it re-reads the session file, the implementation plan, the research document, and recent git history to rebuild an accurate mental model.
+`resume-work` reads a session summary created by `save-progress` and reconstructs full working context before continuing. It doesn't rely on memory from a prior conversation — it re-reads the session file, the implementation plan, the research document, and recent git history to rebuild an accurate mental model.
 
 It runs five steps:
 1. **Load session context** — reads the session file (or lists recent sessions to choose from)
@@ -29,7 +29,7 @@ It runs five steps:
 ## Install
 
 ```bash
-npx skills add pdkproitf/skills@resume_work
+npx skills add pdkproitf/skills@resume-work
 ```
 
 ---
@@ -38,13 +38,13 @@ npx skills add pdkproitf/skills@resume_work
 
 **Claude Code:**
 ```
-/resume_work docs/sessions/001_feature-name.md
-/resume_work
+/resume-work docs/sessions/001_feature-name.md
+/resume-work
 ```
 
 **Other tools:**
 ```
-@resume_work [path to session summary]
+@resume-work [path to session summary]
 ```
 
 If no path is provided, the skill lists recent sessions in `docs/sessions/` and asks you to choose.
@@ -72,5 +72,5 @@ Continuing with [specific next action]...
 
 ## Dependencies
 
-- Reads session files written by `save_progress`
+- Reads session files written by `save-progress`
 - Invokes `implement` when a full plan phase needs to be executed

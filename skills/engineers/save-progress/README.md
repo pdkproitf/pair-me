@@ -1,4 +1,4 @@
-# save_progress
+# save-progress
 
 > Checkpoint your work — commit WIP, update the plan, and write a session summary you can resume from later.
 
@@ -6,7 +6,7 @@
 
 ## What it does
 
-`save_progress` creates a complete handoff artifact when you need to pause work. It captures everything the next session needs to pick up exactly where you left off — no reconstructing context from scratch.
+`save-progress` creates a complete handoff artifact when you need to pause work. It captures everything the next session needs to pick up exactly where you left off — no reconstructing context from scratch.
 
 It runs four steps:
 1. **Assess state** — reviews conversation history, git status, active plan, and todo list
@@ -28,7 +28,7 @@ It runs four steps:
 ## Install
 
 ```bash
-npx skills add pdkproitf/skills@save_progress
+npx skills add pdkproitf/skills@save-progress
 ```
 
 ---
@@ -37,12 +37,12 @@ npx skills add pdkproitf/skills@save_progress
 
 **Claude Code:**
 ```
-/save_progress
+/save-progress
 ```
 
 **Other tools:**
 ```
-@save_progress
+@save-progress
 ```
 
 No arguments needed. The skill reads everything it needs from the current session and git state.
@@ -58,7 +58,7 @@ No arguments needed. The skill reads everything it needs from the current sessio
 📋 Plan updated: docs/specs/1711234567-feature-name.md
 💾 Commits created: [list]
 
-To resume: invoke the resume_work skill with docs/sessions/001_feature-name.md
+To resume: invoke the resume-work skill with docs/sessions/001_feature-name.md
 ```
 
 ---
@@ -66,4 +66,4 @@ To resume: invoke the resume_work skill with docs/sessions/001_feature-name.md
 ## Dependencies
 
 - Invokes `commit` to generate and confirm commit messages
-- Pairs with `resume_work` to restore session context
+- Pairs with `resume-work` to restore session context

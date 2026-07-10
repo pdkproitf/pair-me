@@ -1,8 +1,9 @@
 ---
 name: token-wake
 description: Wake the Claude Pro token window automatically — fires a bootstrap at reset+1min which creates a permanent 5h cron routine
-input: none — fully automated
-phase: setup
+metadata:
+  phase: "setup"
+  input: "none — fully automated"
 ---
 
 # token-loop

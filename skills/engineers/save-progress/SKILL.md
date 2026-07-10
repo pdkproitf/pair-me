@@ -1,10 +1,11 @@
 ---
-name: save_progress
+name: save-progress
 description: Save progress checkpoint — commits work in progress, updates the active plan's checkboxes, and writes a numbered session summary to sessions_dir
-input: no arguments — reads session context, git state, and active plan automatically
-output: WIP commit, updated plan file, session summary saved to sessions_dir as NNN_feature.md
-phase: checkpoint
-dependencies: [.claude/workspace.md] # this is just a note but it doesn't actually load or search for this file
+metadata:
+  phase: "checkpoint"
+  input: "no arguments — reads session context, git state, and active plan automatically"
+  output: "WIP commit, updated plan file, session summary saved to sessions_dir as NNN_feature.md"
+  dependencies: "the tool's workspace file, if configured via central-workspace — informational only, not directly loaded or searched by this skill"
 ---
 
 # Save Progress
@@ -163,7 +164,7 @@ To continue this work:
 📋 Plan updated: [plan path]
 💾 Commits created: [list]
 
-To resume: invoke the resume_work skill with [sessions_dir][NNN_feature.md]
+To resume: invoke the resume-work skill with [sessions_dir][NNN_feature.md]
 ```
 
 ---

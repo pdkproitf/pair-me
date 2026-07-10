@@ -1,10 +1,11 @@
 ---
-name: resume_work
+name: resume-work
 description: Resume previously saved work — restores session context from sessions_dir, rebuilds mental model, and continues from the first unchecked plan step
-input: optional path to a session summary file; if omitted, lists recent sessions to choose from
-output: restored context summary and continuation of implementation from last checkpoint
-phase: checkpoint
-dependencies: [.claude/workspace.md] # this is just a note but it doesn't actually load or search for this file
+metadata:
+  phase: "checkpoint"
+  input: "optional path to a session summary file; if omitted, lists recent sessions to choose from"
+  output: "restored context summary and continuation of implementation from last checkpoint"
+  dependencies: "the tool's workspace file, if configured via central-workspace — informational only, not directly loaded or searched by this skill"
 ---
 
 # Resume Work

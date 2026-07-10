@@ -8,6 +8,8 @@
 
 `locate-code` maps the filesystem for a given concept and returns file paths grouped by layer. It deliberately stops at locations — no content analysis — so it runs fast and gives you a clean map to orient before diving deeper.
 
+**When available**, it uses `codebase-memory-mcp` to search the code graph for precise, fast results. If MCP is unavailable, it falls back to filesystem search via grep and glob.
+
 It searches across:
 - `app/` — controllers, models, jobs
 - `lib/` — services, clients, utilities

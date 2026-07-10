@@ -1,10 +1,11 @@
 ---
 name: init
 description: Prime — load project context by reading docs, the docs_context layer, core docs, and TODO before starting any task
-input: no arguments — invoke as-is
-output: summary of the codebase covering domain models, key workflows, and active work areas
-phase: orient
-dependencies: [.claude/workspace.md] # this is just a note but it doesn't actually load or search for this file
+metadata:
+  phase: "orient"
+  input: "no arguments — invoke as-is"
+  output: "summary of the codebase covering domain models, key workflows, and active work areas"
+  dependencies: "central-workspace (invoked if no workspace file is bootstrapped yet), codebase-indexing (index refresh)"
 ---
 
 # Prime
@@ -18,23 +19,62 @@ Use this skill when:
 - the user asks to "prime" or "load context" before starting work
 - another skill lists `init` as a dependency and context isn't loaded yet (invoke automatically)
 
+## Workspace (bootstrap if needed)
+
+Check whether a `# WORKSPACE` section is already loaded in context (the auto-load file every
+tool loads at session start — `CLAUDE.md`, `.cursorrules`, etc. — would have pulled it in before
+this skill ever runs). Do not re-derive tool detection or path conventions here — that logic
+belongs solely to `central-workspace`.
+
+- **`# WORKSPACE` present** — a workspace file already exists for this tool. Proceed to Index.
+- **`# WORKSPACE` absent and the `central-workspace` skill is available** — this project hasn't
+  been bootstrapped yet. Invoke `central-workspace` in full mode before continuing, so the config
+  keys the rest of this skill relies on (`docs_context`, `system_context`, `docs_dictionary_file`,
+  `todo_file`, etc.) resolve to real, project-specific paths instead of skill-level defaults.
+- **`# WORKSPACE` absent and `central-workspace` is unavailable** — proceed with every config key
+  at its documented default and note in the Report that no workspace is configured, recommending
+  `central-workspace` be installed.
+
+## Index (if available)
+
+Invoke the **`codebase-indexing` skill** to ensure the code graph indexes are built and fresh
+before the reading skills below run. That skill is the single writer — it checks status cheaply
+and builds only if missing or stale, so this is safe and near-instant on a warm repo. Do not
+call `index_repository` or `graphify reflect` directly here.
+
+If neither index backend is available, `codebase-indexing` reports so and the downstream skills
+fall back to manual search — proceed to Read either way. For a very large, unindexed repo, run
+`codebase-indexing` as a background agent so the build doesn't block orientation.
+
+Fresh indexes accelerate `locate-code`, `find-patterns`, `analyze-code`, and enrich the
+`architecture` skill's output.
+
 ## Read
 
-1. Read `README.md`
-2. Check for `docs_context` (default: `.docs/CONTEXT.md`) and its sibling `system.md` in the same directory, and read whichever is present — this is the agent-context layer maintained by the `architecture` skill:
-   - `docs_context` — business flows, user journeys, domain concepts, owned capabilities
-   - `system.md` — layers, data flow, domain models, invariants, file index, plus API surface, outbound dependencies, and event contracts
-   - an older `.context/` directory layer, or a monolithic single file with no `system.md`, may still exist — read what's there if present and recommend re-running `architecture` to migrate
+This skill **executes** the reading protocol; it doesn't define it. The protocol —
+tiers, reader roles, matching and budget rules — lives in `# WORKSPACE` → **Context Loading**,
+which is auto-loaded every session and is authoritative. Follow it rather than re-deriving it here.
 
-   If none exist but `README.md` or `docs_dictionary_dir` already do, don't generate them here — just note their absence in the Report and recommend running the `architecture` skill. Only missing docs across the board triggers Research below.
-3. Read `docs_dictionary_dir` (default: `docs/doc_dictionary.md`). For each entry, check its `Keywords` against the current task; read only the matching `core_docs_dir` files, not the whole directory
-4. Read `todo_file` (default: `docs/TODO.md`). If it doesn't exist, create it with a minimal template (a title and an empty task list) — this is a trivial write, not a scan, so it isn't gated behind Research below
+1. Read `docs_dictionary_file` (default: `.docs/doc_dictionary.md`) — the map. Its `## Core Context`
+   section lists what to load for this reader role; `## Features` is the keyword-matched layer.
+2. Load **Tier 0** for the *in-repo agent* role, exactly as Context Loading defines it. Also read
+   `README.md` for what/who — Tier 0 is authoritative where they disagree.
+   - An older `.context/` directory layer, or a monolithic file with no `system_context` sibling,
+     may still exist — read what's there and recommend re-running `architecture` to migrate.
+3. Load **Tier 1** for the current task by matching the dictionary's `## Features` entries, honoring
+   Context Loading's match rules and cap.
+4. If `todo_file` doesn't exist, create it with a minimal template (a title and an empty task list) —
+   a trivial write, not a scan, so it isn't gated behind Research below.
+
+If the Tier 0 docs are absent but `README.md` or `docs_dictionary_file` already exist, don't generate
+them here — note the gap in the Report and recommend running `architecture`. Only missing docs across
+the board triggers Research below.
 
 ## Research
 
-If both `README.md` and `docs_dictionary_dir` do not exist, trigger Research; otherwise skip it.
+If both `README.md` and `docs_dictionary_file` do not exist, trigger Research; otherwise skip it.
 
-Use these tools in sequence to build a full picture before doing any work:
+Use these tools in sequence to build a full picture before doing any work. All of the following skills will use `codebase-memory-mcp` if indexed (see Index step above):
 
 1. **`locate-code` skill** — map where key concepts live (models, services, jobs, controllers)
    - Run for the main domain concepts found in the README

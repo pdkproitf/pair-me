@@ -1,9 +1,10 @@
 ---
 name: commit
 description: Group git changes by logical concern and generate a commit message for each group — follows Conventional Commits 1.0.0 and commitlint rules
-input: git diff or description of changes; optionally "and commit" to also run the commits
-output: grouped file changes with commit message for each group; commits if asked
-phase: commit
+metadata:
+  phase: "commit"
+  input: "git diff or description of changes; optionally \"and commit\" to also run the commits"
+  output: "grouped file changes with commit message for each group; commits if asked"
 ---
 
 # Git Commit Message Guide

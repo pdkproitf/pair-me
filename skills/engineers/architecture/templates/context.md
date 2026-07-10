@@ -1,6 +1,6 @@
 # Template: `docs_context` (CONTEXT.md)
 
-≤100 lines · 4 required sections · no class/method names — PM-readable. This is the entry-point
+≤150 lines · 4 required sections · no class/method names — PM-readable. This is the entry-point
 file — its path *is* the `docs_context` key. Its companion `system.md` lives in the same
 directory and is linked, not embedded.
 

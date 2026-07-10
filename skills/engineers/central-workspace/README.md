@@ -22,7 +22,7 @@ It's not just about structure. It's **everything your AI needs to behave consist
 
 ## The Approach
 
-A single `config.md` becomes the central brain for all your AI prompts — one place that defines:
+A single `workspace.md` becomes the central brain for all your AI prompts — one place that defines:
 
 - **Paths** — where specs, plans, docs, and context files live
 - **Security rules** — what the AI must never touch, read, or expose
@@ -47,13 +47,14 @@ Every skill, command, and agent reads from this one file. Change it once — eve
 
 ## The Result
 
-After running `/central-config`, your project looks like this:
+After running `/central-workspace`, your project looks like this. The workspace file's location
+depends on the detected tool — this example is Claude Code; see [Reference: Tool Detection](SKILL.md#reference-tool-detection-and-file-locations) in `SKILL.md` for every tool's paths:
 
 ```
 your-project/
-├── CLAUDE.md                       ← auto-loads config on every session
+├── CLAUDE.md                       ← auto-loads workspace.md on every session (@import, Claude Code)
 ├── .claude/
-│   ├── config.md                   ← single source of truth for all AI rules
+│   ├── workspace.md                ← single source of truth for all AI rules
 │   └── skills/
 │       ├── feature-plan.md         ← uses config keys, no hardcoded paths
 │       ├── implement.md
@@ -135,4 +136,4 @@ Existing skill and command files are updated in-place: hardcoded paths in prose 
 
 ## Updating
 
-Re-run `npx skills add pdkproitf/skills@central-workspace` to pull the latest version. Re-run `central-config` in your project after adding new skills to keep config keys in sync.
+Re-run `npx skills add pdkproitf/skills@central-workspace` to pull the latest version. Re-run `central-workspace` in your project after adding new skills to keep config keys in sync.
