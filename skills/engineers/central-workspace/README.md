@@ -28,6 +28,7 @@ A single `workspace.md` becomes the central brain for all your AI prompts — on
 - **Security rules** — what the AI must never touch, read, or expose
 - **Output format** — how responses are structured, every time
 - **Quality rules** — when to ask, when to proceed, how to verify
+- **Code rules** — YAGNI, reuse before writing, no unrequested abstractions
 - **Conventions** — branch names, commit format, file naming, code style
 
 Every skill, command, and agent reads from this one file. Change it once — every tool picks it up.
