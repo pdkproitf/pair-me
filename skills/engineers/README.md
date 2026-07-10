@@ -68,32 +68,32 @@ flowchart TD
         DOCU[document]
     end
 
-    INIT -. bootstrap: no workspace found .-> CW
-    CW -. writes workspace.md: read every session .-> INIT
-    INIT -- refresh index: every session --> CI
-    INIT -. research: no docs yet .-> LC
-    LC -. then analyze: bootstrap chain .-> AC
-    AC -. then generate docs: bootstrap chain .-> ARCH
+    INIT -. "bootstrap: no workspace found" .-> CW
+    CW -. "writes workspace#46;md: read every session" .-> INIT
+    INIT -- "refresh index: every session" --> CI
+    INIT -. "research: no docs yet" .-> LC
+    LC -. "then analyze: bootstrap chain" .-> AC
+    AC -. "then generate docs: bootstrap chain" .-> ARCH
 
-    INIT -- next: plan feature --> FEAT
-    FEAT -- draft tests: before code --> DTC
-    FEAT -- hand off spec: once approved --> IMPL
-    FEAT -. find pattern: as needed .-> FP
+    INIT -- "next: plan feature" --> FEAT
+    FEAT -- "draft tests: before code" --> DTC
+    FEAT -- "hand off spec: once approved" --> IMPL
+    FEAT -. "find pattern: as needed" .-> FP
 
-    IMPL -- commit: after each phase --> COMMIT
-    IMPL -. locate file: as needed .-> LC
-    IMPL -. checkpoint: if interrupted .-> SAVE
-    SAVE -- commit WIP: always --> COMMIT
-    SAVE -. resume: next session .-> RESUME
-    RESUME -- continue phase: after restore --> IMPL
+    IMPL -- "commit: after each phase" --> COMMIT
+    IMPL -. "locate file: as needed" .-> LC
+    IMPL -. "checkpoint: if interrupted" .-> SAVE
+    SAVE -- "commit WIP: always" --> COMMIT
+    SAVE -. "resume: next session" .-> RESUME
+    RESUME -- "continue phase: after restore" --> IMPL
 
-    IMPL -- document: after shipping --> DOCU
-    ARCH -. refresh context: periodic rescan .-> DOCU
+    IMPL -- "document: after shipping" --> DOCU
+    ARCH -. "refresh context: periodic rescan" .-> DOCU
 
-    LC -. reads index: if fresh .-> CI
-    AC -. reads index: if fresh .-> CI
-    FP -. reads index: if fresh .-> CI
-    ARCH -. reads/refreshes: if stale .-> CI
+    LC -. "reads index: if fresh" .-> CI
+    AC -. "reads index: if fresh" .-> CI
+    FP -. "reads index: if fresh" .-> CI
+    ARCH -. "reads/refreshes: if stale" .-> CI
 ```
 
 **Reading the diagram:** solid arrows are direct invocations (one skill hands off to another); dashed arrows are conditional or read-only relationships. `init` ↔ `central-workspace` is intentionally two-way — `init` conditionally invokes it to bootstrap the workspace, then reads back what it wrote — every other pair is one-directional. `codebase-indexing` is the only node with incoming "reads" edges from four different skills and no outgoing invocation of its own — it's a pure dependency, never a caller, by design (see its own README for the one-writer/many-readers rationale).
