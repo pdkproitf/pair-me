@@ -1,4 +1,4 @@
-# init
+# onboard-project
 
 > Load project context before starting any task.
 
@@ -8,7 +8,7 @@ Prime your AI with the full picture of the codebase — docs, domain models, act
 
 ## What it does
 
-`init` reads the project's documentation layer in a fixed order:
+`onboard-project` reads the project's documentation layer in a fixed order:
 
 0. **[Optional] Index the codebase** — if `codebase-memory-mcp` is available and the project isn't indexed yet, it builds the code graph. This accelerates all downstream code search operations.
 1. `README.md` — what the app is and who uses it
@@ -33,7 +33,7 @@ After reading, it reports a compact orientation summary — not a restatement of
 ## Install
 
 ```bash
-npx skills add pdkproitf/skills@init
+npx skills add pdkproitf/skills@onboard-project
 ```
 
 ---
@@ -42,12 +42,12 @@ npx skills add pdkproitf/skills@init
 
 **Claude Code:**
 ```
-/init
+/onboard-project
 ```
 
 **Other tools:**
 ```
-@init
+@onboard-project
 ```
 
 No arguments needed. The skill reads project context and reports automatically.

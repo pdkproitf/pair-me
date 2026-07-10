@@ -1,5 +1,5 @@
 ---
-name: init
+name: onboard-project
 description: Prime — load project context by reading docs, the docs_context layer, core docs, and TODO before starting any task
 metadata:
   phase: "orient"
@@ -17,7 +17,7 @@ Execute the `Read`, `Research` and `Report` sections in order to build a complet
 Use this skill when:
 - this is a new session and project context has not yet been loaded
 - the user asks to "prime" or "load context" before starting work
-- another skill lists `init` as a dependency and context isn't loaded yet (invoke automatically)
+- another skill lists `onboard-project` as a dependency and context isn't loaded yet (invoke automatically)
 
 ## Workspace (bootstrap if needed)
 
