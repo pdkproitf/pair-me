@@ -1,18 +1,27 @@
 # document
 
-> Generate feature documentation from code changes and specs — creates a markdown doc and registers it in the conditional context index.
+Generate feature documentation from code changes and specs — creates markdown docs and registers them in the conditional context index.
 
 ---
 
 ## What it does
 
-`document` analyzes `git diff origin/main` to understand what was built, optionally reads the original spec for requirements context, and writes a structured markdown doc to `docs/core/`. It also updates `doc_dictionary.md` — a registry that tells the AI when to load each doc based on keywords, so documentation surfaces automatically when relevant.
+**Analyzes and documents:**
+- Diffs against `origin/main` to understand what was built
+- Original spec (optional) for requirements context
+- Creates structured markdown doc in `docs/core/`
+- Updates `doc_dictionary.md` registry for automatic context loading
 
-If the feature changed something structural (a new layer, domain model, workflow, external dependency, or code convention) and `docs/CONTEXT.md` already exists, it also patches just the matching section of that file — never the Overview section, which needs a full-system view to update accurately. It doesn't create `CONTEXT.md` from scratch — a single feature's diff is too narrow a view for that; use the `architecture` skill for a full codebase scan instead.
+**Patches existing docs:**
+- Updates `docs/CONTEXT.md` sections if feature changed something structural (new layer, domain model, workflow, dependency, convention)
+- Never patches Overview section (needs full-system view — use `architecture` skill instead)
+- Never creates `CONTEXT.md` from scratch (too narrow a view)
 
-If the feature is significant enough that a human-facing `README.md` should mention it, the skill flags a suggested one-line addition in its output — it never edits `README.md` directly, since that file's wording and voice are a human's call.
+**README suggestions:**
+- Flags suggested one-line additions for human-facing `README.md`
+- Never edits `README.md` directly (wording/voice is a human's call)
 
-The generated doc covers:
+**Generated doc sections:**
 - Overview of what was built and why
 - Screenshots (if provided, copied to `docs/assets/`)
 - What was built (components, features)
@@ -26,9 +35,9 @@ The generated doc covers:
 
 ## When to use
 
-- After completing a feature — document what was built before closing the branch
-- When a spec exists and you want the doc to reference original requirements
-- To keep `docs/core/` current after significant changes
+- After completing a feature — document before closing the branch
+- When a spec exists — reference original requirements
+- After significant changes — keep `docs/core/` current
 
 ---
 
@@ -55,19 +64,25 @@ npx skills add pdkproitf/skills@document
 @document [adw_id] [spec_path] [screenshots_dir]
 ```
 
-All arguments are optional. Without arguments, the skill derives everything from the current git diff.
+**All arguments optional:**
+- Without arguments: derives everything from current git diff
+- `adw_id`: optional identifier (e.g. `adw-42`)
+- `spec_path`: optional path to spec file
+- `screenshots_dir`: optional directory of screenshots
 
 ---
 
 ## Output
 
-Returns the path to the created documentation file:
-
+**Generated documentation file:**
 ```
 docs/core/feature-add-retry-logic.md
 docs/core/feature-adw-42-add-retry-logic.md
 ```
 
-If the feature is README-worthy, a suggested one-line addition follows the path — for a human to apply, not the skill.
+**Registry update:**
+- Updates `doc_dictionary.md` with new entry
+- Enables automatic context loading in future sessions
 
-Also updates `doc_dictionary.md` with an entry for the new doc, enabling automatic context loading in future sessions.
+**README suggestions:**
+- If feature is significant: suggests one-line addition for human review
