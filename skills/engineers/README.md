@@ -260,6 +260,18 @@ npx skills add pdkproitf/skills@commit
 
 ---
 
+### [create-pr](create-pr/)
+
+> Open a GitHub pull request via the cheapest available method — sourcing its title and body from an existing spec/plan instead of re-analyzing the diff.
+
+Detects what's available and creates the PR in order of token efficiency: `gh` CLI → GitHub MCP (gated behind a confirmation, since it's the most expensive path) → `git push` + a compare URL. When a spec from `feature`/`implement` exists, it derives the title, summary, and changes from that plan rather than re-reading the full diff. Formats the title as a Conventional Commit, follows the project's PR template, links issues, and can wait on CI.
+
+```bash
+npx skills add pdkproitf/skills@create-pr
+```
+
+---
+
 ### [document](document/)
 
 > Generate feature documentation from code changes and specs — creates a markdown doc and registers it in the conditional context index.
