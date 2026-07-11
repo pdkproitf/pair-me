@@ -1,11 +1,11 @@
 ---
-name: init
+name: onboard-project
 description: Prime — load project context by reading docs, the docs_context layer, core docs, and TODO before starting any task
 metadata:
   phase: "orient"
   input: "no arguments — invoke as-is"
   output: "summary of the codebase covering domain models, key workflows, and active work areas"
-  dependencies: "central-workspace (full mode if no workspace file is bootstrapped yet, validate mode to check an existing one for drift), codebase-indexing (index refresh)"
+  dependencies: "central-workspace (invoked if no workspace file is bootstrapped yet), codebase-indexing (index refresh)"
 ---
 
 # Prime
@@ -17,7 +17,7 @@ Execute the `Read`, `Research` and `Report` sections in order to build a complet
 Use this skill when:
 - this is a new session and project context has not yet been loaded
 - the user asks to "prime" or "load context" before starting work
-- another skill lists `init` as a dependency and context isn't loaded yet (invoke automatically)
+- another skill lists `onboard-project` as a dependency and context isn't loaded yet (invoke automatically)
 
 ## Workspace (bootstrap if needed)
 
@@ -26,6 +26,7 @@ tool loads at session start — `CLAUDE.md`, `.cursorrules`, etc. — would have
 this skill ever runs). Do not re-derive tool detection or path conventions here — that logic
 belongs solely to `central-workspace`.
 
+- **`# WORKSPACE` present** — a workspace file already exists for this tool. Proceed to Index.
 - **`# WORKSPACE` absent and the `central-workspace` skill is available** — this project hasn't
   been bootstrapped yet. Invoke `central-workspace` in full mode before continuing, so the config
   keys the rest of this skill relies on (`docs_context`, `system_context`, `docs_dictionary_file`,
@@ -33,16 +34,6 @@ belongs solely to `central-workspace`.
 - **`# WORKSPACE` absent and `central-workspace` is unavailable** — proceed with every config key
   at its documented default and note in the Report that no workspace is configured, recommending
   `central-workspace` be installed.
-- **`# WORKSPACE` present** — presence isn't the same as current. If `central-workspace` is
-  available, invoke it in **Validate mode** (read-only — see that skill's Modes section): it
-  diffs the existing workspace file against its own schema and reports drift (missing keys like
-  `system_context`/`service_manifest`, a missing `## Context Loading` section, an unmigrated
-  `docs_dictionary_dir` key) without writing anything. Don't re-derive that schema here — it lives
-  solely in `central-workspace` and would drift out of sync if duplicated. If drift is reported,
-  do not auto-patch — `workspace.md` is typically git-tracked and shared across a team, so record
-  the specific drift for the Report's Gaps found line and let the user decide whether to run
-  `central-workspace` in full mode. If `central-workspace` is unavailable, proceed with the
-  workspace as-is.
 
 ## Index (if available)
 
@@ -68,24 +59,20 @@ which is auto-loaded every session and is authoritative. Follow it rather than r
    section lists what to load for this reader role; `## Features` is the keyword-matched layer.
 2. Load **Tier 0** for the *in-repo agent* role, exactly as Context Loading defines it. Also read
    `README.md` for what/who — Tier 0 is authoritative where they disagree.
-   - **Every Tier 0 path must resolve on disk — check each one, not just the ones that come to
-     mind.** Walk the Tier 0 keys (`docs_context`, `system_context`, `todo_file`) against the
-     filesystem. A key that resolves to a missing file is a gap regardless of which key it is: a
-     monolithic `docs_context` with no `system_context` sibling, an older `.context/` directory
-     layer, or any other Tier 0 target that isn't there. Read whatever partial layer exists, don't
-     generate the missing piece here, and record the specific missing path(s) for the Report's
-     Gaps found line with a recommendation to run `architecture`.
+   - An older `.context/` directory layer, or a monolithic file with no `system_context` sibling,
+     may still exist — read what's there and recommend re-running `architecture` to migrate.
 3. Load **Tier 1** for the current task by matching the dictionary's `## Features` entries, honoring
    Context Loading's match rules and cap.
 4. If `todo_file` doesn't exist, create it with a minimal template (a title and an empty task list) —
    a trivial write, not a scan, so it isn't gated behind Research below.
 
+If the Tier 0 docs are absent but `README.md` or `docs_dictionary_file` already exist, don't generate
+them here — note the gap in the Report and recommend running `architecture`. Only missing docs across
+the board triggers Research below.
+
 ## Research
 
-If both `README.md` and `docs_dictionary_file` do not exist, trigger Research below. Otherwise
-skip it — but the Tier 0 check above still applies independently: `README.md` existing is enough
-to skip a from-scratch Research pass, but it does not excuse a missing `system_context` or any
-other partial Tier 0 layer. That gap gets reported regardless of whether Research ran.
+If both `README.md` and `docs_dictionary_file` do not exist, trigger Research; otherwise skip it.
 
 Use these tools in sequence to build a full picture before doing any work. All of the following skills will use `codebase-memory-mcp` if indexed (see Index step above):
 
@@ -108,8 +95,3 @@ Keep this a compact orientation summary — reference what each doc said, don't 
 - Key domain models and their relationships
 - Main workflows (e.g. how a video gets published)
 - Active work areas (from `todo_file`)
-- **Gaps found** — always include this line, even when there's nothing to report. List each gap
-  noted-but-not-fixed above with a one-line command to resolve it: workspace drift
-  `central-workspace` reported (recommend full-mode `central-workspace`), any Tier 0 path that
-  didn't resolve (recommend `architecture`), a missing `docs_dictionary_file`, or anything else
-  flagged along the way. If nothing was found, write `Gaps found: none`.
