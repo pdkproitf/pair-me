@@ -5,7 +5,7 @@ metadata:
   phase: "plan"
   input: "[adw_id] <prompt> — adw_id is optional; prompt is a plain-language description of the feature"
   output: "path to the written spec file in specs_dir"
-  dependencies: "onboard-project"
+  dependencies: "init"
 ---
 
 
@@ -45,9 +45,9 @@ Follow these steps **in order**. Do not skip ahead.
 
 ### Step 1: Load Project Context
 
-1. If this is a new session and project context is not yet loaded, invoke the `onboard-project` skill before continuing
-   - onboard-project loads project context and `# WORKSPACE` rules automatically
-2. Use context loaded by onboard-project for the research phase
+1. If this is a new session and project context is not yet loaded, invoke the `init` skill before continuing
+   - init loads project context and `# WORKSPACE` rules automatically
+2. Use context loaded by init for the research phase
 
 ### Step 2: Research & Design
 
@@ -94,7 +94,7 @@ Paste the output into the **Testing Strategy** section of the plan.
 ---
 
 ## Feature Description
-<What this feature does and why it matters. 2–4 sentences.>
+<What this feature does and why it matters. 2–4 sentences. Represent text using bullets avoid long paragraphs.>
 
 ## User Story
 As a <type of user>,
