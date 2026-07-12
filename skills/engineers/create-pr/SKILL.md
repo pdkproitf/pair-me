@@ -148,6 +148,7 @@ git push -u origin HEAD
 # https://github.com/OWNER/REPO/compare/<branch>?expand=1
 ```
 The push output usually already prints a "Create a pull request" link — surface it.
+Provide the PR's description and The PR body structure
 
 ---
 

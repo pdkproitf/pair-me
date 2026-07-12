@@ -13,7 +13,13 @@ follow that instead. Otherwise use:
 
 ```markdown
 ## Summary
-<!-- 1-3 sentences: what this PR does and why -->
+### Context
+<!-- 1-3 sentences: Provide a clear, concise overview of what problem and why. explain in bullet-->
+### Solution
+<!-- 1-3 sentences: solution. explain in bullet-->
+
+## Ticket / Issue Link
+<!-- spec *.md file link if exist -->
 
 ## Related Issue
 <!-- Fixes #NNN or Closes #NNN -->
