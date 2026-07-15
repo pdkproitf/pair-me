@@ -87,6 +87,7 @@ Governs whether code should exist and how much of it — not how the code that m
 - **Root cause, not symptom** — fix shared code once where every caller routes through, not separately in each caller
 - **Mark deliberate corners** — a simplification with a known ceiling (global lock, O(n²) scan, naive heuristic) gets a comment naming the ceiling and the upgrade trigger
 - **Never simplify away** — input validation at trust boundaries, error handling that prevents data loss, security, accessibility, or anything explicitly requested
+- **Preferring constants over string literals** - never use raw, hardcoded string literals for identifying statuses, configuration keys, event names, system roles, or recurring values or role. All such values must be abstracted into central constants, configurations, or enums.
 
 ---
 
