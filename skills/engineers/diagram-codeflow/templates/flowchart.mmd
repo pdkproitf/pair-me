@@ -1,0 +1,28 @@
+%% <name> — POST /v1/orders handler. Exits: 201 Created, 402 credit limit.
+%% Traced at <sha> on <branch>, <YYYY-MM-DD>.
+%% Sources: app/api/orders.py:42-96
+%% call-chain / runbook, code focus. TD is fixed for this kind.
+flowchart TD
+    S(["START: POST /v1/orders"]) --> N1
+
+    subgraph handle["handle_order() — app/api/orders.py:42"]
+        N1["1. parse and validate request body"] --> D2{"2. order.total > account.credit_limit?"}
+        D2 -->|yes| T402(["2.1. return 402 credit limit exceeded"])
+        D2 -->|no| N3["2.2. reserve inventory"]
+        N3 --> D4{"3. reservation ok?"}
+        D4 -->|no| T409(["3.1. return 409 out of stock"])
+        D4 -->|yes| N5["3.2. persist order (status=pending)"]
+    end
+
+    N5 --> DB[("Postgres orders")]
+    DB --> N6["4. build response body"]
+    N6 --> T201(["4.1. return 201 Created"])
+    N6 -.->|"publish order.created<br/>orders/events.py:12"| Q[/"order.events"/]
+    Q --- NOTE["consumer is a sibling .md"]
+
+    classDef ok fill:#d5e8d4
+    classDef bad fill:#f8cecc
+    classDef store fill:#ffe6cc
+    class T201 ok
+    class T402,T409 bad
+    class DB store

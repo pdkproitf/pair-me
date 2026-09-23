@@ -1,0 +1,41 @@
+%% <name> — structure of the order path: what runs, in what order, and what waits.
+%% Traced at <sha> on <branch>, <YYYY-MM-DD>.
+%% Sources: services/*/routes.py · services/*/worker.py · services/*/config.py
+%% structure / service map. 6-12 nodes, no orphans, no unintended cycles.
+%% Every edge is a runtime call numbered in execution order; no import is ever an edge.
+flowchart LR
+    S(["START: POST /v1/orders"])
+
+    subgraph edge["edge — services/gateway/routes.py:41"]
+        SVC_Api["API Gateway"]
+    end
+
+    subgraph team_orders["orders — team-orders, services/orders/service.py:18"]
+        SVC_Orders["Order Service"]
+        DB_Orders[("Postgres orders")]
+    end
+
+    subgraph team_pay["billing — team-payments, services/billing/worker.py:12"]
+        SVC_Billing["Billing Worker"]
+    end
+
+    Q_Events[/"order.events"/]
+    EXT_Stripe{{"Stripe"}}
+    T_Accepted(["202 Accepted"])
+    T_Charged(["charge recorded"])
+
+    S --> SVC_Api
+    SVC_Api -->|"1. await HTTP POST /internal/orders, 2s timeout<br/>services/gateway/routes.py:58"| SVC_Orders
+    SVC_Orders -->|"2. await INSERT order, pool of 10<br/>services/orders/config.py:14"| DB_Orders
+    SVC_Orders -.->|"3. publish order.created, fire-and-forget<br/>services/orders/events.py:12"| Q_Events
+    SVC_Orders --> T_Accepted
+
+    Q_Events -.->|"4. consume, prefetch 8, own task per message<br/>services/billing/worker.py:20"| SVC_Billing
+    SVC_Billing -->|"5. await charge, 5s timeout, 3 retries<br/>services/billing/stripe.py:33"| EXT_Stripe
+    SVC_Billing -->|"5. await status writeback, concurrent with the charge via asyncio.gather<br/>services/billing/worker.py:61"| DB_Orders
+    SVC_Billing --> T_Charged
+
+    classDef store fill:#ffe6cc
+    classDef external fill:#e1d5e7
+    class DB_Orders store
+    class EXT_Stripe external

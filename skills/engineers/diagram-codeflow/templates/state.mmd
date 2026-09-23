@@ -1,0 +1,24 @@
+%% <name> — order payment lifecycle. Terminals: paid, failed, expired.
+%% Traced at <sha> on <branch>, <YYYY-MM-DD>.
+%% Sources: orders/service.py:31 · billing/api.py:22 · billing/hooks.py:88 · billing/reconcile.py:64
+%% state-lifecycle. Exactly one [*] --> start, one --> [*] per real outcome,
+%% every transition labelled with its event, step numbers inside the state name.
+stateDiagram-v2
+    direction LR
+
+    state "1. pending" as Pending
+    state pay_check <<choice>>
+    state "2. awaiting capture" as Awaiting
+    state "3. paid" as Paid
+    state "4. failed" as Failed
+
+    [*] --> Pending : order.created<br/>orders/service.py:31
+    Pending --> pay_check : payment.submitted<br/>billing/api.py:22
+    pay_check --> Awaiting : gateway pending<br/>billing/stripe.py:94
+    pay_check --> Failed : card declined<br/>billing/stripe.py:99
+    Awaiting --> Paid : webhook.charge_succeeded<br/>billing/hooks.py:88
+    Awaiting --> Failed : capture.timeout<br/>billing/reconcile.py:64
+    Paid --> [*]
+    Failed --> [*]
+
+    note right of Awaiting : reconciler re-checks every 60s,<br/>up to 30 min, then times out

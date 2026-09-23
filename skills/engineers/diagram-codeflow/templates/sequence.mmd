@@ -1,0 +1,41 @@
+%% <name> — POST /v1/orders. Exits: 201 Created, 402 Payment Required.
+%% Traced at <sha> on <branch>, <YYYY-MM-DD>.
+%% Sources: api/routes.py:18-31 · orders/service.py:40-66 · billing/stripe.py:80-99
+sequenceDiagram
+    autonumber
+    actor Client
+    participant SVC_Api as POST /v1/orders<br/>api/routes.py:18
+    participant SVC_Orders as Order Service<br/>orders/service.py:40
+    participant DB_Orders as Postgres orders
+    participant EXT_Stripe as Stripe
+    participant Q_Events as order.events
+
+    Client->>SVC_Api: POST /v1/orders<br/>api/routes.py:18
+    activate SVC_Api
+    SVC_Api->>SVC_Orders: create_order(payload)<br/>api/routes.py:24
+    activate SVC_Orders
+
+    SVC_Orders->>DB_Orders: INSERT order (status=pending)<br/>orders/repo.py:51
+    DB_Orders-->>SVC_Orders: order_id<br/>orders/repo.py:57
+
+    alt charge succeeds
+        rect rgb(213,232,212)
+            SVC_Orders->>EXT_Stripe: POST /v1/charges<br/>billing/stripe.py:88
+            EXT_Stripe-->>SVC_Orders: 200 charge_id<br/>billing/stripe.py:94
+            SVC_Orders->>DB_Orders: UPDATE status=paid<br/>orders/repo.py:73
+            SVC_Orders-->>SVC_Api: Order(id, status=paid)<br/>orders/service.py:66
+            SVC_Api-->>Client: 201 Created<br/>api/routes.py:31
+            SVC_Orders-)Q_Events: publish order.created<br/>orders/events.py:12
+            note over SVC_Orders,Q_Events: fire-and-forget; the consumer is a sibling .md
+        end
+    else card declined
+        rect rgb(248,206,204)
+            SVC_Orders->>EXT_Stripe: POST /v1/charges<br/>billing/stripe.py:88
+            EXT_Stripe-->>SVC_Orders: 402 card_declined<br/>billing/stripe.py:94
+            SVC_Orders->>DB_Orders: UPDATE status=failed<br/>orders/repo.py:81
+            SVC_Orders-->>SVC_Api: OrderRejected<br/>orders/service.py:70
+            SVC_Api-->>Client: 402 Payment Required<br/>api/errors.py:40
+        end
+    end
+    deactivate SVC_Orders
+    deactivate SVC_Api

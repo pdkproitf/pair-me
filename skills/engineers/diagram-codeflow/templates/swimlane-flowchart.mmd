@@ -1,0 +1,42 @@
+%% <name> — checkout pipeline, POST /v1/orders to billing. Exits: 201, 409 out of stock.
+%% Traced at <sha> on <branch>, <YYYY-MM-DD>.
+%% Sources: services/orders/api.py:31-88 · services/billing/worker.py:20-64
+%% One subgraph per service, never per function. Mermaid has no real swimlanes —
+%% see "What Mermaid cannot do" in references/mermaid-kinds.md before relying on lane order.
+flowchart LR
+    S(["START: POST /v1/orders"]) --> A1
+
+    subgraph gw["API Gateway"]
+        A1["1. accept and authenticate the request"]
+    end
+
+    subgraph orders["Order Service — services/orders/api.py:31"]
+        O2["2. validate payment method"]
+        D3{"3. inventory available?"}
+        O4["3.1. reserve stock and open the order"]
+        T409(["3.2. reject — out of stock (409)"])
+    end
+
+    subgraph billing["Billing Service — services/billing/worker.py:20"]
+        B5["4. charge the payment method"]
+        T201(["5. order confirmed (201)"])
+    end
+
+    DB[("Postgres orders")]
+    Q[/"order.events"/]
+
+    A1 -->|"POST /internal/orders<br/>services/orders/api.py:31"| O2
+    O2 --> D3
+    D3 -->|no| T409
+    D3 -->|yes| O4
+    O4 --> DB
+    O4 -.->|"publish order.created<br/>services/orders/events.py:12"| Q
+    Q -->|"consumed by the billing worker<br/>services/billing/worker.py:20"| B5
+    B5 --> T201
+
+    classDef ok fill:#d5e8d4
+    classDef bad fill:#f8cecc
+    classDef store fill:#ffe6cc
+    class T201 ok
+    class T409 bad
+    class DB store

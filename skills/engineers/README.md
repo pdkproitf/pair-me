@@ -284,6 +284,54 @@ npx skills add pdkproitf/skills@document
 
 ---
 
+### [design-patterns](design-patterns/)
+
+> Name the patterns a codebase already uses — then judge fit before recommending a new one.
+
+Identifies the patterns in use, evaluates a design option against them, applies them incrementally during an implementation phase, and reviews code or a design doc for opportunities and anti-patterns.
+
+```bash
+npx skills add pdkproitf/skills@design-patterns
+```
+
+---
+
+### [diagram-codeflow](diagram-codeflow/)
+
+> Diagram a code flow as one parse-clean Mermaid diagram, with every step and term explained.
+
+Asks code focus vs flow focus first, picks the Mermaid kind with a must-include checklist, and writes one markdown file per diagram — the fence plus per-step explanation, glossary, and omissions. Also updates, splits, annotates, or repairs existing diagrams.
+
+```bash
+npx skills add pdkproitf/skills@diagram-codeflow
+```
+
+---
+
+### [gather-dependency-context](gather-dependency-context/)
+
+> Learn a dependency repo's API surface from its service manifest — no code reading.
+
+Resolves the repo, reads the manifest `architecture` produced, checks staleness, presents a task-scoped summary, and stores the entry to `CLAUDE.md` on confirmation.
+
+```bash
+npx skills add pdkproitf/skills@gather-dependency-context
+```
+
+---
+
+### [reply-pr-comment](reply-pr-comment/)
+
+> Answer every PR review comment — validated against the code at the PR head commit.
+
+Finds the PR for the current branch (GitHub or Bitbucket), reads every thread, validates each claim against source, and reports it as needs-code / reply-only / needs-a-decision with paste-ready reply text, committing the changes the valid ones require.
+
+```bash
+npx skills add pdkproitf/skills@reply-pr-comment
+```
+
+---
+
 ## Install skills
 
 Install all skills at once:
