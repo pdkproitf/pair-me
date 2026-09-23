@@ -11,9 +11,10 @@
 The plan covers:
 - Feature description and user story
 - Relevant files (existing and new)
+- Code structure at a high level — components, boundaries, and the seams tests will stub, settled with `design-patterns` in `design` mode (method-level shape stays with `implement`)
 - Phased implementation (Foundation → Core → Integration)
 - Step-by-step tasks with specific file paths
-- Testing strategy — the behaviors that must hold, in plain language (`implement` turns them into seam-anchored cases via `define-test-case`, once the seams exist)
+- Testing strategy — the behaviors that must hold, in plain language, plus the outer seam they are proven through and any behavior that needs a unit case (`implement` turns them into seam-anchored integration cases via `define-test-case`, once the seams exist)
 - Acceptance criteria and validation commands
 
 ---

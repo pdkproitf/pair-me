@@ -8,12 +8,14 @@
 
 `implement` reads a spec file produced by `feature` and executes it end to end. It follows the plan exactly, adapts only when the codebase has evolved since the spec was written, and surfaces mismatches rather than silently deviating.
 
-For each phase it:
-1. Implements every step in the phase
-2. Runs the spec's validation commands and fixes failures
-3. Updates checkboxes in the spec (`- [ ]` → `- [x]`)
-4. Reports what was done and waits for confirmation before moving on
-5. Commits the phase using the `commit` skill
+For each phase it works structure first, detail second:
+1. Locks the planned structure onto real files — components mapped to paths, seams confirmed injectable, `design-patterns` in `apply` mode where a pattern is being realized
+2. Drafts seam-anchored test cases via `define-test-case`
+3. Implements the detail inside those components
+4. Runs the spec's validation commands and fixes failures
+5. Updates checkboxes in the spec (`- [ ]` → `- [x]`)
+6. Reports what was done and waits for confirmation before moving on
+7. Commits the phase using the `commit` skill
 
 If the spec has checkmarks from a prior session, it picks up from the first unchecked step.
 

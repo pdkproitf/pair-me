@@ -44,7 +44,7 @@ Group file changes by logical concern, e.g.:
 
 ## Message Format
 
-**Header:** `<type>(<scope>): <subject>` (72 chars max)
+**Header:** `<type>(<scope>): <subject>` (100 chars max, including type and scope)
 - type: lowercase, see Type Reference below
 - scope: optional, lowercase, describes what changed
 - subject: lowercase, imperative, no period
@@ -106,6 +106,6 @@ Separate groups with `---`.
 
 - [ ] Type is lowercase and present
 - [ ] Subject is imperative mood, lowercase, no period
-- [ ] Subject under 72 chars
+- [ ] Header line (type + scope + subject) is 100 chars or fewer
 - [ ] Body explains only what changed and why (fact-based, no fluff)
 - [ ] Breaking changes marked with `!` or `BREAKING CHANGE:` footer

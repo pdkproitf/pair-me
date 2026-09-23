@@ -161,6 +161,27 @@ Check `docs_context` (default: `docs/CONTEXT.md`).
 
 ---
 
+## Step 6b — Update Service Manifest and System Context (if configured)
+
+Check whether `service_manifest` is defined in the workspace (default: `service-manifest.md` alongside `system_context`).
+
+- **If not configured or files do not exist** — skip this step.
+- **If configured**, determine whether this feature changed the contract surface:
+  - New, removed, or changed API endpoint (path, method, request/response shape)
+  - New, removed, or changed RabbitMQ/event contract
+  - New or removed external service consumed
+  - Changed auth, SLA, or compliance constraint
+
+  Most features do not change the contract surface — they change internals only. If none of the above apply, skip this step.
+
+- **If the contract surface changed**, apply both updates in the same edit:
+  1. **`system_context`** (`system.md`) — patch the `## API Surface` or `## Events` or `## External Dependencies` section that owns the changed contract. Do not regenerate the file or touch unrelated sections.
+  2. **`service_manifest`** — patch the matching `publishes:` or `consumes:` YAML block and update the `updated:` date in the frontmatter to today's date.
+
+  Keep both files in sync — a change to one is a change to the other.
+
+---
+
 ## Step 7 — Update Conditional Documentation Registry
 
 1. Read `docs_dictionary_file`

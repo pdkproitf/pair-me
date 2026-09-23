@@ -5,7 +5,7 @@ metadata:
   phase: "orient"
   input: "no arguments — scans the current codebase"
   output: "three artifacts for the current repo — CONTEXT.md (business), system.md (technical), and service-manifest.md (portable, multi-repo-aggregation unit)"
-  dependencies: "codebase-memory-mcp, graphify"
+  dependencies: "codebase-indexing, design-patterns, codebase-memory-mcp, graphify"
 ---
 
 # Map Architecture
@@ -21,7 +21,7 @@ repo's knowledge with others' — without ever re-scanning code. Three artifacts
 
 | File | Answers | Read by |
 |---|---|---|
-| `docs_context` (default: `.docs/CONTEXT.md`) | What does it do? Business flows, user journeys, domain concepts, owned capabilities. | anyone designing a feature or writing stories — PM-readable |
+| `docs_context` (default: `.docs/CONTEXT.md`) | What does it do? Business flows, user journeys, domain concepts, owned capabilities — plus an optional one-glance system diagram. | anyone designing a feature or writing stories — PM-readable |
 | `system.md` (e.g. `.docs/system.md`) | How is it built and what does it expose? Layers, data flow, domain models, invariants, file index, API surface, outbound dependencies, event contracts. | developers, engineers, and AI agents touching code or integrating with it |
 | `service-manifest.md` (`.docs/service-manifest.md`) | Who is this service and what contracts does it publish/consume? Portable registry entry for cross-repo orchestration. | a multi-repo orchestrator skill/agent aggregating many repos |
 
@@ -109,7 +109,7 @@ Then read the artifacts (for both single-service and multi-service contexts):
 1. **If `.docs/indexing/graphify/LESSONS.md` was produced by graphify**, parse it to extract:
    - **God nodes** → central entities (identify service boundaries)
    - **Community clusters** → semantically related components (identify owned domains)
-   - **Architecture patterns** → recurring design patterns (extract topology rules)
+   - **Architecture patterns** → recurring structural motifs (extract topology rules). graphify reports that a motif *recurs*; naming it is Step 2b's **Patterns in use** row, via `design-patterns`
    - **Prior decisions** → implicit or explicit ADRs (list in Architecture Decisions section)
 
 2. **If graphify was unavailable** (no `.docs/indexing/graphify/LESSONS.md`): proceed with manual extraction from README and code comments.
@@ -135,6 +135,7 @@ nothing is mined twice. For each signal, try the primary tool first; fall back i
 | **Events** | `codebase-memory-mcp` `search_code()` | Search for @RabbitListener/@KafkaListener | grep listeners + `application.yml`/`application.properties` |
 | **Business workflows** | `graphify` community detection | Clusters of related entities/endpoints | Read integration tests + `README.md` + docs |
 | **Purpose + concepts** | `graphify` semantic relationships | Query entity glossary + domain clusters | Read `README.md`, `docs/`, comments |
+| **Patterns in use** | `design-patterns` (`identify` mode) | Pass the facts already mined above — layers, domain models, class names, file index | Same skill, reading the file index manually |
 
 **If both codebase-memory-mcp and graphify unavailable:**
 Use `locate-code` / `analyze-code` skills for traversal, or fall back to manual grep + file reading per the "Fallback" column above.
@@ -155,14 +156,44 @@ multi-repo-ready.
 4. Fill User Journeys from Step 2c facts (endpoint groups + listener classes + tests)
 5. Fill Domain Concepts (business entities from graphify god nodes)
 6. Fill Owned Capabilities from Step 2c
+7. Decide on the optional **System at a Glance** diagram (see below)
 
-File: `.docs/CONTEXT.md` · ≤150 lines · **`type: business-context`**.
+File: `.docs/CONTEXT.md` · ≤150 lines, ≤175 with the diagram · **`type: business-context`**.
+
+#### The optional "System at a Glance" diagram
+
+A single mermaid flowchart at the **bottom** of CONTEXT.md: components and their runtime as nodes,
+transport and payload on the arrows (`HTTPS · /orders`, `AMQP · order.created`, `JDBC`). Topology
+alone would just restate `system.md`'s Data Flow — topology *with* transport and tech is the one
+view neither Data Flow nor Tech Stack gives on its own, which is the only reason this section
+earns its lines.
+
+**Never generate it unprompted.** Decide which case applies:
+
+| Situation | Action |
+|---|---|
+| Fresh generation | **Ask once**, after the four required sections are written. Offer it, describe what it adds in one line, and default to **no** — a repo that doesn't want it should get there by saying nothing. |
+| Reconcile, diagram already present | Re-derive it from this run's facts. Don't ask — it's already opted in. |
+| Reconcile, diagram absent | **Don't ask, don't add.** Its absence is a prior decision. Only add it if the user asks for it in this run. |
+| User explicitly requested a diagram | Generate it; skip the ask. |
+
+**Render it after Step 3.2**, appending to the CONTEXT.md already written, so every node and label
+can be checked against the `system.md` just rendered. Like `service-manifest.md`, this is a
+*projection*, not independent authorship: nodes trace to Architecture Map rows, File Index entries,
+or External Dependencies systems; transports and versions trace to Tech Stack, External
+Dependencies, or Events. Invent nothing here that isn't already recorded there.
+
+Constraints live in the template's authoring rules — ≤12 nodes, ≤25 lines, component granularity
+only (`Order Service`, never `OrderController`, since this file stays PM-readable).
 
 ### Step 3.2 — Render system.md
 
 1. Open [templates/system.md](templates/system.md)
 2. Fill all required sections from Step 2c facts (layers, data flow, API surface, etc.)
-3. Omit skippable sections (API Surface, External Dependencies, Events) if none found
+3. Fill **Patterns in Use** from the `design-patterns` `identify` output — only patterns the
+   codebase is organized around, capped at 8 bullets. This section records conventions a
+   contributor must match; it is not an assessment, so carry no recommendations into it
+4. Omit skippable sections (Patterns in Use, API Surface, External Dependencies, Events) if none found
 
 File: `.docs/system.md` · ≤300 lines · **`type: system-context`**.
 
@@ -215,8 +246,12 @@ and the manifest template's "How the orchestrator uses it". A single-repo `archi
   `type / service / version / updated / tags`; set `updated:` to today. On reconcile, bump
   `updated:` only for files whose content actually changed.
 - `system.md` has three independently-skippable interface sections (API Surface, External
-  Dependencies, Events) — omit a section the service genuinely has none of; the rest of the
-  file is always produced. See the template's authoring notes for the per-section rules.
+  Dependencies, Events) plus a skippable **Patterns in Use** — omit a section the service
+  genuinely has none of; the rest of the file is always produced. See the template's authoring
+  notes for the per-section rules.
+- `CONTEXT.md`'s four sections are always produced; its **System at a Glance** diagram is the one
+  opt-in section in the layer — never added without being asked for (Step 3.1), never removed once
+  present.
 - Templates use `[docs_context]` as a placeholder to resolve to the actual configured path when writing the file.
 
 ---
@@ -228,7 +263,7 @@ Inline checks — no external linter required:
 **All files:**
 - **Line caps**: `wc -l` per file ≤ its template's limit:
   - Orchestrator CONTEXT.md: ≤150 lines
-  - Single-service CONTEXT.md: ≤150 lines
+  - Single-service CONTEXT.md: ≤150 lines (≤175 if the optional diagram is present)
   - system.md: ≤300 lines
   - service-manifest.md: ≤150 lines
 - **Required headings**: grep each `##`/`###` heading the corresponding template requires.
@@ -238,6 +273,17 @@ Inline checks — no external linter required:
 
 **system.md only:**
 - **File Index paths**: every `src/...` glob resolves on disk (`ls`/glob).
+
+**CONTEXT.md's "System at a Glance" (only if present):**
+- Section is **last** in the file; the mermaid block opens `flowchart` and is ≤25 lines with ≤12 nodes.
+- **Every node traces to system.md** — an Architecture Map row, a File Index entry, or an External
+  Dependencies system. Anything outside this repo is marked `(external)`.
+- **Every arrow carries a transport**, and each transport/version appears in system.md's Tech Stack,
+  External Dependencies, or Events. An unlabelled arrow means the section is duplicating Data Flow
+  instead of adding to it — label it or cut it.
+- **No class or method names** — component granularity only, same rule as the rest of this file.
+- Nothing else in the layer references this section; if it can't be made to trace cleanly, **delete
+  it rather than ship a diagram that disagrees with system.md.**
 
 **service-manifest.md:**
 - Frontmatter parses as valid YAML; `type: service-manifest`; `service` matches `CONTEXT.md` / `system.md`.
@@ -277,7 +323,8 @@ List mismatches under a `README.md may be stale:` heading as suggestions. **Neve
 State fresh-generation vs reconcile. List each file as **created / reconciled (what changed) / unchanged / skipped (why)**. Confirm Step 4 self-verification passed. Append the `README.md may be stale:` list if Step 5 found anything.
 
 **Files to report on** (per service — normally one, the current repo):
-- `.docs/CONTEXT.md` — created/reconciled/unchanged
+- `.docs/CONTEXT.md` — created/reconciled/unchanged, and the **System at a Glance** diagram as
+  added / re-derived / declined / absent (not offered on reconcile)
 - `.docs/system.md` — created/reconciled/unchanged
 - `.docs/service-manifest.md` — projected/reprojected/unchanged (skipped if system.md didn't change) ← the multi-repo aggregation unit
 - `.docs/indexing/graphify/LESSONS.md` — created/skipped (why) — written by `codebase-indexing`
