@@ -1,0 +1,67 @@
+# cship — Claude Code statusline template
+# Source: https://github.com/stephenleo/cship
+# Full config reference: https://cship.dev
+#
+# Layout: ⚓ Opus 4.6 (1M context) ●●●●●●○○○○○○○○○ 45% 📖850k ✍12k 💰 $2.31 on  ava-qa:main
+#
+# settings.json statusLine entry:
+#   "statusLine": {
+#     "type": "command",
+#     "command": "r=$(basename \"$(git rev-parse --show-toplevel 2>/dev/null)\" 2>/dev/null); cship | perl -pe \"BEGIN{\\$r='$r'} s/(?<![;\\\\d\\\\[])(\\\\d{4,})(?![;\\\\dm\\\\[])/sprintf('%.0fk',\\$1\\/1000)/ge; s/( on \\\\x1b\\\\[1;35m)(.*?) (\\\\S+)(\\\\x1b\\\\[0m)/\\$1\\$2 \\$r:\\$3\\$4/\""
+#   }
+#
+# The perl pipe humanizes token counts (150000 → 150k) while preserving
+# ANSI color codes and decimal values like $2.31. It also injects the
+# git repo basename as a prefix of the branch name (repo:branch).
+#
+# Color scheme (Tokyo Night inspired):
+#   Model:        bold cyan
+#   Context bar:  cyan (#7dcfff) → yellow (#e0af68) at 60% → bold red (#f7768e) at 80%
+#   Read tokens:  blue (#7aa2f7)
+#   Write tokens: purple (#bb9af7)
+#   Cost:         gray (#a9b1d6) → yellow at $2 → bold red at $5
+#   Git branch:   starship passthrough (default: bold purple)
+#
+# Requires: cship binary, perl, starship (optional, for $git_branch)
+
+[cship]
+lines = [
+  "$cship.model $cship.context_bar 📖$cship.context_window.total_input_tokens ✍$cship.context_window.total_output_tokens $cship.cost $git_branch"
+]
+
+[cship.model]
+symbol = "⚓ "
+style  = "bold cyan"
+
+[cship.context_bar]
+width              = 15
+filled_char        = "●"
+empty_char         = "○"
+style              = "fg:#7dcfff"
+warn_threshold     = 60.0
+warn_style         = "fg:#e0af68"
+critical_threshold = 80.0
+critical_style     = "bold fg:#f7768e"
+
+[cship.context_window]
+style              = "fg:#9ece6a"
+warn_threshold     = 60.0
+warn_style         = "fg:#e0af68"
+critical_threshold = 80.0
+critical_style     = "bold fg:#f7768e"
+
+[cship.context_window.total_input_tokens]
+symbol = ""
+style  = "fg:#7aa2f7"
+
+[cship.context_window.total_output_tokens]
+symbol = ""
+style  = "fg:#bb9af7"
+
+[cship.cost]
+symbol             = "💰 "
+style              = "fg:#a9b1d6"
+warn_threshold     = 2.0
+warn_style         = "fg:#e0af68"
+critical_threshold = 5.0
+critical_style     = "bold fg:#f7768e"
