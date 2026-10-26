@@ -96,57 +96,26 @@ feature-{adw_id}-{descriptive-name}.md  (if adw_id provided)
 
 ### Content Template
 
-```markdown
-# <Feature Title>
+Use [`template.md`](template.md) in this skill folder. Read it before writing the doc and keep
+its section order and headings.
 
-**ADW ID:** <adw_id or omit>
-**Date:** <current date>
-**Specification:** <spec_path or "N/A">
+### Writing rules
 
-## Overview
-
-<2-3 sentence summary of what was built and why>
-
-## Screenshots
-
-<If screenshots provided>
-![<Description>](assets/<screenshot-filename.png>)
-
-## What Was Built
-
-- <Component/feature 1>
-- <Component/feature 2>
-
-## Technical Implementation
-- <Brief description of how the feature was implemented, key classes, methods, and workflows>
-- <Any important design decisions or trade-offs>
-- <Any relevant diagrams in Mermaid format if applicable>
-- <Any relevant code patterns, algorithms, or data structures used>
-### Files Modified
-
-- `<file_path>`: <what was changed/added>
-
-### Key Changes
-
-<Describe the most important technical changes in 3-5 bullet points>
-
-## How to Use
-
-1. <Step 1>
-2. <Step 2>
-
-## Configuration
-
-<Any configuration options, environment variables, or settings>
-
-## Testing
-
-<Brief description of how to test the feature>
-
-## Notes
-
-<Any additional context, limitations, or future considerations>
-```
+- **Problem first.** Overview opens with what is slow, wrong, or missing today, then the fix,
+  then the switch (flag/config), then the measured result.
+- **Define before use.** Every domain or infrastructure term the doc relies on gets a `### Term`
+  entry: what it is, then how it applies here (sizes, limits, values).
+- **Give the why.** Each design decision and each rollout step states why it exists and why it
+  sits at that position in the order — not only what it does.
+- **Numbers over claims.** Use measured values (latency, sizes, counts, scores) with the test
+  conditions. If nothing was measured, say so — do not invent figures.
+- **Mermaid for flows.** Before/after design, write/read paths, and rollout order are diagrams.
+- **Steps are runnable.** Each `### Step N` has the exact command plus **What it does / Why /
+  Check / Risk**. End with the rollback action.
+- **Status is honest.** The header `Status` line and the Notes say what is not done yet.
+- **Scale to the feature.** Delete every optional section whose condition does not hold. A small
+  feature may have only Overview, What Was Built, Technical Implementation, Configuration,
+  Testing, Notes.
 
 ---
 

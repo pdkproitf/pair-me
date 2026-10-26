@@ -21,15 +21,18 @@ Generate feature documentation from code changes and specs — creates markdown 
 - Flags suggested one-line additions for human-facing `README.md`
 - Never edits `README.md` directly (wording/voice is a human's call)
 
-**Generated doc sections:**
-- Overview of what was built and why
-- Screenshots (if provided, copied to `docs/assets/`)
-- What was built (components, features)
-- Technical implementation (files modified, key changes)
-- How to use it
-- Configuration options
-- Testing guidance
-- Notes and future considerations
+**Generated doc sections** (skeleton in [`template.md`](template.md); optional sections only when relevant):
+- Header — date, spec, branch, status (done / not done)
+- Overview — problem, solution, switch, measured result
+- Screenshots *(optional, when `screenshots_dir` given)*
+- Terms — glossary of domain/infra concepts *(optional)*
+- Why we need it — before/after diagram, measurements *(optional)*
+- What was built
+- Technical implementation — flow diagrams, design decisions with reasons, files modified, key changes
+- How to use — ordered steps with What it does / Why / Check / Risk; rollout lessons, per-env state, enable cases, rollback *(optional parts)*
+- Configuration table
+- Testing commands
+- Notes — risks first, next phases, related specs
 
 ---
 
