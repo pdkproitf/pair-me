@@ -39,7 +39,9 @@ Skills are organized by audience:
 │
 └── agents/
     ├── codebase-indexer.md            # Run `codebase-indexing` skill
-    └── committer.md                   # Run `commit` skill autonomously
+    ├── committer.md                   # Run `commit` skill autonomously
+    ├── pr-creator.md                  # Run `create-pr` skill end to end
+    └── tool-installer.md              # setup-machine fan-out worker (one tool each)
 ```
 
 ## Skill format
