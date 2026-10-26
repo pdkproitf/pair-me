@@ -130,12 +130,12 @@ reading a plan is far cheaper than re-analyzing a full diff. Use this precedence
 2. **Spec/plan file in `specs_dir`** — resolve `specs_dir` from `# WORKSPACE` (default: `docs/specs/`). Find the spec for this branch:
    - Match the branch's `adw_id` (from `feat-{adw_id}-{name}`) against the spec filename (`{timestamp}-feature-{adw_id}-{name}.md`).
    - If there's no `adw_id`, use the most recently modified spec in `specs_dir`.
-   - Derive: **title** (feature name → conventional-commit format), **What** (the change itself, plainly, plus a short example if one exists), **Why** (the problem/root cause and any measurement or incident behind it — the spec's "Context" or rationale), **Approaches** (alternatives the spec considered or rejected — omit if the spec names none), **Changes** (its completed phases / checked boxes), **Related Issue** (`adw_id` or issue number).
+   - Derive: **title** (feature name → conventional-commit format), **Problem** (the symptom plus a concrete reproduction — a conversation, request/response, or command output), **Why it happens** (the root cause chain — the spec's "Context" or rationale), **Approach** (the change, where it lives, rejected alternatives, and **Cost** in numbers), **Results** (test counts against the base branch, before/after output made by running the new code, eval or benchmark numbers, what is fixed and what is still open), **Related** (ticket, sibling PRs, spec).
 3. **Fallback** — only if there's no context and no spec: analyze `git log` and `git diff`.
 
-Checked-off boxes in the spec map directly to the PR's **Changes** and **Tests** sections.
+Checked-off boxes in the spec map to the **Approach** bullets; test runs map to **Results**.
 
-**Section discipline.** `What` states the change with no rationale; `Why` carries the rationale and evidence, not restated code. `Approaches` only appears when there was a real alternative that was rejected or seriously considered — invented alternatives to fill the section are worse than omitting it. `Known limitations` only appears when this change leaves a real, named gap.
+**Section discipline.** Always write `Problem`, `Why it happens`, `Approach` (with `Cost`) and `Results`. `Problem` shows the bad behaviour with a real example, not a description of the code. `Why it happens` carries the root cause, not the fix. `Results` carries only evidence made in this session: run the tests and compare failures with the base branch, render the before/after output (prompt, payload, response) by running the new code, and quote eval numbers with the harness and run count. Name what is still open. Never write a number you did not measure.
 
 The PR body structure and a complete example live in
 [`templates/pr-body.md`](templates/pr-body.md). If the project has its own

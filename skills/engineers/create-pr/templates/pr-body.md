@@ -13,152 +13,113 @@ or `PULL_REQUEST_TEMPLATE.md` in the repo root or `.bitbucket/` on Bitbucket —
 that instead. Otherwise use:
 
 ```markdown
-## How
-<!-- an instruction how to use it with all available env variables in table -->
-## What
-<!-- 1-3 sentences: the change itself, stated plainly, no rationale yet.
-     If a short example (a code snippet, a before/after, a sample request/response)
-     makes the change concrete, add it here as its own paragraph or a fenced block. -->
+## Problem
+<!-- What the user or caller sees go wrong, in 1-2 sentences.
+     Then a concrete reproduction as a fenced block: a conversation, a request and
+     its response, or a command and its output. Name where it comes from
+     ("prompt eval case A2", "ticket PROJ-1234", "staging log").
+     End with the correct behaviour in one sentence ("The right answer is ..."). -->
 
-## Why
-<!-- The problem this fixes and its root cause, not just the symptom.
-     If there's a concrete measurement, reproduction, or incident behind it, name it
-     ("measured over N cases, X rows regressed") — a claim with no evidence reads as
-     an opinion. -->
+## Why it happens
+<!-- Bullets. The root cause, not the symptom, as a chain from mechanism to the
+     bad result. Name the file/function where the cause lives. If an existing
+     part of the code already handles a similar case, say so here. -->
 
-## Approaches
-<!-- Only include this section when there were real alternatives worth naming.
-     For each: what it was, why it was rejected or accepted, and evidence if any.
-     Skip this section entirely for a change with one obvious way to do it —
-     don't invent alternatives to fill the section. -->
+## Approach
+<!-- One sentence: the change itself.
+     Then bullets: what changes, where (file + function), and any new option or
+     argument with what it does. If a real alternative was rejected, name it in
+     one bullet with the reason and evidence. -->
 
-## Changes
-<!-- Table: File | Change. One row per file that matters; skip mechanical/generated
-     diffs. Call out anything non-obvious about the change (a dedup rule, an ordering
-     guarantee, a scope decision) as a short paragraph under the table. -->
+Cost:
+<!-- Bullets with numbers: added tokens per request, extra calls, latency, memory.
+     Show how the number was found ("chars/4", "capped at 10 messages").
+     Write "No extra request" or similar when that is the case. -->
 
-### Tests
-<!-- What was tested and the result (e.g. "97 passed across test_a.py, test_b.py").
-     Name any new test and what regression it guards, not just that "tests were added". -->
+## Results
+<!-- 1. Unit tests: passed/failed counts. Compare failures with the base branch
+        ("the same 8 tests fail on `main`") and name new tests and what they guard.
+     2. Before/after evidence of the change itself, as fenced blocks made by
+        running the new code (the prompt, the request payload, the output,
+        the SQL). Say how it was made. Add 1-2 bullets on what to see in it.
+     3. Measured effect: an eval table (case/suite x variant, passes/total) or
+        a benchmark, with the command or harness and the run count.
+     4. Bullets: what is fixed, with a quoted example reply/output, and what is
+        still open, with a quoted example. Explain any fail that is not a real
+        regression. -->
 
-## Ticket / Issue Link
-<!-- spec *.md file link if it exists -->
-
-### Related
-<!-- Optional: a sibling PR in another repo carrying the same fix, a linked ticket,
-     prior art this builds on. Omit if there's nothing to link. -->
-
-### Known limitations
-<!-- Optional: a caveat introduced by this change that is deliberately not addressed
-     here, so a reviewer doesn't have to find it themselves. Omit if there's none. -->
-
-## Checklist
-- [ ] Follows Conventional Commits
+Related: <!-- sibling PRs, ticket, spec file. Omit if none. -->
 ```
 
-Check boxes only for steps that were actually completed. Omit `Approaches`,
-`Related`, and `Known limitations` when there is nothing real to put in them —
-an empty section reads worse than no section.
+Always write the four sections `Problem`, `Why it happens`, `Approach` (with `Cost`) and `Results`. Every claim in `Results` needs evidence made in this session (test run, rendered output, eval run); never write a number you did not measure. Omit `Related` when there is nothing to link.
 
 ---
 
 ## Complete example
 
-Based on a real PR (`fix(memory): surface the recalled atom without dropping its
-context`) — a bug fix with a rejected alternative, a measured regression, and a
-worked example.
-
-```bash
-WS=<workspace>; REPO=<repo-slug>
-curl -s -u "$BITBUCKET_AUTH" -X POST -H 'Content-Type: application/json' \
-  "https://api.bitbucket.org/2.0/repositories/$WS/$REPO/pullrequests" \
-  --data-binary @/tmp/pr.json
-```
-
-where `/tmp/pr.json` was built (per Method D) with this `description`:
+Based on a real PR (`fix(chat): date earlier chat turns in the reply request`).
 
 ```markdown
-## How
-How to run / enable the feautre.
-A list of env variables if have (represent in table)
-Any script created, how to trigger it
+## Problem
 
-## What
+When the user asks about something they said a few turns earlier in the same chat, and names a time, Ava hedges or asks to be reminded, even though the fact is right there in the chat.
 
-Recalled memory rows now reach the model as one line carrying both the fact
-RZMempalace resolved and the note it came from:
+Example (prompt eval case A2, companion Sumi on qwen36):
 
-    VERIFIED: has a cat named Mochi | context: talked about pets, mentioned a tabby named Mochi
+    User: I just got a job as a sous chef at Fig and Ash.
+    Sumi: Wow, that is such a big step. ...
+    User: I told you about the Fig and Ash job last month, right?
+    Sumi: I don't think so, but I can't check my notes right now. Did you mention it before?
 
-Before this change the resolved fact was discarded and only the note was sent.
-A row that carries no resolved fact still renders as bare content, exactly as
-before.
+The right answer is "You told me just now, not last month."
 
-## Why
+## Why it happens
 
-RZMempalace returns two things per recalled row: `content`, the narrative
-summary of what the user said, and `matched_fact`, the single winning atom
-resolved out of that summary for the current query. The SDK client read only
-`content`, so the resolved fact never reached the prompt and the model had to
-re-derive it from prose that often states it only indirectly. When it could
-not, it declined a question whose answer was sitting in its own context
-window. This is the dominant recall failure mode — not retrieval, over-decline.
+- Chat-completions messages carry only `role` and `content`. Omni sends earlier turns with no time.
+- Without a time, every earlier turn reads as "now or never". The model cannot see that "I just got a job" was said 6 minutes ago.
+- So when the user says "last month", the model assumes an older chat it cannot see, and hedges.
 
-### Example
+## Approach
 
-The user said, weeks ago: *"my sister Sofia moved to Lviv last spring"*. Asked
-*"where does my sister live?"*, the row recalled is:
+Add `dated_history()` in `src/chat/history.py` and use it in the reply path.
 
-    { "content": "my sister Sofia moved to Lviv last spring",
-      "matched_fact": "My sister is Sofia." }
+- Every earlier turn is led by its age, for example `(6 minutes ago) I just got a job ...`.
+- New option `newest_user_bare=True` leaves the message being answered without an age.
+- Applied in `src/agent/agent.py` `llm_node` and `src/api/service/inference.py` `complete()`.
 
-|                      | Line sent to the model                                                                | Answer                  |
-| -------------------- | ------------------------------------------------------------------------------------- | ----------------------- |
-| Before               | `my sister Sofia moved to Lviv last spring`                                           | declines                |
-| Atom only (rejected) | `VERIFIED: My sister is Sofia.`                                                       | declines — Lviv is gone |
-| After                | `VERIFIED: My sister is Sofia. \| context: my sister Sofia moved to Lviv last spring` | "Lviv"                  |
+Cost:
 
-## Approaches
+- About 4 to 6 tokens per earlier message. History is capped at 10 messages, so at most about 50 tokens per request.
+- No extra request.
 
-**1. Keep sending only the summary (no change).** Rejected — the current bug.
+## Results
 
-**2. Replace the summary with the atom.** Rejected after measurement: the atom
-is resolved for one query, so a different question of the same row often finds
-its answer only in the summary. Measured over a 172-question eval, 45 rows had
-the answer in the summary while the atom named something else; recall fell
-from 68.6% to 53.5%.
+Unit tests: 6560 passed, 8 failed. The same 8 tests fail on `main`. New test `test_a_chat_reply_leaves_the_message_it_answers_bare`.
 
-**3. Send both, atom first, marked as certain.** Adopted — neither half
-contains the other.
+Prompt before and after (`messages[]` of the reply request for case A2, made by running `dated_history()` on this branch):
 
-## Changes
+    Before:
+    user      | I just got a job as a sous chef at Fig and Ash.
+    assistant | Wow, that is such a big step. ...
+    user      | I told you about the Fig and Ash job last month, right?
 
-| File                        | Change                                                                                                                                  |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/sdk/memory/client.py`  | `recall()` gained `text_of(item)`, combining `matched_fact` and `content` into the line above. `collect()` dedups on the combined text. |
-| `src/memory/service.py`     | `render_memory_block()`'s header explains both halves.                                                                                  |
-| `tests/test_sdk_clients.py` | Two new tests plus a `_recall_rows` helper.                                                                                             |
+    After:
+    user      | (6 minutes ago) I just got a job as a sous chef at Fig and Ash.
+    assistant | (6 minutes ago) Wow, that is such a big step. ...
+    user      | I told you about the Fig and Ash job last month, right?
 
-### Tests
+- The newest user message has no age.
 
-97 passed across `test_sdk_clients.py`, `test_memory_service.py`,
-`test_recall_query_anchoring.py`. `test_recall_keeps_the_fact_the_atom_omits`
-is the regression guard for the 45-row loss in approach 2.
+Prompt eval (`scripts/prompt_eval.py`, x4 per case):
 
-## Related Issue
+| Suite | qwen36 bare | qwen36 dated | sumi bare | sumi dated |
+| --- | --- | --- | --- | --- |
+| `time_claims` | 8/9 | 8/9 | 8/9 | 8/9 |
 
-AVA-2160
+- A2 on sumi: fixed. "You told me about it just now, so I don't remember it from last month."
+- A2 on qwen36: still open. It hedges in 1 to 3 of 4 tries.
 
-### Known limitations
-
-`render_memory_block` truncates each item at 500 chars. A combined line is
-longer than the summary alone, so a long row can now lose the tail of its
-context half. `VERIFIED` leads the line, so it always survives; raising the
-cap is a separate decision.
-
-## Checklist
-
-- [x] Follows Conventional Commits
+Related: #354 changes the MEMORY prompt rules for the same ticket (PROJ-2841).
 ```
 
 The same body text works for any method and either host. Only the field name changes:
