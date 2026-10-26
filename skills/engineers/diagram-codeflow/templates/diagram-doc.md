@@ -26,7 +26,7 @@ background task, a transaction.>
 
 <What is already true when this runs, and what a failure here costs. One short paragraph.>
 
-### 1 — <diagram label, verbatim>
+### 1. <diagram label, verbatim>
 
 `<the deciding expression or call>` at `<path:line>`.
 
@@ -35,13 +35,13 @@ background task, a transaction.>
 <Consequence a reader would otherwise get wrong: ordering guarantee, partial-failure
 behaviour, what is skipped when a dependency is unconfigured, whether the caller waits.>
 
-### 1.1 — <branch or failure terminal label, verbatim>
+### 1.1. <branch or failure terminal label, verbatim>
 
 `<path:line>`.
 
 <What state the system is left in, and who observes the outcome.>
 
-### 2 — <diagram label, verbatim>
+### 2. <diagram label, verbatim>
 
 `<the deciding expression or call>` at `<path:line>`.
 

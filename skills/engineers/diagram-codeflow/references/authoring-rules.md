@@ -16,7 +16,8 @@
 ## Step numbering
 
 - **`sequenceDiagram`: use `autonumber`.** It is native and cannot drift.
-- **`flowchart` and `stateDiagram-v2`: prefix labels manually** — `N1["1. validate payload"]`, `state "3. awaiting capture" as S3`. Number in execution order along the main path; branches take dotted sub-numbers from their decision point (`3.1`, `3.2`); a loop body keeps one number set.
+- **`flowchart` and `stateDiagram-v2`: prefix labels manually** — `N1["1. validate payload"]`, `state "3. awaiting capture" as S3`. Number in execution order along the main path; branches take dotted sub-numbers from their decision point (`3.1.`, `3.2.`); a loop body keeps one number set.
+- **Every step number ends with a dot** — `3.`, `4.`, `2.1.`, never `3`, `4`, `2.1`. The rule holds in node labels, edge labels, and the `###` headings of `## Steps` (`### 4. Read 1 job`). Use no letter suffix for a sub-step (`6b`): write `6.1.`. A step id that is not a number (`START`, `END_ACK`, `R`) takes no dot and keeps its ` — ` separator. Prose that refers to a step ("goes back to step 4") needs no dot.
 - Never skip or reuse a number. With no step table inside the fence, the numbers are the reader's only index — a gap reads as a missing step. They are also the join between the diagram and the `## Steps` sections below it, whose `###` headings repeat the same numbers, so settle the numbering in the diagram before writing those sections rather than after.
 - **Two edges may share one ordinal when they genuinely run concurrently** — that is the documented fan-out form. Say so in both labels (`3. embed<br/>concurrent with 3`), or use `par` in a sequence diagram.
 
@@ -47,7 +48,7 @@ what". It is a flow drawn at module or service granularity, not a dependency gra
 - **Every edge is something that happens at run time** — a call, a message, a publish, a read, a write. If the arrow cannot be given a moment in time, it is not an edge.
 - **Never draw an `import`, a re-export, or a type-only reference.** Those describe the module graph, and a reader cannot tell from them whether the code ever runs. Where a shape or a type is *owned* is a fact for the `## Steps` / `## Parts` prose and the glossary — say "`mgraph.ingest.dto` owns `ConversationMessage`; `mgraph.dto` re-exports it" in words, and draw the call that actually carries a message instead. `E-IMPORT-EDGE` checks this.
 - **A `TYPE_CHECKING`-guarded import is doubly not an edge** — it does not exist at run time at all. If the guard is worth knowing, it is a `**Defect worth knowing:**` note or a `%%` header caveat, never an arrow.
-- **Number the edges in execution order**, like any other flow: `1.`, `2.`, `3.`, with `2.1`/`2.2` for branches off a decision. The ordinal goes first in the label, before the call and the citation: `|"3. persist one claim<br/>pipeline.py:164"|`.
+- **Number the edges in execution order**, like any other flow: `1.`, `2.`, `3.`, with `2.1.`/`2.2.` for branches off a decision. The ordinal goes first in the label, before the call and the citation: `|"3. persist one claim<br/>pipeline.py:164"|`.
 - **Name the async mechanism on every edge that does not block the caller.** The reader's first question about any module boundary is whether the caller waits.
 
   | behaviour | draw it as | label says |

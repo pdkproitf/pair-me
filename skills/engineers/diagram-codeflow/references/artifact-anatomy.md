@@ -70,7 +70,7 @@ One `###` per element the diagram draws, including terminals and decisions, usin
 own step number and label so the picture and the prose can be read together:
 
 ```markdown
-### 3 — Did the extractor return any claim?
+### 3. Did the extractor return any claim?
 
 `if not extraction.claims: return []` at `pipeline.py:76`.
 
