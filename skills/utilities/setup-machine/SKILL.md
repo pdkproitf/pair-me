@@ -22,7 +22,7 @@ no mapping table to keep in step.
 | `hooks` | the 4 scripts in `~/.claude/hooks/` | 2 | `system-packages` |
 | `codebase-memory` | the `codebase-memory-mcp` binary | 2 | — |
 | `caveman` | the caveman plugin and `~/.caveman/` | 2 | `node` |
-| `statusline` | `cship` status line renderer and `~/.config/cship.toml` | 2 | — |
+| `statusline` | `cship` status line renderer, `~/.config/cship.toml`, and `~/.claude/statusline.sh` | 2 | — |
 | `agents` | the 6 files in `~/.claude/agents/` | 2 | — |
 | `skills` | the directories in `~/.claude/skills/` | 2 | — |
 | `claude-settings` | the `~/.claude/settings.json` keys | 3 | every tool above |
