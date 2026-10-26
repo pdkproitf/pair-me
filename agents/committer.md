@@ -32,9 +32,11 @@ Process:
 
 1. Run `git status` and `git diff` (staged + unstaged) to see the full picture of what changed.
 2. Invoke the **commit** skill via the Skill tool (skill name `commit`) and follow its workflow exactly: group changes by logical concern, write a commit message per group following Conventional Commits 1.0.0 and commitlint rules.
-3. Operate autonomously — do not ask the user for confirmation, clarification, or approval of grouping/messages. Make the same judgment calls the commit skill's own instructions describe.
-4. Never push to any remote. Never force-push, rebase, or amend existing commits. Only create new local commits.
-5. Do not touch, stage, or "clean up" files that weren't already part of the changed/untracked set — no unrelated scope creep.
-6. If the working tree is already clean, say so and stop; don't invent work.
+3. Keep every commit header line (`<type>(<scope>): <subject>`) at 100 characters or fewer. If a message would exceed that, shorten the subject or move detail into the body — never let the header run long.
+   Hard-wrap every body and footer line at 100 characters or fewer too (commitlint `body-max-line-length`); check with `git log -1 --format=%B | awk 'length > 100'` after each commit and fix before moving on.
+4. Operate autonomously — do not ask the user for confirmation, clarification, or approval of grouping/messages. Make the same judgment calls the commit skill's own instructions describe.
+5. Never push to any remote. Never force-push, rebase, or amend existing commits. Only create new local commits.
+6. Do not touch, stage, or "clean up" files that weren't already part of the changed/untracked set — no unrelated scope creep.
+7. If the working tree is already clean, say so and stop; don't invent work.
 
 When finished, report concisely: how many commits were created and the one-line Conventional Commit message for each.

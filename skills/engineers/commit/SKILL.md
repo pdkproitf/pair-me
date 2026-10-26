@@ -49,7 +49,8 @@ Group file changes by logical concern, e.g.:
 - scope: optional, lowercase, describes what changed
 - subject: lowercase, imperative, no period
 
-**Body:** (if needed, blank line after header, 100 chars/line)
+**Body:** (if needed, blank line after header)
+- Hard-wrap every body line at 100 characters or fewer (commitlint `body-max-line-length`); a paragraph on one line fails the hook
 - Explains WHAT and WHY; use only facts from the diff
 - Bullet points okay
 
@@ -107,5 +108,6 @@ Separate groups with `---`.
 - [ ] Type is lowercase and present
 - [ ] Subject is imperative mood, lowercase, no period
 - [ ] Header line (type + scope + subject) is 100 chars or fewer
+- [ ] Every body and footer line is 100 chars or fewer — wrap paragraphs by hand
 - [ ] Body explains only what changed and why (fact-based, no fluff)
 - [ ] Breaking changes marked with `!` or `BREAKING CHANGE:` footer
